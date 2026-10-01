@@ -59,9 +59,9 @@ export default function Services() {
               <div
                 key={svc.num}
                 onMouseMove={(e) => handleMouseMove(e, svc.num)}
-                className="spotlight-card group p-8 sm:p-10 flex flex-col justify-between"
+                className="spotlight-card group p-8 sm:p-10 flex flex-col justify-between bg-surface"
                 style={{
-                  background: `radial-gradient(600px circle at ${pos.x}px ${pos.y}px, rgba(198, 245, 46, 0.08), transparent 40%), #12151a`,
+                  backgroundImage: `radial-gradient(600px circle at ${pos.x}px ${pos.y}px, rgba(var(--color-volt), 0.09), transparent 45%)`,
                 }}
               >
                 <div>
@@ -99,7 +99,7 @@ export default function Services() {
                 <div className="pt-4">
                   <a
                     href="#contact"
-                    className="inline-flex items-center gap-2 text-xs font-bold font-display uppercase tracking-wider text-volt hover:text-white group-hover:translate-x-1 transition-all"
+                    className="inline-flex items-center gap-2 text-xs font-bold font-display uppercase tracking-wider text-volt hover:text-text group-hover:translate-x-1 transition-all"
                   >
                     <span>Discuss This Solution</span>
                     <ArrowRight className="w-3.5 h-3.5" />

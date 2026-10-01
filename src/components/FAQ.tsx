@@ -73,7 +73,7 @@ export default function FAQ() {
         {/* Still have questions prompt */}
         <div className="mt-12 text-center text-xs sm:text-sm text-text-muted">
           Have an unconventional architecture or legacy stack?{' '}
-          <a href="#contact" className="text-volt font-bold underline hover:text-white transition-colors">
+          <a href="#contact" className="text-volt font-bold underline hover:text-text transition-colors">
             Ask our lead engineers directly →
           </a>
         </div>

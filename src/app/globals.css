@@ -24,25 +24,25 @@ html.dark-mode {
   --shadow-card: 0 24px 60px -24px rgba(0, 0, 0, 0.7);
 }
 
-/* ── Light Mode Theme Variables ── */
+/* ── Light Mode Theme Variables (Razor Sharp High-Contrast) ── */
 html.light-mode {
-  --color-bg: 246 248 245;       /* #f6f8f5 */
-  --color-bg-soft: 236 240 234;  /* #ecf0ea */
+  --color-bg: 248 250 247;       /* #f8faf7 */
+  --color-bg-soft: 238 242 236;  /* #eef2ec */
   --color-surface: 255 255 255;  /* #ffffff */
-  --color-surface-2: 240 243 238;/* #f0f3ee */
-  --color-text: 15 20 16;        /* #0f1410 */
-  --color-text-muted: 75 88 78;  /* #4b584e */
-  --color-text-faint: 120 135 124;/* #78877c */
-  --color-volt: 84 168 0;        /* #54a800 */
-  --color-volt-hover: 100 195 0; /* #64c300 */
-  --color-volt-ink: 255 255 255; /* #ffffff */
-  --color-teal: 13 147 112;      /* #0d9370 */
-  --color-orange: 212 98 10;     /* #d4620a */
+  --color-surface-2: 242 245 240;/* #f2f5f0 */
+  --color-text: 15 23 18;        /* #0f1712 - deep crisp ink */
+  --color-text-muted: 55 68 59;  /* #37443b - high contrast readable charcoal */
+  --color-text-faint: 95 110 100;/* #5f6e64 - clear secondary labels */
+  --color-volt: 68 145 0;        /* #449100 - rich energetic emerald with WCAG AAA contrast */
+  --color-volt-hover: 82 170 0;  /* #52aa00 */
+  --color-volt-ink: 255 255 255; /* #ffffff - crisp white text on volt buttons */
+  --color-teal: 11 125 95;       /* #0b7d5f */
+  --color-orange: 198 80 8;      /* #c65008 */
   --color-line: 0 0 0;
-  --line-alpha: 0.10;
-  --shadow-neon: 0 0 25px rgba(84, 168, 0, 0.25);
-  --shadow-neon-lg: 0 0 45px rgba(84, 168, 0, 0.3);
-  --shadow-card: 0 20px 50px -20px rgba(0, 0, 0, 0.12);
+  --line-alpha: 0.12;
+  --shadow-neon: 0 4px 20px rgba(68, 145, 0, 0.20);
+  --shadow-neon-lg: 0 8px 32px rgba(68, 145, 0, 0.25);
+  --shadow-card: 0 16px 40px -16px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.04);
 }
 
 * {
@@ -60,7 +60,7 @@ body {
   color: rgb(var(--color-text));
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition: background-color 0.25s ease, color 0.25s ease;
 }
 
 ::selection {
@@ -85,19 +85,19 @@ body {
 
 /* ── Glassmorphism ── */
 .glass-panel {
-  background: rgba(var(--color-surface), 0.85);
+  background: rgba(var(--color-surface), 0.88);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid rgba(var(--color-line), var(--line-alpha));
-  transition: background-color 0.3s ease, border-color 0.3s ease;
+  transition: background-color 0.25s ease, border-color 0.25s ease;
 }
 
 .glass-nav {
-  background: rgba(var(--color-bg), 0.88);
+  background: rgba(var(--color-bg), 0.90);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
   border-bottom: 1px solid rgba(var(--color-line), var(--line-alpha));
-  transition: background-color 0.3s ease, border-color 0.3s ease;
+  transition: background-color 0.25s ease, border-color 0.25s ease;
 }
 
 /* ── 3D tilt perspective container ── */
@@ -112,16 +112,36 @@ body {
 /* ── Card glow spotlight ── */
 .spotlight-card {
   position: relative;
-  background: rgb(var(--color-surface));
+  background-color: rgb(var(--color-surface));
   border: 1px solid rgba(var(--color-line), var(--line-alpha));
   border-radius: 20px;
   overflow: hidden;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease, background-color 0.3s ease;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease, background-color 0.25s ease;
 }
 
 .spotlight-card:hover {
   border-color: rgba(var(--color-volt), 0.45);
   box-shadow: var(--shadow-card), 0 0 30px -10px rgba(var(--color-volt), 0.2);
+}
+
+/* ── Form Inputs Contrast in Light Mode ── */
+html.light-mode input,
+html.light-mode select,
+html.light-mode textarea {
+  background-color: #ffffff;
+  color: #0f1712;
+  border-color: rgba(0, 0, 0, 0.15);
+}
+
+html.light-mode input:focus,
+html.light-mode select:focus,
+html.light-mode textarea:focus {
+  border-color: rgb(var(--color-volt));
+}
+
+html.light-mode input::placeholder,
+html.light-mode textarea::placeholder {
+  color: rgb(var(--color-text-faint));
 }
 
 /* ── Animated radial grid background ── */

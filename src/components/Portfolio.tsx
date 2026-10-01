@@ -42,10 +42,10 @@ function FeaturedSlider({ projects, onSelect }: { projects: PortfolioItem[]; onS
   const slide = featured[current];
 
   const catColors: Record<string, string> = {
-    automation: 'bg-teal-500/20 text-teal-300 border-teal-500/40',
-    agents: 'bg-volt/20 text-volt border-volt/40',
-    websites: 'bg-blue-500/20 text-blue-300 border-blue-500/40',
-    marketing: 'bg-orange-400/20 text-orange-300 border-orange-400/40',
+    automation: 'bg-teal-500/15 text-teal-700 dark:text-teal-300 border-teal-500/30',
+    agents: 'bg-volt/15 text-volt border-volt/40',
+    websites: 'bg-blue-500/15 text-blue-700 dark:text-blue-300 border-blue-500/30',
+    marketing: 'bg-orange-500/15 text-orange-700 dark:text-orange-300 border-orange-500/30',
     all: 'bg-surface text-text-muted border-line',
   };
 
@@ -162,10 +162,10 @@ function FeaturedSlider({ projects, onSelect }: { projects: PortfolioItem[]; onS
 /* ─── Portfolio Card ─── */
 function PortfolioCard({ project, onClick }: { project: PortfolioItem; onClick: () => void }) {
   const catColors: Record<string, string> = {
-    automation: 'text-teal-400',
+    automation: 'text-teal-700 dark:text-teal-400',
     agents: 'text-volt',
-    websites: 'text-blue-400',
-    marketing: 'text-orange-400',
+    websites: 'text-blue-700 dark:text-blue-400',
+    marketing: 'text-orange-700 dark:text-orange-400',
     all: 'text-text-muted',
   };
 
