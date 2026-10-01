@@ -1,0 +1,134 @@
+[
+  {
+    "id": "proj-1",
+    "title": "Nova CRM Autopilot",
+    "cat": "automation",
+    "image": "/images/nova-crm.jpg",
+    "alt": "3D artwork of glowing gears and data streams connecting app icons",
+    "blurb": "A real-estate firm's entire lead flow — capture, follow-up, booking — runs without a single manual step.",
+    "built": [
+      "Lead capture & routing from 4 sources",
+      "Automated SMS + email follow-up sequences",
+      "Calendar booking sync with reminders",
+      "Live pipeline dashboard"
+    ],
+    "stack": [
+      "Make",
+      "HubSpot",
+      "Twilio",
+      "Google Sheets"
+    ],
+    "sample": true,
+    "video": ""
+  },
+  {
+    "id": "proj-2",
+    "title": "Sage Support Agent",
+    "cat": "agents",
+    "image": "/images/sage-agent.jpg",
+    "alt": "3D artwork of a glowing neural-network sphere surrounded by chat bubbles",
+    "blurb": "A 24/7 AI support agent trained on the company's knowledge base — resolving most tickets before a human ever sees them.",
+    "built": [
+      "AI agent trained on help-center + tickets",
+      "Website chat + WhatsApp deployment",
+      "Smart escalation to human agents",
+      "Weekly performance tuning"
+    ],
+    "stack": [
+      "OpenAI",
+      "LangChain",
+      "Pinecone",
+      "Intercom"
+    ],
+    "sample": true,
+    "video": ""
+  },
+  {
+    "id": "proj-3",
+    "title": "Pulse Analytics Dashboard",
+    "cat": "websites",
+    "image": "/images/pulse-analytics.jpg",
+    "alt": "3D artwork of floating glass dashboard panels with glowing charts",
+    "blurb": "A live analytics dashboard for a logistics startup — every KPI on one screen, updated in real time.",
+    "built": [
+      "Real-time data ingestion from 6 APIs",
+      "Custom chart library & drill-downs",
+      "Role-based views & alerts",
+      "Sub-second load times"
+    ],
+    "stack": [
+      "Next.js",
+      "Postgres",
+      "D3.js",
+      "Vercel"
+    ],
+    "sample": true,
+    "video": ""
+  },
+  {
+    "id": "proj-4",
+    "title": "Bloom Retail Storefront",
+    "cat": "websites",
+    "image": "/images/bloom-storefront.jpg",
+    "alt": "3D artwork of a phone storefront surrounded by golden shopping bags",
+    "blurb": "A headless e-commerce storefront with one-click checkout and abandoned-cart recovery built in.",
+    "built": [
+      "Headless storefront & CMS",
+      "One-click checkout flow",
+      "Abandoned-cart email recovery",
+      "95+ PageSpeed scores"
+    ],
+    "stack": [
+      "Shopify",
+      "Next.js",
+      "Klaviyo",
+      "Stripe"
+    ],
+    "sample": true,
+    "video": ""
+  },
+  {
+    "id": "proj-5",
+    "title": "Orbit Launch Campaign",
+    "cat": "marketing",
+    "image": "/images/orbit-marketing.jpg",
+    "alt": "3D artwork of a megaphone launching rockets and growth charts",
+    "blurb": "A full-funnel launch campaign — landing pages, ads, and email sequences — for a SaaS product release.",
+    "built": [
+      "Launch landing pages & waitlist",
+      "Meta + Google ad creatives",
+      "7-email launch sequence",
+      "Attribution dashboard"
+    ],
+    "stack": [
+      "Meta Ads",
+      "Google Ads",
+      "Webflow",
+      "Mailchimp"
+    ],
+    "sample": true,
+    "video": ""
+  },
+  {
+    "id": "proj-6",
+    "title": "Ledger Reconciliation Bot",
+    "cat": "automation",
+    "image": "/images/ledger-bot.jpg",
+    "alt": "3D artwork of robotic arms assembling glowing financial cubes",
+    "blurb": "Nightly reconciliation across bank feeds, invoices, and accounting software — exceptions only, in the inbox by 8am.",
+    "built": [
+      "Nightly bank feed ingestion",
+      "Invoice matching & flagging",
+      "Auto-posting to accounting software",
+      "Exception digest every morning"
+    ],
+    "stack": [
+      "Python",
+      "Plaid",
+      "QuickBooks",
+      "Slack"
+    ],
+    "sample": true,
+    "video": ""
+  }
+]
