@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Unbounded, Manrope } from 'next/font/google';
 import './globals.css';
 import { SiteProvider } from '@/context/SiteContext';
+import { ThemeProvider } from '@/context/ThemeContext';
 
 const unbounded = Unbounded({
   subsets: ['latin'],
@@ -80,9 +81,11 @@ export default function RootLayout({
         />
       </head>
       <body className="bg-bg text-text antialiased selection:bg-volt selection:text-volt-ink">
-        <SiteProvider>
-          {children}
-        </SiteProvider>
+        <ThemeProvider>
+          <SiteProvider>
+            {children}
+          </SiteProvider>
+        </ThemeProvider>
       </body>
     </html>
   );
