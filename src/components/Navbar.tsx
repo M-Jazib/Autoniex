@@ -27,6 +27,7 @@ export default function Navbar() {
     { label: 'Process', href: '#process' },
     { label: 'Models', href: '#engage' },
     { label: 'FAQ', href: '#faq' },
+    { label: 'Contact', href: '#contact' },
   ];
 
   function handleMouseEnter(e: React.MouseEvent<HTMLAnchorElement>) {
