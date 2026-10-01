@@ -149,18 +149,12 @@ function FeaturedSlider({ projects, onSelect }: { projects: PortfolioItem[]; onS
         <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-white/10 z-20">
           <div
             key={current}
-            className="h-full bg-volt origin-left"
-            style={{ animation: 'progress-bar 3s linear forwards' }}
+            className="h-full bg-volt progress-animate origin-left"
           />
         </div>
       )}
 
-      <style jsx>{`
-        @keyframes progress-bar {
-          from { width: 0%; }
-          to { width: 100%; }
-        }
-      `}</style>
+
     </div>
   );
 }

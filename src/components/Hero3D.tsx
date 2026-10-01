@@ -1,15 +1,158 @@
 'use client';
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
-import { ArrowRight, ChevronDown, CheckCircle2, ShieldCheck, Zap } from 'lucide-react';
+import { ArrowRight, ChevronDown, CheckCircle2, ShieldCheck, Zap, Pause, Play, ChevronLeft, ChevronRight } from 'lucide-react';
 import * as THREE from 'three';
 import { useSiteContent } from '@/context/SiteContext';
+
+interface HeroCardItem {
+  id: string;
+  title: string;
+  subtitle: string;
+  tag: string;
+  tagPulse: boolean;
+  image: string;
+  alt: string;
+  metric1Label: string;
+  metric1Val: string;
+  metric1Color: string;
+  metric2Label: string;
+  metric2Val: string;
+  metric2Color: string;
+  metric3Label: string;
+  metric3Val: string;
+  metric3Color: string;
+}
+
+const HERO_CARDS: HeroCardItem[] = [
+  {
+    id: 'card-1',
+    title: 'AUTONIEX NODE',
+    subtitle: 'Autonomous Workflow Engine',
+    tag: 'ONLINE',
+    tagPulse: true,
+    image: '/images/nova-crm.jpg',
+    alt: 'Real enterprise CRM pipeline automation dashboard',
+    metric1Label: 'Lead Response Speed:',
+    metric1Val: '< 45 Seconds',
+    metric1Color: 'text-volt',
+    metric2Label: 'Target Region:',
+    metric2Val: 'USA · UK · Canada',
+    metric2Color: 'text-text',
+    metric3Label: 'Weekly Deployment:',
+    metric3Val: 'Continuous Sprint',
+    metric3Color: 'text-cyber-teal',
+  },
+  {
+    id: 'card-2',
+    title: 'SAGE COPILOT',
+    subtitle: 'Customer Support AI Agent',
+    tag: '78% DEFLECTION',
+    tagPulse: true,
+    image: '/images/sage-agent.jpg',
+    alt: 'Real enterprise AI customer support ticket copilot',
+    metric1Label: 'Average Resolution:',
+    metric1Val: '< 8 Seconds',
+    metric1Color: 'text-cyber-teal',
+    metric2Label: 'CSAT Rating:',
+    metric2Val: '4.9 / 5.0 Enterprise',
+    metric2Color: 'text-volt',
+    metric3Label: 'Knowledge Base:',
+    metric3Val: '4,200+ Live SOPs',
+    metric3Color: 'text-text',
+  },
+  {
+    id: 'card-3',
+    title: 'PULSE ANALYTICS',
+    subtitle: 'Sub-Second Web Platform',
+    tag: 'EDGE DEPLOYED',
+    tagPulse: false,
+    image: '/images/pulse-analytics.jpg',
+    alt: 'Real-time telemetry and conversion data charts',
+    metric1Label: 'Global Edge Latency:',
+    metric1Val: '< 28 Milliseconds',
+    metric1Color: 'text-volt',
+    metric2Label: 'Uptime SLA:',
+    metric2Val: '99.99% Guaranteed',
+    metric2Color: 'text-text',
+    metric3Label: 'Daily Throughput:',
+    metric3Val: '10M+ Events / Day',
+    metric3Color: 'text-cyber-teal',
+  },
+  {
+    id: 'card-4',
+    title: 'BLOOM FLAGSHIP',
+    subtitle: 'Headless 3D Commerce Engine',
+    tag: '99 LIGHTHOUSE',
+    tagPulse: false,
+    image: '/images/bloom-storefront.jpg',
+    alt: 'Luxury headless e-commerce store with 3D product previews',
+    metric1Label: 'Core Web Vitals:',
+    metric1Val: '99 / 100 Google Score',
+    metric1Color: 'text-volt',
+    metric2Label: 'Checkout Speed:',
+    metric2Val: '1-Click Apple/Google Pay',
+    metric2Color: 'text-cyber-orange',
+    metric3Label: 'Mobile Conversion:',
+    metric3Val: '+41.8% Net Increase',
+    metric3Color: 'text-cyber-teal',
+  },
+  {
+    id: 'card-5',
+    title: 'LEDGER RECON',
+    subtitle: 'Autonomous Accounting Worker',
+    tag: '100% AUDITED',
+    tagPulse: true,
+    image: '/images/ledger-bot.jpg',
+    alt: 'Financial technology bank feed automated transaction workspace',
+    metric1Label: 'Reconciliation Error:',
+    metric1Val: '0.00% Zero Defect',
+    metric1Color: 'text-cyber-teal',
+    metric2Label: 'Human Hours Saved:',
+    metric2Val: '35+ Hours / Week',
+    metric2Color: 'text-volt',
+    metric3Label: 'Core Integrations:',
+    metric3Val: 'Plaid · QuickBooks · Xero',
+    metric3Color: 'text-text',
+  },
+];
 
 export default function Hero3D() {
   const { hero } = useSiteContent();
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
+  // Rotating Hero Card state
+  const [activeCardIndex, setActiveCardIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+  const [isFading, setIsFading] = useState(false);
+
+  // 2.8 second auto-rotation
+  useEffect(() => {
+    if (isPaused) return;
+    const interval = setInterval(() => {
+      setIsFading(true);
+      setTimeout(() => {
+        setActiveCardIndex((prev) => (prev + 1) % HERO_CARDS.length);
+        setIsFading(false);
+      }, 250);
+    }, 2800);
+
+    return () => clearInterval(interval);
+  }, [isPaused]);
+
+  function switchCard(index: number) {
+    if (index === activeCardIndex || isFading) return;
+    setIsFading(true);
+    setTimeout(() => {
+      setActiveCardIndex(index);
+      setIsFading(false);
+    }, 200);
+  }
+
+  const currentCard = HERO_CARDS[activeCardIndex];
+
+  // Three.js WebGL background
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -101,78 +244,76 @@ export default function Hero3D() {
       });
       const m = new THREE.Mesh(geos[f % 3], mat);
       m.position.set(
-        (Math.random() - 0.5) * 28,
+        (Math.random() - 0.5) * 26,
         (Math.random() - 0.5) * 16,
-        -3 - Math.random() * 6
+        (Math.random() - 0.5) * 10 - 2
       );
-      m.userData = {
-        s: 0.3 + Math.random() * 0.7,
-        y: m.position.y,
-        p: Math.random() * Math.PI * 2,
-      };
-      floaters.push(m);
       scene.add(m);
+      floaters.push(m);
     }
 
-    // Mouse Tracking with Parallax
-    let mx = 0,
-      my = 0,
-      tmx = 0,
-      tmy = 0;
-
-    const handlePointerMove = (e: PointerEvent) => {
-      tmx = (e.clientX / window.innerWidth - 0.5) * 2;
-      tmy = (e.clientY / window.innerHeight - 0.5) * 2;
-    };
-    window.addEventListener('pointermove', handlePointerMove, { passive: true });
-
     // Resize Handler
-    const handleResize = () => {
-      if (!canvas.parentElement) return;
-      const w = canvas.parentElement.clientWidth;
-      const h = canvas.parentElement.clientHeight;
+    const onResize = () => {
+      const w = window.innerWidth;
+      const h = window.innerHeight;
       renderer.setSize(w, h, false);
       camera.aspect = w / h;
       camera.updateProjectionMatrix();
 
-      // Reposition core based on mobile / desktop
-      if (w < 768) {
-        core.position.set(0, -3.2, -4);
+      // Adapt core position for mobile screens
+      if (w < 1024) {
+        core.position.set(0, -1, -5);
+        core.scale.set(0.65, 0.65, 0.65);
       } else {
         core.position.set(4.8, 0.4, -2);
+        core.scale.set(1, 1, 1);
       }
     };
-    window.addEventListener('resize', handleResize);
-    handleResize();
+    window.addEventListener('resize', onResize);
+    onResize();
 
-    // Render Animation Loop
-    const clock = new THREE.Clock();
+    // Mouse Tracking for Parallax
+    let targetX = 0;
+    let targetY = 0;
+    let curX = 0;
+    let curY = 0;
+
+    const onMouseMove = (e: MouseEvent) => {
+      targetX = (e.clientX / window.innerWidth - 0.5) * 2;
+      targetY = (e.clientY / window.innerHeight - 0.5) * 2;
+    };
+    window.addEventListener('mousemove', onMouseMove, { passive: true });
+
+    // Animation Loop
     let animId: number;
+    let clock = new THREE.Clock();
 
     const animate = () => {
       animId = requestAnimationFrame(animate);
       const t = clock.getElapsedTime();
 
-      // Smooth mouse lerping
-      mx += (tmx - mx) * 0.04;
-      my += (tmy - my) * 0.04;
-
-      camera.position.x = mx * 1.5;
-      camera.position.y = -my * 1.1 - Math.min(window.scrollY, 600) * 0.003;
+      // Smooth camera dampening
+      curX += (targetX - curX) * 0.04;
+      curY += (targetY - curY) * 0.04;
+      camera.position.x = curX * 1.5;
+      camera.position.y = -curY * 1.2;
       camera.lookAt(0, 0, 0);
 
-      points.rotation.y = t * 0.02;
-      ico1.rotation.set(t * 0.12, t * 0.16, 0);
-      ico2.rotation.set(-t * 0.2, t * 0.1, t * 0.08);
-      core.rotation.y = t * 0.05;
+      // Core rotation
+      core.rotation.x = t * 0.14;
+      core.rotation.y = t * 0.22;
+      ico1.rotation.y = -t * 0.18;
+      ico2.rotation.x = t * 0.28;
 
-      for (let k = 0; k < floaters.length; k++) {
-        const fl = floaters[k];
-        const u = fl.userData;
-        fl.position.y = u.y + Math.sin(t * u.s + u.p) * 0.7;
-        fl.rotation.x = t * u.s * 0.5;
-        fl.rotation.y = t * u.s * 0.7;
-      }
+      // Particle subtle drifting
+      points.rotation.y = t * 0.03;
+
+      // Floating objects animation
+      floaters.forEach((m, idx) => {
+        m.rotation.x += 0.008 * (idx % 2 === 0 ? 1 : -1);
+        m.rotation.y += 0.012;
+        m.position.y += Math.sin(t * 1.2 + idx) * 0.004;
+      });
 
       renderer.render(scene, camera);
     };
@@ -181,9 +322,10 @@ export default function Hero3D() {
 
     return () => {
       cancelAnimationFrame(animId);
-      window.removeEventListener('pointermove', handlePointerMove);
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener('resize', onResize);
+      window.removeEventListener('mousemove', onMouseMove);
       renderer.dispose();
+      pGeo.dispose();
     };
   }, []);
 
@@ -205,7 +347,7 @@ export default function Hero3D() {
           {/* Left Column: Hero Content */}
           <div className="lg:col-span-7 flex flex-col items-start text-left">
             {/* Geo Target Social Proof Pill */}
-            <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full border border-line bg-surface/60 backdrop-blur-md mb-6 shadow-neon">
+            <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full border border-line bg-surface/80 backdrop-blur-md mb-6 shadow-neon">
               <span className="w-2 h-2 rounded-full bg-volt animate-ping" />
               <span className="text-xs font-bold tracking-wider text-text uppercase">
                 {hero.badge}
@@ -258,7 +400,7 @@ export default function Hero3D() {
             </div>
           </div>
 
-          {/* Right Column: 3D Floating Interactive Agency Emblem */}
+          {/* Right Column: Rotating Enterprise System Node Cards */}
           <div className="lg:col-span-5 flex justify-center items-center relative perspective-1000">
             {/* Spinning Orbit Ring SVG */}
             <div className="absolute w-[360px] sm:w-[420px] aspect-square pointer-events-none opacity-40 animate-spin-slow">
@@ -268,43 +410,127 @@ export default function Hero3D() {
               </svg>
             </div>
 
-            {/* Glowing Hero Card */}
-            <div className="relative z-10 w-[280px] sm:w-[320px] rounded-3xl bg-surface/90 border border-volt/30 shadow-card p-6 backdrop-blur-xl animate-float-slow transform-style-3d hover:scale-105 transition-transform duration-300">
-              <div className="relative w-full aspect-video rounded-2xl overflow-hidden mb-5 border border-line bg-black/60 flex items-center justify-center shadow-inner">
+            {/* Glowing Hero Interactive Card with 5 Rotating Nodes */}
+            <div
+              className="relative z-10 w-[300px] sm:w-[350px] rounded-3xl bg-surface/95 border border-volt/40 shadow-card p-6 backdrop-blur-xl animate-float-slow transform-style-3d hover:scale-105 transition-all duration-300 group"
+              onMouseEnter={() => setIsPaused(true)}
+              onMouseLeave={() => setIsPaused(false)}
+            >
+              {/* Media Preview Box (Realistic UI Screenshot) */}
+              <div className="relative w-full aspect-[16/10] rounded-2xl overflow-hidden mb-4 border border-line bg-surface-2 shadow-inner">
                 <Image
-                  src="/logo.webp"
-                  alt="Autoniex Enterprise Emblem"
-                  width={240}
-                  height={160}
-                  className="object-contain p-2"
+                  src={currentCard.image}
+                  alt={currentCard.alt}
+                  fill
+                  className={`object-cover transition-all duration-500 ${isFading ? 'opacity-30 scale-105' : 'opacity-100 scale-100'}`}
+                  priority
                 />
+                <div className="absolute inset-0 bg-gradient-to-t from-surface/80 via-transparent to-transparent pointer-events-none" />
+
+                {/* Top Badge on image */}
+                <div className="absolute top-2.5 left-2.5 flex items-center gap-1.5">
+                  <span className="px-2.5 py-1 rounded-full bg-black/80 backdrop-blur text-white text-[10px] font-bold uppercase tracking-wider border border-white/10">
+                    {activeCardIndex + 1} / {HERO_CARDS.length}
+                  </span>
+                </div>
+
+                {/* Pause/Play indicator */}
+                <button
+                  type="button"
+                  onClick={() => setIsPaused(!isPaused)}
+                  className="absolute top-2.5 right-2.5 w-7 h-7 rounded-full bg-black/60 backdrop-blur text-white hover:text-volt flex items-center justify-center transition-colors border border-white/15"
+                  title={isPaused ? 'Resume auto-rotation' : 'Pause rotation'}
+                  aria-label={isPaused ? 'Resume auto-rotation' : 'Pause rotation'}
+                >
+                  {isPaused ? <Play className="w-3 h-3 fill-current" /> : <Pause className="w-3 h-3" />}
+                </button>
               </div>
 
+              {/* Card Header & Status */}
               <div className="flex items-center justify-between pb-3 border-b border-line">
                 <div>
-                  <h4 className="font-display font-bold text-sm text-text">AUTONIEX NODE</h4>
-                  <p className="text-[11px] text-text-muted">Autonomous Intelligence</p>
+                  <h4 className="font-display font-bold text-sm text-text flex items-center gap-2">
+                    {currentCard.title}
+                  </h4>
+                  <p className="text-[11px] text-text-muted">{currentCard.subtitle}</p>
                 </div>
-                <span className="flex items-center gap-1 text-[11px] font-bold text-volt bg-volt/10 px-2 py-0.5 rounded-full border border-volt/30">
-                  <span className="w-1.5 h-1.5 rounded-full bg-volt animate-ping" />
-                  ONLINE
+                <span className="flex items-center gap-1 text-[10px] font-extrabold text-volt bg-volt/10 px-2 py-0.5 rounded-full border border-volt/30">
+                  {currentCard.tagPulse && (
+                    <span className="w-1.5 h-1.5 rounded-full bg-volt animate-ping" />
+                  )}
+                  {currentCard.tag}
                 </span>
               </div>
 
+              {/* Dynamic Live Metrics */}
               <div className="mt-3.5 space-y-2 text-xs text-text-muted">
-                <div className="flex justify-between">
-                  <span>Lead Response Speed:</span>
-                  <span className="text-volt font-bold">{hero.leadResponseSpeed}</span>
+                <div className="flex justify-between items-center">
+                  <span>{currentCard.metric1Label}</span>
+                  <span className={`font-bold ${currentCard.metric1Color}`}>
+                    {currentCard.metric1Val}
+                  </span>
                 </div>
-                <div className="flex justify-between">
-                  <span>Target Region:</span>
-                  <span className="text-text font-semibold">{hero.targetRegion}</span>
+                <div className="flex justify-between items-center">
+                  <span>{currentCard.metric2Label}</span>
+                  <span className={`font-semibold ${currentCard.metric2Color}`}>
+                    {currentCard.metric2Val}
+                  </span>
                 </div>
-                <div className="flex justify-between">
-                  <span>Weekly Deployment:</span>
-                  <span className="text-cyber-teal font-semibold">Continuous Sprint</span>
+                <div className="flex justify-between items-center">
+                  <span>{currentCard.metric3Label}</span>
+                  <span className={`font-semibold ${currentCard.metric3Color}`}>
+                    {currentCard.metric3Val}
+                  </span>
                 </div>
               </div>
+
+              {/* 5 Card Dot Navigation + Prev/Next Controls */}
+              <div className="mt-4 pt-3 border-t border-line/60 flex items-center justify-between">
+                <div className="flex items-center gap-1.5">
+                  {HERO_CARDS.map((card, idx) => (
+                    <button
+                      key={card.id}
+                      type="button"
+                      onClick={() => switchCard(idx)}
+                      className={`h-1.5 rounded-full transition-all duration-300 ${
+                        idx === activeCardIndex
+                          ? 'w-6 bg-volt'
+                          : 'w-2 bg-text-muted/30 hover:bg-text-muted/60'
+                      }`}
+                      aria-label={`Jump to ${card.title}`}
+                    />
+                  ))}
+                </div>
+
+                <div className="flex items-center gap-1">
+                  <button
+                    type="button"
+                    onClick={() => switchCard((activeCardIndex - 1 + HERO_CARDS.length) % HERO_CARDS.length)}
+                    className="p-1 rounded-md text-text-muted hover:text-volt hover:bg-volt/10 transition-colors"
+                    aria-label="Previous card"
+                  >
+                    <ChevronLeft className="w-4 h-4" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => switchCard((activeCardIndex + 1) % HERO_CARDS.length)}
+                    className="p-1 rounded-md text-text-muted hover:text-volt hover:bg-volt/10 transition-colors"
+                    aria-label="Next card"
+                  >
+                    <ChevronRight className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
+
+              {/* Mini progress timer bar */}
+              {!isPaused && (
+                <div className="absolute -bottom-[1px] left-6 right-6 h-[2px] bg-line/40 rounded-full overflow-hidden">
+                  <div
+                    key={activeCardIndex}
+                    className="h-full bg-volt progress-animate"
+                  />
+                </div>
+              )}
             </div>
           </div>
         </div>

@@ -5,36 +5,37 @@ const config: Config = {
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/context/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
     extend: {
       colors: {
         bg: {
-          DEFAULT: "#0a0b0d",
-          soft: "#0e1013",
+          DEFAULT: "rgb(var(--color-bg) / <alpha-value>)",
+          soft: "rgb(var(--color-bg-soft) / <alpha-value>)",
         },
         surface: {
-          DEFAULT: "#12151a",
-          2: "#161b21",
+          DEFAULT: "rgb(var(--color-surface) / <alpha-value>)",
+          2: "rgb(var(--color-surface-2) / <alpha-value>)",
         },
         text: {
-          DEFAULT: "#f2f4ef",
-          muted: "#9aa39c",
-          faint: "#6d756e",
+          DEFAULT: "rgb(var(--color-text) / <alpha-value>)",
+          muted: "rgb(var(--color-text-muted) / <alpha-value>)",
+          faint: "rgb(var(--color-text-faint) / <alpha-value>)",
         },
         volt: {
-          DEFAULT: "#c6f52e",
-          hover: "#d5ff3a",
-          dim: "rgba(198, 245, 46, 0.12)",
-          ink: "#141b04",
+          DEFAULT: "rgb(var(--color-volt) / <alpha-value>)",
+          hover: "rgb(var(--color-volt-hover) / <alpha-value>)",
+          dim: "rgba(var(--color-volt), 0.12)",
+          ink: "rgb(var(--color-volt-ink) / <alpha-value>)",
         },
         cyber: {
-          teal: "#4fe0c0",
-          orange: "#ff8a2a",
+          teal: "rgb(var(--color-teal) / <alpha-value>)",
+          orange: "rgb(var(--color-orange) / <alpha-value>)",
         },
         line: {
-          DEFAULT: "rgba(255, 255, 255, 0.09)",
-          glow: "rgba(198, 245, 46, 0.3)",
+          DEFAULT: "rgba(var(--color-line), var(--line-alpha))",
+          glow: "rgba(var(--color-volt), 0.35)",
         },
       },
       fontFamily: {
@@ -46,6 +47,7 @@ const config: Config = {
         "float-slow": "float 7s ease-in-out infinite",
         "tilt-slow": "tiltRock 9s ease-in-out infinite",
         "marquee": "marquee 32s linear infinite",
+        "pulse-slow": "pulse 3s ease-in-out infinite",
       },
       keyframes: {
         float: {
@@ -62,9 +64,9 @@ const config: Config = {
         },
       },
       boxShadow: {
-        neon: "0 0 25px rgba(198, 245, 46, 0.3)",
-        "neon-lg": "0 0 50px rgba(198, 245, 46, 0.35)",
-        card: "0 24px 60px -24px rgba(0, 0, 0, 0.7)",
+        neon: "var(--shadow-neon)",
+        "neon-lg": "var(--shadow-neon-lg)",
+        card: "var(--shadow-card)",
       },
     },
   },
