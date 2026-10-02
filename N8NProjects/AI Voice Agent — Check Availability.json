@@ -1,0 +1,192 @@
+{
+  "name": "AI Voice Agent — Check Availability",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "CheckAvaliability",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "db610356-c212-4309-a09c-aedd7fcfe7fc",
+      "name": "Webhook",
+      "webhookId": "811b8d46-08be-4d9a-a9c4-3c8eab215dfd"
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "calendar": {
+          "__rl": true,
+          "value": "helloahmad80@gmail.com",
+          "mode": "list",
+          "cachedResultName": "helloahmad80@gmail.com"
+        },
+        "timeMin": "={{ $json.start_datetime }}",
+        "timeMax": "={{ DateTime.fromISO($json.start_datetime).plus({ minutes: 30 }).toFormat(\"yyyy-MM-dd'T'HH:mm:ss\") }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1.3,
+      "position": [
+        448,
+        0
+      ],
+      "id": "7b1ab91b-95f7-4463-8c19-6c8fe264495b",
+      "name": "AI Consultation",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "99qMQ1dnGErKiA6U",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "allIncomingItems",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        896,
+        0
+      ],
+      "id": "fc7d116a-8e9d-4fef-96f7-fd0503becf1f",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "jsCode": "const dateInput = $json.body?.date;\nconst timeInput = $json.body?.time;\n\nif (!dateInput) {\n  throw new Error(\"Date is missing from the webhook request.\");\n}\n\nif (!timeInput) {\n  throw new Error(\"Time is missing from the webhook request.\");\n}\n\nconst currentYear = new Date().getFullYear();\n\n// Remove ordinal suffixes:\n// 1st September → 1 September\n// September 1st → September 1\nlet cleanDate = String(dateInput)\n  .trim()\n  .replace(/(\\d+)(st|nd|rd|th)/gi, '$1');\n\n// Parse date\nlet parsedDate = new Date(`${cleanDate}, ${currentYear}`);\n\nif (isNaN(parsedDate.getTime())) {\n  throw new Error(`Invalid date received: ${dateInput}`);\n}\n\n// Convert time\nfunction convertTime(timeString) {\n  const cleanTime = String(timeString).trim();\n\n  const match = cleanTime.match(\n    /^(\\d{1,2})(?::(\\d{2}))?\\s*(AM|PM)$/i\n  );\n\n  if (!match) {\n    throw new Error(`Invalid time received: ${timeString}`);\n  }\n\n  let hour = parseInt(match[1], 10);\n  const minute = match[2] || '00';\n  const period = match[3].toUpperCase();\n\n  if (hour < 1 || hour > 12) {\n    throw new Error(`Invalid hour received: ${timeString}`);\n  }\n\n  if (period === 'PM' && hour !== 12) {\n    hour += 12;\n  }\n\n  if (period === 'AM' && hour === 12) {\n    hour = 0;\n  }\n\n  return `${String(hour).padStart(2, '0')}:${minute}`;\n}\n\nconst normalizedTime = convertTime(timeInput);\n\nconst year = parsedDate.getFullYear();\nconst month = String(parsedDate.getMonth() + 1).padStart(2, '0');\nconst day = String(parsedDate.getDate()).padStart(2, '0');\n\nconst normalizedDate = `${year}-${month}-${day}`;\n\nconst startDateTime = `${normalizedDate}T${normalizedTime}:00`;\n\nreturn {\n  json: {\n    ...$json,\n\n    normalized_date: normalizedDate,\n\n    normalized_time: normalizedTime,\n\n    start_datetime: startDateTime\n  }\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        224,
+        0
+      ],
+      "id": "40f7b5e4-ba89-4206-abf3-9ccc657385a8",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "jsCode": "const events = $input.all();\n\nconst busy = events.length > 0;\n\nreturn [\n  {\n    json: {\n      available: !busy,\n      message: busy\n        ? \"The requested time is not available.\"\n        : \"The requested time is available.\"\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        672,
+        0
+      ],
+      "id": "9f07df62-e4ae-431a-95fc-d2b1632a72a9",
+      "name": "Code in JavaScript1"
+    }
+  ],
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "movo63765.app.n8n.cloud",
+            "user-agent": "ElevenLabs/1.0",
+            "content-length": "84",
+            "accept": "*/*",
+            "accept-encoding": "gzip, br",
+            "cdn-loop": "cloudflare; loops=1; subreqs=1",
+            "cf-connecting-ip": "34.59.11.47",
+            "cf-ew-via": "15",
+            "cf-ipcountry": "US",
+            "cf-ray": "a31cfbf2490251b7-ORD",
+            "cf-visitor": "{\"scheme\":\"https\"}",
+            "cf-worker": "n8n.cloud",
+            "content-type": "application/json",
+            "x-forwarded-for": "34.59.11.47, 172.70.179.45",
+            "x-forwarded-host": "movo63765.app.n8n.cloud",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "traefik-prod-users-swc-30-667dc7df-m6prh",
+            "x-is-trusted": "yes",
+            "x-real-ip": "34.59.11.47"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "name": "Ahmed",
+            "email": "ahmed@example.com",
+            "date": "August 30",
+            "time": "3 PM"
+          },
+          "webhookUrl": "https://movo63765.app.n8n.cloud/webhook-test/book-consultation",
+          "executionMode": "test"
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Consultation": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "AI Consultation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript1": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "732d35a7-9728-492d-9bf2-4fe4313ab92b",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "e6a682437fd515c9c62ad552b7416fe323b614797713baa203093ff476c8deab"
+  },
+  "nodeGroups": [],
+  "id": "MywAqSzZPtNtbR6Z",
+  "tags": []
+}

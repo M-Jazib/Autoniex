@@ -1,0 +1,1023 @@
+{
+  "name": "AI CRM",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "b87e0027-28e0-4b2d-8b1f-c1b02de01c09",
+        "options": {}
+      },
+      "id": "c9569bd2-23fb-4e8a-b1b0-06552668e4e9",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -672,
+        224
+      ],
+      "webhookId": "b87e0027-28e0-4b2d-8b1f-c1b02de01c09"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "fd22d83e-fbfa-4e30-a8a7-672cc6b79153",
+              "name": "name",
+              "value": "={{ $json.body.name }}",
+              "type": "string"
+            },
+            {
+              "id": "70e5d562-f8f9-4854-a7fa-912d5934a6b5",
+              "name": "Email",
+              "value": "={{ $json.body.email }}",
+              "type": "string"
+            },
+            {
+              "id": "025b7034-fc02-4b61-b8c5-06cb137462af",
+              "name": "Industry",
+              "value": "={{ $json.body.industry }}",
+              "type": "string"
+            },
+            {
+              "id": "5af98806-6abe-483e-8e45-95822ac2b180",
+              "name": "Budget",
+              "value": "={{ parseInt(($json.body.budget || '').split(/[-–—]/)[0].replace(/[^0-9]/g, ''), 10) || 0 }}",
+              "type": "number"
+            },
+            {
+              "id": "50dc974d-8a52-4e50-bcfe-7cbce9ebd04a",
+              "name": "Message",
+              "value": "={{ $json.body.message }}",
+              "type": "string"
+            },
+            {
+              "id": "c48174b6-2001-484b-a564-5b573aee7ba2",
+              "name": "Website",
+              "value": "={{ $json.body.website }}",
+              "type": "string"
+            },
+            {
+              "id": "57789765-00a1-4367-9858-299baa5c69c1",
+              "name": "Company",
+              "value": "={{ $json.body.company }}",
+              "type": "string"
+            },
+            {
+              "id": "986690e8-bd51-4451-be18-f5694bc04125",
+              "name": "Service",
+              "value": "={{ $json.body.service }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "e40b4b1c-1a6d-42a7-ae94-b118a667d3a0",
+      "name": "Edit Fields",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        -448,
+        224
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1aycObiqkrbSAxOnooBpXSod4sjpwOtz8FyNdzXQ1AzI",
+          "mode": "list",
+          "cachedResultName": "First project",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1aycObiqkrbSAxOnooBpXSod4sjpwOtz8FyNdzXQ1AzI/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1aycObiqkrbSAxOnooBpXSod4sjpwOtz8FyNdzXQ1AzI/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Name": "={{ $('Merge').item.json.name }}",
+            "Email": "={{ $('Merge').item.json.email }}",
+            "Industry": "={{ $('Merge').item.json.industry }}",
+            "Message": "={{ $('Merge').item.json.message }}",
+            "Website": "={{ $('Merge').item.json.website }}",
+            "Budget": "={{ $('Merge').item.json.budget }}",
+            "Service": "={{ $('Merge').item.json.service }}",
+            "lead_score": "={{ $('Merge').item.json.lead_score }}",
+            "priority": "={{ $('Merge').item.json.priority }}",
+            "intent": "={{ $('Merge').item.json.intent }}",
+            "reason": "={{ $('Merge').item.json.reason }}",
+            "recommended_action": "={{ $('Merge').item.json.recommended_action }}"
+          },
+          "matchingColumns": [
+            "Name"
+          ],
+          "schema": [
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Industry",
+              "displayName": "Industry",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Budget",
+              "displayName": "Budget",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Message",
+              "displayName": "Message",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Website",
+              "displayName": "Website",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Service",
+              "displayName": "Service",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "lead_score",
+              "displayName": "lead_score",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "priority",
+              "displayName": "priority",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "intent",
+              "displayName": "intent",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "reason",
+              "displayName": "reason",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "recommended_action",
+              "displayName": "recommended_action",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        2848,
+        -32
+      ],
+      "id": "1d9da9bf-36ac-40dc-b658-efacd8bb49d2",
+      "name": "Append or update row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "KLrWIjGtPaWb8Bys",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "fdf70c6e-3ee5-4336-a0f0-c92c6c3b0759",
+              "leftValue": "={{ $json.Email }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "ba89fdef-fcc6-4730-9ad5-5be2259a7488",
+              "leftValue": "={{ $json.Company }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "acd6b8e6-5ab6-4622-884c-9e1701ebfb0a",
+              "leftValue": "={{ $json.Message }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -224,
+        224
+      ],
+      "id": "9894f5ed-8022-4b50-ae5a-f4060eb316b9",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "7f8689b8-e798-4cad-b10f-60607f7e0bb9",
+              "name": "Status",
+              "value": "Rejected",
+              "type": "string"
+            },
+            {
+              "id": "ad0e1c16-1a03-42ef-bf09-e587ee607f4f",
+              "name": "Reason ",
+              "value": "Missing required information",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        64,
+        368
+      ],
+      "id": "d2e6bd2c-eefc-42a3-99db-e169d9786042",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Analyze the following incoming lead.\n\nPreserve all original lead information exactly as instructed.\n\nLead:\n\nName: {{ $json.name }}\nEmail: {{ $json.Email }}\nCompany: {{ $json.Company }}\nWebsite: {{ $json.Website }}\nIndustry: {{ $json.Industry }}\nService: {{ $json.Service }}\nBudget: {{ $json.Budget }}\nMessage: {{ $json.Message }}\n\nQualify this lead and return the complete JSON object according to your system instructions.",
+        "options": {
+          "systemMessage": "You are an AI B2B Sales Lead Qualification Agent for a professional AI automation agency.\n\nYour job is to analyze incoming business leads, preserve ALL original lead information, qualify the lead, calculate a lead score, determine priority, determine buying intent, explain the qualification, and recommend the next sales action.\n\n==================================================\nCORE OBJECTIVE\n==================================================\n\nFor every incoming lead:\n\n1. Preserve every original lead field exactly as received.\n2. Do NOT delete, rename, modify, or invent original lead information.\n3. Analyze the lead based on industry, service requirement, budget, business problem, urgency, and buying intent.\n4. Calculate a lead score from 0 to 100.\n5. Classify the lead as HOT, WARM, or COLD.\n6. Classify buying intent as HIGH, MEDIUM, or LOW.\n7. Provide a short reason for the qualification.\n8. Provide a recommended next action for the sales team.\n9. Return everything as valid JSON.\n\n==================================================\nORIGINAL LEAD INFORMATION\n==================================================\n\nThe incoming lead may contain fields such as:\n\n- name\n- email\n- company\n- website\n- industry\n- service\n- budget\n- message\n- source\n- submitted_at\n\nYou MUST preserve these fields in the final output.\n\nIf a field is missing from the input:\n\n- Do not invent a value.\n- Return an empty string \"\" for that field.\n\n==================================================\nLEAD QUALIFICATION CRITERIA\n==================================================\n\nEvaluate the lead using these factors:\n\n1. Industry Fit\n2. Service Fit\n3. Budget\n4. Business Problem\n5. Buying Intent\n6. Urgency\n7. Overall Business Potential\n\n==================================================\nLEAD SCORE\n==================================================\n\nCalculate a score between 0 and 100.\n\nConsider the following:\n\nIndustry Fit:\n- Excellent fit → higher score\n- Reasonable fit → medium score\n- Poor fit → lower score\n\nService Fit:\n- Direct need for AI automation → higher score\n- Related automation need → medium score\n- Unclear/unrelated need → lower score\n\nBudget:\n- $10,000+ → strong positive signal\n- $5,000–$10,000 → positive signal\n- $3,000–$5,000 → moderate signal\n- $1,000–$3,000 → weaker signal\n- Under $1,000 → low signal\n- Not sure → neutral\n\nBusiness Problem:\n- Clear and significant business problem → higher score\n- Somewhat clear problem → medium score\n- No clear problem → lower score\n\nBuying Intent:\n- Ready to start / urgent / actively looking → higher score\n- Interested but researching → medium score\n- Just exploring → lower score\n\nUrgency:\n- Immediate / this week / this month → higher score\n- No clear timeline → medium score\n- Future / no urgency → lower score\n\n==================================================\nPRIORITY CLASSIFICATION\n==================================================\n\nUse the lead score:\n\n70–100 = HOT\n40–69 = WARM\n0–39 = COLD\n\nThe priority MUST match the lead score.\n\nExamples:\n\nScore 82 → HOT\nScore 55 → WARM\nScore 22 → COLD\n\n==================================================\nBUYING INTENT\n==================================================\n\nHIGH:\n- Strong buying signals\n- Ready to start\n- Urgent requirement\n- Clear budget\n- Clear business problem\n\nMEDIUM:\n- Interested\n- Needs more information\n- Potential project\n- Unclear urgency or budget\n\nLOW:\n- Just exploring\n- No clear project\n- Weak requirement\n- Very low intent\n\n==================================================\nRECOMMENDED ACTION\n==================================================\n\nFor HOT leads:\n\nRecommend a fast sales action such as:\n\n\"Schedule a discovery call within 24 hours.\"\n\nFor WARM leads:\n\nRecommend:\n\n\"Follow up with the lead, understand requirements, and nurture the opportunity.\"\n\nFor COLD leads:\n\nRecommend:\n\n\"Keep the lead in the database for future nurturing.\"\n\nThe recommended action should be relevant to the actual lead.\n\n==================================================\nREASON\n==================================================\n\nWrite a concise explanation of why the lead received its score and priority.\n\nMention the strongest positive or negative signals.\n\nExample:\n\n\"Strong service fit, clear business problem, suitable budget, and high buying intent.\"\n\nDo not write a long paragraph.\n\n==================================================\nCRITICAL OUTPUT RULES\n==================================================\n\nReturn ONLY valid JSON.\n\nDo NOT return:\n\n- Markdown\n- Code fences\n- Explanations outside JSON\n- \"Here is the result\"\n- Comments\n- Additional text\n\nThe output MUST be a single valid JSON object.\n\n==================================================\nFINAL JSON STRUCTURE\n==================================================\n\nReturn exactly this structure:\n\n{\n  \"name\": \"\",\n  \"email\": \"\",\n  \"company\": \"\",\n  \"website\": \"\",\n  \"industry\": \"\",\n  \"service\": \"\",\n  \"budget\": \"\",\n  \"message\": \"\",\n  \"source\": \"\",\n  \"submitted_at\": \"\",\n  \"lead_score\": 0,\n  \"priority\": \"COLD\",\n  \"intent\": \"LOW\",\n  \"reason\": \"\",\n  \"recommended_action\": \"\"\n}\n\n==================================================\nIMPORTANT DATA PRESERVATION RULE\n==================================================\n\nThe first 10 fields are ORIGINAL LEAD DATA.\n\nYou MUST copy them from the incoming input exactly.\n\nDo not summarize them.\n\nDo not rewrite them.\n\nDo not change capitalization.\n\nDo not create fake information.\n\nThe final five fields are AI-generated qualification fields:\n\n- lead_score\n- priority\n- intent\n- reason\n- recommended_action\n\n==================================================\nFINAL VALIDATION BEFORE RESPONSE\n==================================================\n\nBefore returning the result, verify:\n\n1. All original lead fields are present.\n2. No original lead data was removed.\n3. No original lead data was invented.\n4. lead_score is between 0 and 100.\n5. priority is HOT, WARM, or COLD.\n6. priority matches the score.\n7. intent is HIGH, MEDIUM, or LOW.\n8. reason is present.\n9. recommended_action is present.\n10. The response is valid JSON only.\n\nReturn the final JSON object."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        0,
+        -32
+      ],
+      "id": "375ba715-691e-4916-ace5-89e41b5b1bd4",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": "openai/gpt-oss-120b",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        80,
+        192
+      ],
+      "id": "7e44e0aa-d1fd-4726-b8aa-a0824ce45742",
+      "name": "Groq Chat Model",
+      "credentials": {
+        "groqApi": {
+          "id": "MAXeKyjFCiQ0fqBR",
+          "name": "Groq account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const rawOutput = $json.output;\n\n// AI output ko JSON object mein convert karo\nconst lead = typeof rawOutput === 'string'\n  ? JSON.parse(rawOutput)\n  : rawOutput;\n\n// Clean structured output return karo\nreturn {\n  json: {\n    name: lead.name || \"\",\n    email: lead.email || \"\",\n    company: lead.company || \"\",\n    website: lead.website || \"\",\n    industry: lead.industry || \"\",\n    service: lead.service || \"\",\n    budget: lead.budget || \"\",\n    message: lead.message || \"\",\n\n    lead_score: Number(lead.lead_score) || 0,\n    priority: lead.priority || \"COLD\",\n    intent: lead.intent || \"LOW\",\n    reason: lead.reason || \"\",\n    recommended_action: lead.recommended_action || \"\"\n  }\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        352,
+        64
+      ],
+      "id": "fb156ccb-21f3-4cba-915f-1b74973eaa18",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.lead_score }}",
+                    "rightValue": 79,
+                    "operator": {
+                      "type": "number",
+                      "operation": "gt"
+                    },
+                    "id": "895379d7-21e5-45d4-9506-06bd15fcb180"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Hot"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "abff777e-b850-4c5e-823e-653004661419",
+                    "leftValue": "={{ $json.lead_score }}",
+                    "rightValue": 39,
+                    "operator": {
+                      "type": "number",
+                      "operation": "gt"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Warm"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "fa356522-d752-469c-bcc3-d8b238ba8b79",
+                    "leftValue": "={{ $json.lead_score }}",
+                    "rightValue": 0,
+                    "operator": {
+                      "type": "number",
+                      "operation": "gt"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Cold"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        576,
+        -48
+      ],
+      "id": "a35b97e1-d48a-4b1a-9844-366755bc3f43",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "numberInputs": 3
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        2176,
+        -48
+      ],
+      "id": "29b5e697-f9c8-45fc-9bf9-49e072a0b7da",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "757a73da-2732-496f-af9e-1a795ba6c591",
+              "leftValue": "={{ $json.priority }}",
+              "rightValue": "HOT",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        2400,
+        -32
+      ],
+      "id": "e1a5546d-b335-4356-872d-c117817570a9",
+      "name": "If1"
+    },
+    {
+      "parameters": {
+        "operation": "sendAndWait",
+        "sendTo": "helloahmad80@gmail.com",
+        "subject": "=HOT Lead  {{ $json.company }}",
+        "message": "=NEW HOT LEAD\n\nName: {{ $json.name }}\nEmail: {{ $json.email }}\nCompany: {{ $json.company }}\nWebsite: {{ $json.website }}\n\nIndustry: {{ $json.industry }}\nService: {{ $json.service }}\nBudget: {{ $json.budget }}\n\nLead Score: {{ $json.lead_score }}/100\nIntent: {{ $json.intent }}\n\nReason:\n{{ $json.reason }}\n\nRecommended Action:\n{{ $json.recommended_action }}\n\nMessage:\n{{ $json.message }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        2624,
+        -112
+      ],
+      "id": "420e18dd-b9c9-48e5-9826-212dd6e3093c",
+      "name": "Wait and approve",
+      "webhookId": "7cf8c70a-d1ee-423f-a16d-eee52432981d",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "k7pIjR6f6K89qHBy",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "email": "={{ $json.email }}",
+        "additionalFields": {
+          "companyName": "={{ $json.company }}",
+          "customPropertiesUi": {
+            "customPropertiesValues": [
+              {
+                "property": "ai_lead_score",
+                "value": "={{ $json.lead_score }}"
+              },
+              {
+                "property": "ai_lead_priority",
+                "value": "={{ $json.priority }}"
+              },
+              {
+                "property": "ai_buying_intent",
+                "value": "={{ $json.intent }}"
+              },
+              {
+                "property": "ai_qualification_reason",
+                "value": "={{ $json.reason }}"
+              },
+              {
+                "property": "ai_recommended_action",
+                "value": "={{ $json.recommended_action }}"
+              },
+              {
+                "property": "requested_service",
+                "value": "={{ $json.service }}"
+              },
+              {
+                "property": "estimated_budget",
+                "value": "={{ $json.budget }}"
+              }
+            ]
+          },
+          "firstName": "={{ $json.name }}",
+          "websiteUrl": "={{ $json.website }}"
+        },
+        "options": {
+          "resolveData": false
+        }
+      },
+      "type": "n8n-nodes-base.hubspot",
+      "typeVersion": 2.2,
+      "position": [
+        2208,
+        -288
+      ],
+      "id": "9d86352c-4822-4f9d-b082-2a2c3da3b892",
+      "name": "Create or update a contact",
+      "credentials": {
+        "hubspotOAuth2Api": {
+          "id": "15qAsfpcIdot3PGw",
+          "name": "HubSpot account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.website }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        800,
+        -160
+      ],
+      "id": "e621e432-fa20-42d5-ae2f-54b5e026cc1c",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Research this potential B2B sales lead.\n\n==================================================\nORIGINAL LEAD INFORMATION\n==================================================\n\nName:\n{{ $('Switch').item.json.name }}\n\nEmail:\n{{ $('Switch').item.json.email }}\n\nCompany:\n{{ $('Switch').item.json.company }}\n\nWebsite:\n{{ $('Switch').item.json.website }}\n\nIndustry:\n{{ $('Switch').item.json.industry }}\n\nRequested Service:\n{{ $('Switch').item.json.service }}\n\nBudget:\n{{ $('Switch').item.json.budget }}\n\nOriginal Message:\n{{ $('Switch').item.json.message }}\n\n\n==================================================\nAI QUALIFICATION\n==================================================\n\nLead Score:\n{{ $('Switch').item.json.lead_score }}\n\nPriority:\n{{ $('Switch').item.json.priority }}\n\nIntent:\n{{ $('Switch').item.json.intent }}\n\nReason:\n{{ $('Switch').item.json.reason }}\n\nRecommended Action:\n{{ $('Switch').item.json.recommended_action }}\n\n==================================================\nWEBSITE RESEARCH\n==================================================\n\nWebsite Content:\n\n{{ $json.data }}\n\n==================================================\nTASK\n==================================================\n\nAnalyze the company using the website content as the primary research source.\n\nPreserve all original lead information and AI qualification information.\n\nThen add the company research.\n\nReturn the complete structured JSON object according to the required output format.\n\nReturn ONLY valid JSON.",
+        "options": {
+          "systemMessage": "You are an AI B2B Company Research Agent working for a professional AI Automation and Sales Automation Agency.\n\nYour job is to analyze a potential client's company and identify realistic business problems, automation opportunities, and a strong sales angle.\n\nYou will receive:\n\n- Company name\n- Company website\n- Lead-provided industry\n- Requested service\n- Original lead message\n- Website content retrieved from the company's website\n\n==================================================\nPRIMARY OBJECTIVE\n==================================================\n\nResearch the company using the provided website content and lead information.\n\nYour goal is NOT to sell anything yet.\n\nYour goal is to create reliable sales intelligence that another AI agent can use later to write a personalized sales email.\n\nAnalyze:\n\n1. What the company does\n2. Actual industry\n3. Business model\n4. Business pain points\n5. Repetitive/manual processes\n6. AI automation opportunities\n7. Most relevant service\n8. Strongest sales angle\n\n==================================================\nSOURCE PRIORITY\n==================================================\n\nUse sources in this order:\n\n1. WEBSITE CONTENT\n2. ORIGINAL LEAD MESSAGE\n3. OTHER LEAD INFORMATION\n\nThe website content is the PRIMARY source for determining:\n\n- Company description\n- Industry\n- Business model\n- Services\n- Target customers\n- Business operations\n\nIMPORTANT:\n\nThe industry provided by the lead may be incorrect.\n\nIf the lead-provided industry conflicts with the website content, DO NOT blindly use the lead-provided industry.\n\nInstead:\n\n- Analyze the website content.\n- Determine the most accurate industry supported by the website.\n- Use the website-supported industry.\n\nIf there is not enough information to determine the industry, return:\n\n\"Unknown\"\n\n==================================================\nFACTS VS INFERENCES\n==================================================\n\nYou MUST distinguish between facts and reasonable business inferences.\n\nFACT:\n\nInformation directly supported by the website or original lead message.\n\nINFERENCE:\n\nA reasonable business possibility based on the company's operations.\n\nNever present an inference as a confirmed fact.\n\nFor example:\n\nFACT:\n\"The company provides software development services.\"\n\nINFERENCE:\n\"Because the company handles many software projects, project intake and lead qualification may involve repetitive manual work.\"\n\nDo NOT invent:\n\n- Employees\n- Revenue\n- Clients\n- Technology stack\n- Locations\n- Business processes\n- Problems\n- Budgets\n- Customers\n\nunless they are supported by the provided information.\n\n==================================================\nCOMPANY SUMMARY\n==================================================\n\nCreate a concise summary of what the company does.\n\nInclude:\n\n- Main business\n- Main services/products\n- Target customers if supported\n- Important business characteristics\n\nKeep it concise.\n\n==================================================\nINDUSTRY\n==================================================\n\nDetermine the company's actual industry using the website content.\n\nExamples:\n\n- Software & Technology Services\n- Marketing Agency\n- E-commerce\n- Recruitment\n- Real Estate\n- Healthcare\n- Financial Services\n- Education\n- Manufacturing\n\nDo not automatically copy the lead's industry.\n\n==================================================\nBUSINESS MODEL\n==================================================\n\nDetermine the most likely business model based on the provided information.\n\nExamples:\n\n- B2B SaaS\n- B2B Services\n- Software Development Agency\n- Marketing Agency\n- E-commerce\n- Marketplace\n- Consulting\n- Recruitment / Staffing\n- Subscription Business\n\nIf uncertain, explain briefly and label it as an inference.\n\n==================================================\nPAIN POINTS\n==================================================\n\nIdentify realistic business pain points.\n\nPrioritize problems related to:\n\n- Lead qualification\n- Sales follow-up\n- Customer support\n- CRM management\n- Data entry\n- Lead routing\n- Scheduling\n- Reporting\n- Repetitive communication\n- Proposal generation\n- Customer onboarding\n- Recruitment processes\n- Document processing\n- Manual workflows\n\nIMPORTANT:\n\nDo not claim that the company definitely has a problem unless the provided information supports it.\n\nUse:\n\n\"FACT: ...\" \n\nor:\n\n\"INFERENCE: ...\"\n\n==================================================\nAUTOMATION OPPORTUNITIES\n==================================================\n\nIdentify practical AI or workflow automation opportunities.\n\nFocus on services an AI automation agency can realistically implement using tools such as:\n\n- n8n\n- AI agents\n- CRM automation\n- HubSpot\n- APIs\n- Webhooks\n- Email automation\n- Lead qualification\n- Data enrichment\n- RAG\n- AI chatbots\n- Document processing\n- Automated follow-ups\n- Scheduling\n- Reporting\n\nEach opportunity should explain WHAT can be automated.\n\nDo not recommend unnecessary automation.\n\n==================================================\nRECOMMENDED SERVICE\n==================================================\n\nChoose the ONE most relevant automation service for this company.\n\nDo not list multiple services here.\n\nChoose the service with the strongest connection to:\n\n- The company's actual business\n- The lead's request\n- The identified pain points\n- The automation opportunities\n\n==================================================\nSALES ANGLE\n==================================================\n\nCreate one strong sales angle.\n\nThe sales angle should explain:\n\n1. What problem we can help solve\n2. What automation we can provide\n3. Why it could be valuable\n4. What outcome the company could potentially achieve\n\nDo not exaggerate.\n\nDo not promise specific ROI unless the information supports it.\n\nDo not write the actual sales email.\n\n==================================================\nOUTPUT FORMAT\n==================================================\n\nReturn ONLY valid JSON.\n\nThe output MUST contain the complete lead information,\nAI qualification information, and company research.\n\nReturn exactly this structure:\n\n{\n  \"lead\": {\n    \"name\": \"\",\n    \"email\": \"\",\n    \"company\": \"\",\n    \"website\": \"\",\n    \"industry\": \"\",\n    \"service\": \"\",\n    \"budget\": \"\",\n    \"message\": \"\",\n    \"source\": \"\",\n    \"submitted_at\": \"\"\n  },\n\n  \"qualification\": {\n    \"lead_score\": 0,\n    \"priority\": \"\",\n    \"intent\": \"\",\n    \"reason\": \"\",\n    \"recommended_action\": \"\"\n  },\n\n  \"company_research\": {\n    \"company_summary\": \"\",\n    \"industry\": \"\",\n    \"business_model\": \"\",\n    \"pain_points\": [],\n    \"automation_opportunities\": [],\n    \"recommended_service\": \"\",\n    \"sales_angle\": \"\"\n  }\n}\n\nIMPORTANT:\n\n- Preserve the original lead information exactly as provided.\n- Do not modify the lead's name, email, company, website, budget, or message.\n- The qualification information must come from the AI qualification data provided in the input.\n- Company research must be based primarily on the provided website content.\n- Do not invent missing lead information.\n- If a field is unavailable, use an empty string.\n- Return ONLY JSON.\n- Do not use markdown.\n- Do not add explanations outside the JSON.\n\nReturn the final JSON object."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        1024,
+        -160
+      ],
+      "id": "fa460f07-d287-4f54-92b4-e57b6bd410f7",
+      "name": "Company Research Agent"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-5-mini"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        1104,
+        80
+      ],
+      "id": "a0aedf1f-cae9-4513-bedb-a2a739f07c84",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "joswOSkwPrsTm7Bk",
+          "name": "n8n free OpenAI API credits"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const rawOutput = $json.output;\n\nif (!rawOutput) {\n  throw new Error('Company Research Agent returned no output.');\n}\n\nlet result;\n\ntry {\n  result = typeof rawOutput === 'string'\n    ? JSON.parse(rawOutput)\n    : rawOutput;\n} catch (error) {\n  throw new Error(\n    'Company Research Agent returned invalid JSON: ' + error.message\n  );\n}\n\nreturn {\n  json: {\n    // =========================\n    // LEAD INFORMATION\n    // =========================\n    name: result.lead?.name || \"\",\n    email: result.lead?.email || \"\",\n    company: result.lead?.company || \"\",\n    website: result.lead?.website || \"\",\n    industry: result.lead?.industry || \"\",\n    service: result.lead?.service || \"\",\n    budget: result.lead?.budget || \"\",\n    message: result.lead?.message || \"\",\n    source: result.lead?.source || \"\",\n    submitted_at: result.lead?.submitted_at || \"\",\n\n    // =========================\n    // AI QUALIFICATION\n    // =========================\n    lead_score: Number(result.qualification?.lead_score) || 0,\n    priority: result.qualification?.priority || \"\",\n    intent: result.qualification?.intent || \"\",\n    reason: result.qualification?.reason || \"\",\n    recommended_action: result.qualification?.recommended_action || \"\",\n\n    // =========================\n    // COMPANY RESEARCH\n    // =========================\n    company_summary: result.company_research?.company_summary || \"\",\n    researched_industry: result.company_research?.industry || \"\",\n    business_model: result.company_research?.business_model || \"\",\n\n    pain_points: Array.isArray(result.company_research?.pain_points)\n      ? result.company_research.pain_points\n      : [],\n\n    automation_opportunities: Array.isArray(\n      result.company_research?.automation_opportunities\n    )\n      ? result.company_research.automation_opportunities\n      : [],\n\n    recommended_service:\n      result.company_research?.recommended_service || \"\",\n\n    sales_angle:\n      result.company_research?.sales_angle || \"\"\n  }\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1376,
+        -160
+      ],
+      "id": "8444f3b2-9f76-41a2-8833-09cde6503700",
+      "name": "Parse Company Research"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Create a personalized sales email for this lead.\n\n==================================================\nLEAD INFORMATION\n==================================================\n\nName:\n{{ $json.name }}\n\nEmail:\n{{ $json.email }}\n\nCompany:\n{{ $json.company }}\n\nWebsite:\n{{ $json.website }}\n\nIndustry:\n{{ $json.industry }}\n\nRequested Service:\n{{ $json.service }}\n\nBudget:\n{{ $json.budget }}\n\nOriginal Message:\n{{ $json.message }}\n\n==================================================\nAI QUALIFICATION\n==================================================\n\nLead Score:\n{{ $json.lead_score }}\n\nPriority:\n{{ $json.priority }}\n\nBuying Intent:\n{{ $json.intent }}\n\nQualification Reason:\n{{ $json.reason }}\n\nRecommended Action:\n{{ $json.recommended_action }}\n\n==================================================\nAI COMPANY RESEARCH\n==================================================\n\nCompany Summary:\n{{ $json.company_summary }}\nIndustry:\n{{ $json.industry }}\n\nBusiness Model:\n{{ $json.business_model }}\n\nPain Points:\n{{ $json.pain_points }}\n\nAutomation Opportunities:\n{{ $json.automation_opportunities }}\n\nRecommended Service:\n{{ $json.recommended_service }}\n\nSales Angle:\n{{ $json.sales_angle }}\n\n==================================================\nTASK\n==================================================\n\nCreate a highly personalized first-contact email using all the information above.\n\nDo not invent facts.\n\nReturn only the required JSON.",
+        "options": {
+          "systemMessage": "You are an AI B2B Sales Outreach Agent for a professional AI Automation Agency.\n\nYour job is to create a highly personalized first-contact sales email for a qualified business lead.\n\nYou will receive:\n\n1. Original lead information\n2. AI lead qualification\n3. AI company research\n\nYour job is to combine all three sources and create a relevant, concise, human-sounding outreach email.\n\n==================================================\nPRIMARY OBJECTIVE\n==================================================\n\nCreate a personalized sales email that:\n\n- Addresses the lead by name.\n- Mentions the company naturally.\n- Demonstrates understanding of the company's business.\n- References a real problem, requirement, or opportunity identified from the provided information.\n- Connects that problem to a specific AI automation solution.\n- Explains the practical value briefly.\n- Ends with a simple and natural call to action.\n\nThe email must NOT feel like a generic mass email.\n\n==================================================\nSOURCE PRIORITY\n==================================================\n\nUse the provided information in this priority:\n\n1. Original Lead Information\n2. AI Lead Qualification\n3. AI Company Research\n\nNever invent information.\n\nThe original lead message is especially important because it represents what the prospect actually requested or communicated.\n\nCompany research should be used to improve personalization and context.\n\n==================================================\nPERSONALIZATION\n==================================================\n\nPersonalize the email using:\n\n- Lead name\n- Company name\n- Company industry\n- Business model\n- Original lead message\n- Requested service\n- Lead priority\n- Lead score\n- Buying intent\n- Qualification reason\n- Pain points\n- Automation opportunities\n- Recommended service\n- Sales angle\n\nUse only information provided in the input.\n\nDo NOT invent:\n\n- Company achievements\n- Revenue\n- Number of employees\n- Customers\n- Technologies\n- Business processes\n- Problems\n- Results\n- ROI\n- Partnerships\n\nunless explicitly supported by the provided information.\n\n==================================================\nPAIN POINT HANDLING\n==================================================\n\nSome company research may contain FACTS and some may contain INFERENCES.\n\nIf a pain point is explicitly stated by the lead, you may state it directly.\n\nIf a pain point is an inference, do NOT present it as a confirmed fact.\n\nUse language such as:\n\n\"It looks like...\"\n\n\"Based on the information you shared...\"\n\n\"There may be an opportunity to...\"\n\n\"If you're currently handling this manually...\"\n\n==================================================\nSOLUTION\n==================================================\n\nRecommend ONE primary AI automation solution that best matches:\n\n- The lead's request\n- Their actual business\n- Their pain points\n- Their automation opportunities\n- Their recommended service\n\nExamples:\n\n- AI Lead Qualification\n- AI Sales Automation\n- CRM Automation\n- AI Customer Support\n- Automated Lead Routing\n- AI Follow-up Automation\n- AI Data Processing\n- AI Recruiting Automation\n- AI Workflow Automation\n\nDo not overload the email with multiple unrelated services.\n\n==================================================\nEMAIL STYLE\n==================================================\n\nWrite like a professional human sales representative.\n\nTone:\n\n- Professional\n- Friendly\n- Natural\n- Concise\n- Helpful\n- Confident\n- Non-aggressive\n\nAvoid:\n\n- Excessive marketing language\n- Fake compliments\n- Generic praise\n- Buzzwords\n- Overly long paragraphs\n- \"Dear Sir/Madam\"\n- \"I hope this email finds you well\"\n- \"We are the leading...\"\n- \"Revolutionary AI\"\n- \"Game-changing\"\n- Unrealistic ROI claims\n- Pressure tactics\n\n==================================================\nEMAIL STRUCTURE\n==================================================\n\nSUBJECT:\n\nCreate a short, relevant and personalized subject.\n\nGREETING:\n\nHi [First Name],\n\nOPENING:\n\nStart with something directly relevant to the lead's request, company or situation.\n\nPROBLEM / OPPORTUNITY:\n\nMention the relevant pain point or opportunity.\n\nSOLUTION:\n\nExplain how our AI automation solution could help.\n\nVALUE:\n\nBriefly explain the practical benefit.\n\nCTA:\n\nAsk for a short discovery call or ask whether they would be open to discussing the idea.\n\nSIGNATURE:\n\nBest,\nAI Automation Team\n\n==================================================\nEMAIL LENGTH\n==================================================\n\nKeep the email between 100 and 180 words.\n\nDo not make the email unnecessarily long.\n\nUse short paragraphs.\n\n==================================================\nCTA\n==================================================\n\nThe CTA should be simple and low-pressure.\n\nExamples:\n\n\"Would you be open to a 15-minute call this week?\"\n\n\"Would it make sense to discuss how this could fit into your current workflow?\"\n\n\"Would you be open to exploring this?\"\n\nDo not use aggressive CTAs.\n\n==================================================\nIMPORTANT\n==================================================\n\nThe email must sound like it was written specifically for this prospect.\n\nDo NOT simply copy the company research.\n\nDo NOT mention:\n\n- \"According to our AI research\"\n- \"Our AI analyzed your website\"\n- \"Our research agent\"\n- \"The data shows\"\n- \"Your lead score\"\n- \"Your priority is HOT\"\n- Internal AI processes\n\nThese are internal details and must never appear in the customer-facing email.\n\n==================================================\nOUTPUT FORMAT\n==================================================\n\nReturn ONLY valid JSON.\n\nReturn EXACTLY this structure:\n\n{\n  \"lead\": {\n    \"name\": \"\",\n    \"email\": \"\",\n    \"company\": \"\",\n    \"website\": \"\",\n    \"industry\": \"\",\n    \"service\": \"\",\n    \"budget\": \"\",\n    \"message\": \"\",\n    \"source\": \"\",\n    \"submitted_at\": \"\"\n  },\n\n  \"qualification\": {\n    \"lead_score\": 0,\n    \"priority\": \"\",\n    \"intent\": \"\",\n    \"reason\": \"\",\n    \"recommended_action\": \"\"\n  },\n\n  \"company_research\": {\n    \"company_summary\": \"\",\n    \"industry\": \"\",\n    \"business_model\": \"\",\n    \"pain_points\": [],\n    \"automation_opportunities\": [],\n    \"recommended_service\": \"\",\n    \"sales_angle\": \"\"\n  },\n\n  \"outreach\": {\n    \"subject\": \"\",\n    \"email_body\": \"\",\n    \"personalization_points\": [],\n    \"recommended_cta\": \"\"\n  }\n}\n\n==================================================\nDATA PRESERVATION\n==================================================\n\nIMPORTANT:\n\nPreserve the original lead information exactly as provided.\n\nDo not modify:\n\n- Name\n- Email\n- Company\n- Website\n- Budget\n- Original message\n\nPreserve the AI qualification information exactly as provided.\n\nPreserve the company research information accurately.\n\nOnly create new content inside:\n\n\"outreach\"\n\n==================================================\nFINAL VALIDATION\n==================================================\n\nBefore returning the result, verify:\n\n1. The email is personalized.\n2. The lead's original request is reflected.\n3. The company research is used.\n4. No unsupported facts are invented.\n5. Inferences are not presented as facts.\n6. ONE primary solution is recommended.\n7. The email is between 100 and 180 words.\n8. The CTA is natural and low-pressure.\n9. Internal AI processes are not mentioned.\n10. All lead information is preserved.\n11. Qualification information is preserved.\n12. Company research is preserved.\n13. The output is valid JSON.\n14. No markdown is returned.\n15. No explanation is returned outside the JSON.\n\nReturn ONLY the JSON object."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        1600,
+        -160
+      ],
+      "id": "c49af216-f406-4d66-85b6-33911294ae11",
+      "name": "Personalized Outreach Agent"
+    },
+    {
+      "parameters": {
+        "jsCode": "const rawOutput = $json.output;\n\nif (!rawOutput) {\n  throw new Error('Personalized Outreach Agent returned no output.');\n}\n\nlet outreach;\n\ntry {\n  outreach = typeof rawOutput === 'string'\n    ? JSON.parse(rawOutput)\n    : rawOutput;\n} catch (error) {\n  throw new Error(\n    'Personalized Outreach Agent returned invalid JSON: ' + error.message\n  );\n}\n\nreturn {\n  json: {\n\n    // =========================\n    // LEAD INFORMATION\n    // =========================\n    name: outreach.lead?.name || \"\",\n    email: outreach.lead?.email || \"\",\n    company: outreach.lead?.company || \"\",\n    website: outreach.lead?.website || \"\",\n    industry: outreach.lead?.industry || \"\",\n    service: outreach.lead?.service || \"\",\n    budget: outreach.lead?.budget || \"\",\n    message: outreach.lead?.message || \"\",\n    source: outreach.lead?.source || \"\",\n    submitted_at: outreach.lead?.submitted_at || \"\",\n\n    // =========================\n    // AI QUALIFICATION\n    // =========================\n    lead_score: Number(outreach.qualification?.lead_score) || 0,\n    priority: outreach.qualification?.priority || \"\",\n    intent: outreach.qualification?.intent || \"\",\n    reason: outreach.qualification?.reason || \"\",\n    recommended_action:\n      outreach.qualification?.recommended_action || \"\",\n\n    // =========================\n    // COMPANY RESEARCH\n    // =========================\n    company_summary:\n      outreach.company_research?.company_summary || \"\",\n\n    researched_industry:\n      outreach.company_research?.industry || \"\",\n\n    business_model:\n      outreach.company_research?.business_model || \"\",\n\n    pain_points: Array.isArray(\n      outreach.company_research?.pain_points\n    )\n      ? outreach.company_research.pain_points\n      : [],\n\n    automation_opportunities: Array.isArray(\n      outreach.company_research?.automation_opportunities\n    )\n      ? outreach.company_research.automation_opportunities\n      : [],\n\n    recommended_service:\n      outreach.company_research?.recommended_service || \"\",\n\n    sales_angle:\n      outreach.company_research?.sales_angle || \"\",\n\n    // =========================\n    // PERSONALIZED OUTREACH\n    // =========================\n    email_subject:\n      outreach.outreach?.subject || outreach.subject || \"\",\n\n    email_body:\n      outreach.outreach?.email_body || outreach.email_body || \"\",\n\n    personalization_points: Array.isArray(\n      outreach.outreach?.personalization_points\n    )\n      ? outreach.outreach.personalization_points\n      : Array.isArray(outreach.personalization_points)\n        ? outreach.personalization_points\n        : [],\n\n    recommended_cta:\n      outreach.outreach?.recommended_cta ||\n      outreach.recommended_cta ||\n      \"\"\n  }\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1952,
+        -160
+      ],
+      "id": "845fecfa-1fc7-4caf-8de9-d33fdc3e187d",
+      "name": "Parse Outreach"
+    },
+    {
+      "parameters": {
+        "model": "openai/gpt-oss-safeguard-20b",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        1680,
+        80
+      ],
+      "id": "ec48b44f-f80b-4e14-a1e3-eac060697b2f",
+      "name": "Groq Chat Model1",
+      "credentials": {
+        "groqApi": {
+          "id": "MAXeKyjFCiQ0fqBR",
+          "name": "Groq account"
+        }
+      }
+    }
+  ],
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "movo63765.app.n8n.cloud",
+            "content-length": "473",
+            "accept-encoding": "gzip, br",
+            "cdn-loop": "cloudflare; loops=1; subreqs=2",
+            "cf-connecting-ip": "2a06:98c0:3600::103",
+            "cf-ew-via": "14",
+            "cf-ipcountry": "PK",
+            "cf-ray": "a33d9b3e8a13c4c3-KHI",
+            "cf-visitor": "{\"scheme\":\"https\"}",
+            "cf-worker": "n8n.cloud",
+            "content-type": "application/json",
+            "x-forwarded-for": "2a06:98c0:3600::103, 172.68.249.134",
+            "x-forwarded-host": "movo63765.app.n8n.cloud",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "traefik-prod-users-swc-30-667dc7df-m6prh",
+            "x-is-trusted": "yes",
+            "x-real-ip": "2a06:98c0:3600::103"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "name": "Muhammad Jazib",
+            "email": "jazibishtiaq20@gmail.com",
+            "company": "Jizai",
+            "website": "https://jizai.ai/en/",
+            "industry": "IT / Software Agency",
+            "service": "AI Sales Automation",
+            "budget": "$1,000 – $3,000",
+            "message": "We have a large sales team and receive hundreds of leads every month. We urgently need AI automation for lead qualification and follow-up and are ready to start this month.",
+            "source": "website",
+            "form": "lead_intake",
+            "submitted_at": "2026-08-31T17:03:03.074Z"
+          },
+          "webhookUrl": "https://movo63765.app.n8n.cloud/webhook-test/b87e0027-28e0-4b2d-8b1f-c1b02de01c09",
+          "executionMode": "test"
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Groq Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 2
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "Wait and approve",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Append or update row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait and approve": {
+      "main": [
+        [
+          {
+            "node": "Append or update row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append or update row in sheet": {
+      "main": [
+        []
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Company Research Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Company Research Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Company Research Agent": {
+      "main": [
+        [
+          {
+            "node": "Parse Company Research",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Company Research": {
+      "main": [
+        [
+          {
+            "node": "Personalized Outreach Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Personalized Outreach Agent": {
+      "main": [
+        [
+          {
+            "node": "Parse Outreach",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Groq Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Personalized Outreach Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Outreach": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Create or update a contact",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "02026c0e-a9b4-4c77-ab01-ff1e570acaa8",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "e6a682437fd515c9c62ad552b7416fe323b614797713baa203093ff476c8deab"
+  },
+  "nodeGroups": [],
+  "id": "rJXrGUnQh5qErF57",
+  "tags": []
+}

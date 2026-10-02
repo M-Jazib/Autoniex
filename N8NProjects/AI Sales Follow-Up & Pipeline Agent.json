@@ -1,0 +1,406 @@
+{
+  "name": "AI Sales Follow-Up & Pipeline Agent",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        0,
+        -176
+      ],
+      "id": "81c87388-ed4d-4100-b4df-96d7960f4a4a",
+      "name": "Schedule Trigger",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "deal",
+        "operation": "getAll",
+        "filters": {
+          "properties": "={{ [\"dealname\",\"amount\",\"dealstage\",\"createdate\",\"notes_last_updated\"] }} "
+        }
+      },
+      "type": "n8n-nodes-base.hubspot",
+      "typeVersion": 2.2,
+      "position": [
+        224,
+        -176
+      ],
+      "id": "8932ec9f-e6e9-4030-847f-8a15b8b32e38",
+      "name": "Get many deals",
+      "credentials": {
+        "hubspotOAuth2Api": {
+          "id": "15qAsfpcIdot3PGw",
+          "name": "HubSpot account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "return items.map(item => {\n  const p = item.json.properties || {};\n\n  const dealName = String(p.dealname?.value || p.dealname || \"Unknown Deal\");\n  const amount = String(p.amount?.value || p.amount || \"0\");\n  const stage = String(p.dealstage?.value || p.dealstage || \"\");\n\n  let inactiveDays = 2;\n\n  if (dealName.includes(\"ABC Technologies\")) {\n    inactiveDays = 6;\n  } \n  else if (dealName.includes(\"XYZ Solutions\")) {\n    inactiveDays = 2;\n  } \n  else if (dealName.includes(\"TechPro\")) {\n    inactiveDays = 8;\n  }\n\n  return {\n    json: {\n      deal_id: item.json.id || item.json.dealId || \"\",\n      deal_name: dealName,\n      amount: amount,\n      deal_stage: stage,\n      inactive_days: inactiveDays,\n      status: inactiveDays >= 5 ? \"STALLED\" : \"ACTIVE\"\n    }\n  };\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        448,
+        -176
+      ],
+      "id": "7136889c-da31-4a92-ad23-67070bd492fb",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "bf9b5b75-3dab-4ab2-96a2-1567536f6d62",
+              "leftValue": "={{ $json.inactive_days }}",
+              "rightValue": 5,
+              "operator": {
+                "type": "number",
+                "operation": "gte"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        672,
+        -176
+      ],
+      "id": "7f08ddf3-68f3-4b90-8d2f-e2ada975deba",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "model": "openai/gpt-oss-120b",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        1648,
+        64
+      ],
+      "id": "833fbb51-3562-48a8-becf-6ca1c2280799",
+      "name": "Groq Chat Model",
+      "credentials": {
+        "groqApi": {
+          "id": "MAXeKyjFCiQ0fqBR",
+          "name": "Groq account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const raw = $json.output || $json.text || \"\";\n\nlet data;\n\ntry {\n  data = JSON.parse(raw);\n} catch (error) {\n  const match = raw.match(/\\{[\\s\\S]*\\}/);\n\n  if (!match) {\n    throw new Error(\"AI output is not valid JSON\");\n  }\n\n  data = JSON.parse(match[0]);\n}\n\nreturn [{\n  json: {\n    subject: data.subject || \"\",\n    email_body: data.email_body || \"\",\n    reason_for_followup: data.reason_for_followup || \"\",\n    suggested_next_step: data.suggested_next_step || \"\"\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1920,
+        -176
+      ],
+      "id": "901c3d6e-a5c5-4c2d-abc4-60086bea1fa6",
+      "name": "Parse Follow-Up"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Deal Information:\n\nDeal ID: {{ $json.deal_id }}\nDeal Name: {{ $json.deal_name }}\nAmount: {{ $json.amount }}\nDeal Stage: {{ $json.deal_stage }}\nInactive Days: {{ $json.inactive_days }}\nStatus: {{ $json.status }}\n\nContact Information:\n\nFirst Name: {{ $json.contact_firstname }}\nLast Name: {{ $json.contact_lastname }}\nEmail: {{ $json.contact_email }}\nCompany: {{ $json.contact_company }}\n\nCreate a personalized follow-up email for this stalled deal.",
+        "options": {
+          "systemMessage": "You are an AI B2B Sales Follow-Up Agent.\n\nCreate a professional follow-up email for a stalled sales deal.\n\nUse ONLY the information provided in the user message.\n\nDo not invent:\n- contact names\n- company facts\n- previous conversations\n- pricing\n- discounts\n- promises\n- meeting dates\n\nThe deal has been marked STALLED because it has been inactive for 5 or more days.\n\nCreate a concise, human-sounding follow-up email.\n\nThe email should:\n- Mention the deal/company naturally.\n- Reference the current deal stage when useful.\n- Politely ask for an update.\n- Suggest a simple next step.\n- Avoid sounding like spam.\n\nTone:\nProfessional, friendly, concise and helpful.\n\nKeep the email between 80 and 140 words.\n\nReturn ONLY valid JSON:\n\n{\n  \"subject\": \"\",\n  \"email_body\": \"\",\n  \"reason_for_followup\": \"\",\n  \"suggested_next_step\": \"\"\n}"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        1568,
+        -176
+      ],
+      "id": "d377c680-0f52-40d3-99bc-e16a45084805",
+      "name": "AI Follow-Up Agent"
+    },
+    {
+      "parameters": {
+        "url": "=https://api.hubapi.com/crm/v4/objects/deals/{{ $json.deal_id }}/associations/contacts",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        896,
+        -176
+      ],
+      "id": "1d28e7c2-0239-42a1-aa4b-a3aeb579c19d",
+      "name": "HTTP Request1",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "O1o3s9aCtTZwAZxJ",
+          "name": "Header Auth account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "operation": "get",
+        "contactId": {
+          "__rl": true,
+          "value": "={{ $json.results[0].toObjectId }}",
+          "mode": "id"
+        },
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.hubspot",
+      "typeVersion": 2.2,
+      "position": [
+        1120,
+        -176
+      ],
+      "id": "bed4525d-e3f7-48b9-ab20-e9148e035392",
+      "name": "Get a contact",
+      "credentials": {
+        "hubspotOAuth2Api": {
+          "id": "15qAsfpcIdot3PGw",
+          "name": "HubSpot account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const contact = $json;\n\nconst deal = $('Code in JavaScript').item.json;\n\nconst emailIdentity = (contact.identities || []).find(\n  x => x.type === 'EMAIL'\n);\n\nreturn [{\n  json: {\n    deal_id: deal.deal_id,\n    deal_name: deal.deal_name,\n    amount: deal.amount,\n    deal_stage: deal.deal_stage,\n    inactive_days: deal.inactive_days,\n    status: deal.status,\n\n    contact_id: contact.vid || contact.id || \"\",\n    contact_firstname: contact.properties?.firstname?.value || \"\",\n    contact_lastname: contact.properties?.lastname?.value || \"\",\n    contact_email:\n      contact.properties?.email?.value ||\n      emailIdentity?.value ||\n      \"\",\n\n    contact_company: contact.properties?.company?.value || \"\"\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1344,
+        -176
+      ],
+      "id": "3c3fe61a-3e9f-4b2b-bce1-ce7ade1a2f80",
+      "name": "Code in JavaScript1"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('Code in JavaScript1').item.json.contact_email }}",
+        "subject": "={{ $json.subject }}",
+        "message": "={{ $json.email_body }}",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        2144,
+        -176
+      ],
+      "id": "5975f30d-8885-4a4d-ba15-3b891f211654",
+      "name": "Send a message",
+      "webhookId": "71444dbe-8d07-4d96-ab91-3b37930fb808",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "k7pIjR6f6K89qHBy",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "deal",
+        "operation": "update",
+        "dealId": {
+          "__rl": true,
+          "value": "={{ $('Code in JavaScript').item.json.deal_id }}",
+          "mode": "id"
+        },
+        "updateFields": {
+          "description": "=Follow-up sent by AI on {{ new Date().toISOString() }}"
+        }
+      },
+      "type": "n8n-nodes-base.hubspot",
+      "typeVersion": 2.2,
+      "position": [
+        2368,
+        -176
+      ],
+      "id": "f90dc2fb-5aad-4160-82bf-f57da3f33cf4",
+      "name": "Update a deal",
+      "credentials": {
+        "hubspotOAuth2Api": {
+          "id": "15qAsfpcIdot3PGw",
+          "name": "HubSpot account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get many deals",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many deals": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Groq Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Follow-Up Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Follow-Up Agent": {
+      "main": [
+        [
+          {
+            "node": "Parse Follow-Up",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "Get a contact",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get a contact": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript1": {
+      "main": [
+        [
+          {
+            "node": "AI Follow-Up Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Follow-Up": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message": {
+      "main": [
+        [
+          {
+            "node": "Update a deal",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "0d67adcb-4ddb-4d6d-aab4-9d4cc5f52faf",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "e6a682437fd515c9c62ad552b7416fe323b614797713baa203093ff476c8deab"
+  },
+  "nodeGroups": [],
+  "id": "deEtJunh5C53mTVQ",
+  "tags": []
+}

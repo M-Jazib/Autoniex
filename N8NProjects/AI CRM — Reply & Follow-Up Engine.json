@@ -1,0 +1,851 @@
+{
+  "name": "AI CRM — Reply & Follow-Up Engine",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "filters": {}
+      },
+      "type": "n8n-nodes-base.gmailTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        0,
+        640
+      ],
+      "id": "ce75394f-20c5-4ba5-b0c3-b60773db71ec",
+      "name": "Gmail Trigger",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "k7pIjR6f6K89qHBy",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const data = $json;\n\nconst from = data.From || \"\";\n\nconst emailMatch = from.match(/<([^>]+)>/);\n\nconst sender_email = emailMatch\n  ? emailMatch[1]\n  : from.trim();\n\nconst labels = data.labels || [];\n\nconst is_sent = labels.some(\n  label => label.name === \"SENT\"\n);\n\nconst is_inbox = labels.some(\n  label => label.name === \"INBOX\"\n);\n\nreturn [\n  {\n    json: {\n      sender_email,\n      sender_name: from.replace(/<[^>]+>/, \"\").trim(),\n      subject: data.Subject || \"\",\n      message_id: data.id || \"\",\n      thread_id: data.threadId || \"\",\n      email_body: data.snippet || \"\",\n      is_sent,\n      is_inbox,\n      received_at: data.internalDate\n        ? new Date(Number(data.internalDate)).toISOString()\n        : new Date().toISOString()\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        224,
+        640
+      ],
+      "id": "ecde7e64-e2b7-4a0a-b2cb-564d9f926d16",
+      "name": "Extract Reply Data"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "0e7e241a-009e-4cd4-93b8-fd2c67030f3f",
+              "leftValue": "={{ $json.is_sent }}",
+              "rightValue": "ture",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        448,
+        640
+      ],
+      "id": "f37adc62-8188-4817-934d-c377dabeeb41",
+      "name": "Extract Reply Data1"
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "operation": "search",
+        "filterGroupsUi": {
+          "filterGroupsValues": [
+            {
+              "filtersUi": {
+                "filterValues": [
+                  {
+                    "propertyName": "email|string",
+                    "value": "={{ $json.sender_email }}"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.hubspot",
+      "typeVersion": 2.2,
+      "position": [
+        672,
+        640
+      ],
+      "id": "eb4f240a-7cd9-412f-b04b-4a275e7b0265",
+      "name": "Search contacts",
+      "credentials": {
+        "hubspotOAuth2Api": {
+          "id": "15qAsfpcIdot3PGw",
+          "name": "HubSpot account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "openai/gpt-oss-20b",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        976,
+        880
+      ],
+      "id": "e7306438-23a4-4769-950d-2cff74f1a355",
+      "name": "Groq Chat Model",
+      "credentials": {
+        "groqApi": {
+          "id": "MAXeKyjFCiQ0fqBR",
+          "name": "Groq account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Analyze this prospect reply.\n\nSender:\n{{ $('Extract Reply Data').item.json.sender_email }}\n\nReply:\n{{ $('Extract Reply Data').item.json.email_body }}\n\nReturn this exact JSON structure:\n\n{\n \"Subject\": \"\",\n  \"reply_type\": \"\",\n  \"intent\": \"\",\n  \"needs_human\": false,\n  \"recommended_action\": \"\"\n}",
+        "options": {
+          "systemMessage": "You are an AI Sales Reply Classification Agent.\n\nYour job is to analyze an incoming email reply from a sales prospect.\n\nClassify the reply into exactly ONE of these categories:\n\nPOSITIVE\nNEGATIVE\nQUESTION\nNOT_NOW\nUNSUBSCRIBE\nOUT_OF_OFFICE\nUNKNOWN\n\nDefinitions:\n\nPOSITIVE:\nThe prospect shows interest, wants to discuss the service, asks for a meeting, asks for pricing, or wants more information.\n\nNEGATIVE:\nThe prospect clearly rejects the offer or says they are not interested.\n\nQUESTION:\nThe prospect asks a question but does not clearly indicate positive or negative intent.\n\nNOT_NOW:\nThe prospect is interested but asks to be contacted at a later time.\n\nUNSUBSCRIBE:\nThe prospect asks to stop receiving emails or asks to be removed from future communication.\n\nOUT_OF_OFFICE:\nThe message is an automated out-of-office or vacation response.\n\nUNKNOWN:\nThe intent cannot be determined reliably.\n\nRules:\n- Do not invent information.\n- Analyze only the actual incoming reply.\n- If the prospect explicitly asks to stop emails, always classify as UNSUBSCRIBE.\n- If the prospect expresses interest and asks for a meeting, classify as POSITIVE.\n- Return ONLY valid JSON."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        896,
+        640
+      ],
+      "id": "f57d020c-8b92-42f8-8fe6-0270cd090560",
+      "name": "AI Reply Classifier"
+    },
+    {
+      "parameters": {
+        "jsCode": "const raw = $json.output || \"\";\n\nlet parsed;\n\ntry {\n  parsed = JSON.parse(raw);\n} catch (error) {\n  throw new Error(\"AI returned invalid JSON: \" + raw);\n}\n\nconst replyType = String(parsed.reply_type || \"UNKNOWN\").toUpperCase();\n\nlet intent = parsed.intent || \"UNKNOWN\";\nlet needsHuman = false;\nlet recommendedAction = \"\";\n\nswitch (replyType) {\n  case \"POSITIVE\":\n    intent = \"HIGH\";\n    needsHuman = true;\n    recommendedAction = \"Notify sales team and schedule a discovery call.\";\n    break;\n\n  case \"QUESTION\":\n    intent = \"MEDIUM\";\n    needsHuman = true;\n    recommendedAction = \"Review the prospect's question and send an appropriate response.\";\n    break;\n\n  case \"NOT_NOW\":\n    intent = \"MEDIUM\";\n    needsHuman = false;\n    recommendedAction = \"Schedule a follow-up for the requested time.\";\n    break;\n\n  case \"NEGATIVE\":\n    intent = \"LOW\";\n    needsHuman = false;\n    recommendedAction = \"Stop the active follow-up sequence.\";\n    break;\n\n  case \"UNSUBSCRIBE\":\n    intent = \"NONE\";\n    needsHuman = false;\n    recommendedAction = \"Stop all future outreach immediately.\";\n    break;\n\n  case \"OUT_OF_OFFICE\":\n    intent = \"UNKNOWN\";\n    needsHuman = false;\n    recommendedAction = \"Wait and retry after the expected return date.\";\n    break;\n\n  default:\n    intent = \"UNKNOWN\";\n    needsHuman = true;\n    recommendedAction = \"Review the reply manually.\";\n}\n\nreturn [\n  {\n    json: {\n      reply_type: replyType,\n      intent: intent,\n      needs_human: needsHuman,\n      recommended_action: recommendedAction,\n\n      original_reply: $('Extract Reply Data').item.json.email_body,\n      sender_email: $('Extract Reply Data').item.json.sender_email,\n      subject: $('Extract Reply Data').item.json.subject\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1248,
+        640
+      ],
+      "id": "16416ab6-9595-43c1-8484-cdaa6fc75742",
+      "name": "Parse Reply Classification"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.reply_type }}",
+                    "rightValue": "=POSITIVE",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "d4090b0b-2b8f-48c5-923b-ab62ecbb8774"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "POSITIVE"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "e54644c2-6af6-4391-b512-9fdfdaaf80c7",
+                    "leftValue": "={{ $json.reply_type }}",
+                    "rightValue": "QUESTION",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "QUESTION"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "b673e885-ad39-460b-bf77-f9f352af5f95",
+                    "leftValue": "={{ $json.reply_type }}",
+                    "rightValue": "NOT_NOW",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "NOT_NOW"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "6dfc7f9a-7cc8-4a47-acb9-f4add4d0926c",
+                    "leftValue": "={{ $json.reply_type }}",
+                    "rightValue": "NEGATIVE",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "NEGATIVE"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "f6835f6e-bd09-4058-9b28-0356dd14c924",
+                    "leftValue": "={{ $json.reply_type }}",
+                    "rightValue": "UNSUBSCRIBE",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "UNSUBCRIBE"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "6ec1ba3d-f9dd-419f-843c-ffd3e38094c2",
+                    "leftValue": "={{ $json.reply_type }}",
+                    "rightValue": "OUT_OF_OFFICE",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "OUT_OF_OFFICE"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        1472,
+        576
+      ],
+      "id": "bf7b3220-8bf1-41a4-b23f-91aec8eaa5cc",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "email": "={{ $json.sender_email }}",
+        "additionalFields": {
+          "customPropertiesUi": {
+            "customPropertiesValues": [
+              {
+                "property": "outreach_status",
+                "value": "=REPLIED"
+              }
+            ]
+          }
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.hubspot",
+      "typeVersion": 2.2,
+      "position": [
+        1760,
+        -48
+      ],
+      "id": "dfb68f0f-330a-4603-a34e-2f5cecb0d612",
+      "name": "Create or update a contact",
+      "credentials": {
+        "hubspotOAuth2Api": {
+          "id": "15qAsfpcIdot3PGw",
+          "name": "HubSpot account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "jazibishtiaq20@gmail.com",
+        "subject": "=HOT LEAD  {{ $('Switch').item.json.subject }}",
+        "emailType": "text",
+        "message": "=A prospect has replied positively.  \n\nLead: {{ $('Extract Reply Data').item.json.sender_email }}  \n\nSubject: {{ $('Extract Reply Data').item.json.subject }}  \n\nReply: {{ $('Extract Reply Data').item.json.email_body }}  \n\nIntent: {{ $('Switch').item.json.intent }}\n\nRecommended Action:  {{ $('Switch').item.json.recommended_action }}\n\nPlease review the conversation and schedule a discovery call.",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        2048,
+        -48
+      ],
+      "id": "6ab2eb03-8baf-4c6c-ba3e-3a338e664036",
+      "name": "🔥 Positive Lead Reply — Action Required",
+      "webhookId": "4e06aabb-1abb-41a6-8bb4-326f02201b6f",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "k7pIjR6f6K89qHBy",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Analyze this prospect reply:\n\n{{ $('Extract Reply Data').item.json.email_body }}",
+        "options": {
+          "systemMessage": "You are a Follow-Up Scheduling Agent.\n\nAnalyze a sales prospect's reply and determine whether a future follow-up is requested.\n\nRules:\n\n1. If the prospect explicitly asks to be contacted later, set follow_up_required to true.\n2. Extract the requested date or time if provided.\n3. If the prospect says \"next week\", \"next month\", \"in a few days\", etc., calculate the appropriate future date based on today's date.\n4. If no specific date can be determined, choose a reasonable date and explain it in follow_up_reason.\n5. Never schedule a follow-up for a date in the past.\n6. Return ONLY valid JSON.\n\nToday's date:\n{{ $now.toFormat('yyyy-MM-dd') }}\n\nReturn exactly:\n\n{\n  \"follow_up_required\": true,\n  \"follow_up_date\": \"YYYY-MM-DD\",\n  \"follow_up_reason\": \"\",\n  \"recommended_action\": \"\"\n}"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        1696,
+        144
+      ],
+      "id": "55d7b597-1979-450e-89fb-f4114a23aab2",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": "openai/gpt-oss-120b",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        1776,
+        384
+      ],
+      "id": "0e5e978e-19ab-41a6-a48b-5b0f55611dba",
+      "name": "Groq Chat Model1",
+      "credentials": {
+        "groqApi": {
+          "id": "MAXeKyjFCiQ0fqBR",
+          "name": "Groq account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "7e76d2c7-d8fd-45c3-9551-126e608afde8",
+              "leftValue": "={{ $json.follow_up_required }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        2272,
+        256
+      ],
+      "id": "09a0726f-f25f-47bc-bfab-d07699355bc2",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "jsCode": "const raw = $json.output || \"\";\n\nlet parsed;\n\ntry {\n  parsed = JSON.parse(raw);\n} catch (error) {\n  throw new Error(\"AI returned invalid JSON: \" + raw);\n}\n\nreturn [\n  {\n    json: {\n      follow_up_required: Boolean(parsed.follow_up_required),\n\n      follow_up_date: parsed.follow_up_date || \"\",\n\n      follow_up_reason: parsed.follow_up_reason || \"\",\n\n      recommended_action: parsed.recommended_action || \"\",\n\n      sender_email: $('Extract Reply Data').item.json.sender_email,\n\n      subject: $('Extract Reply Data').item.json.subject,\n\n      original_reply: $('Extract Reply Data').item.json.email_body\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2048,
+        256
+      ],
+      "id": "05cccf15-42fb-4cdf-9b84-d6898a7a070e",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "resume": "specificTime",
+        "dateTime": "={{ $json.follow_up_date + \"T09:00:00+05:00\" }}"
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        2496,
+        256
+      ],
+      "id": "472c0084-181b-4c8a-be1f-5c6cdd33da96",
+      "name": "Wait",
+      "webhookId": "2e644c87-bd99-4e0b-be0d-06b67d636eef"
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "operation": "search",
+        "filterGroupsUi": {
+          "filterGroupsValues": [
+            {
+              "filtersUi": {
+                "filterValues": [
+                  {
+                    "propertyName": "email|string",
+                    "value": "={{ $json.sender_email }}"
+                  },
+                  {
+                    "propertyName": "outreach_status|string",
+                    "value": "REPLIED"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.hubspot",
+      "typeVersion": 2.2,
+      "position": [
+        2720,
+        256
+      ],
+      "id": "65eeae73-a161-4d9e-8e99-15545ecf7713",
+      "name": "Search contacts1",
+      "credentials": {
+        "hubspotOAuth2Api": {
+          "id": "15qAsfpcIdot3PGw",
+          "name": "HubSpot account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "email": "={{ $('Extract Reply Data').item.json.sender_email }}",
+        "additionalFields": {
+          "customPropertiesUi": {
+            "customPropertiesValues": [
+              {
+                "property": "outreach_status",
+                "value": "NOT_INTERESTED"
+              }
+            ]
+          }
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.hubspot",
+      "typeVersion": 2.2,
+      "position": [
+        1760,
+        736
+      ],
+      "id": "fffc172f-c440-40f9-9810-e2d6a1d518ab",
+      "name": "Create or update a contact1",
+      "credentials": {
+        "hubspotOAuth2Api": {
+          "id": "15qAsfpcIdot3PGw",
+          "name": "HubSpot account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "email": "={{ $('Extract Reply Data').item.json.sender_email }}",
+        "additionalFields": {
+          "customPropertiesUi": {
+            "customPropertiesValues": [
+              {
+                "property": "outreach_status",
+                "value": "UNSUBSCRIBED"
+              }
+            ]
+          }
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.hubspot",
+      "typeVersion": 2.2,
+      "position": [
+        1760,
+        544
+      ],
+      "id": "26a52694-5c1a-4fd3-a726-2b85d68280f7",
+      "name": "Create or update a contact2",
+      "credentials": {
+        "hubspotOAuth2Api": {
+          "id": "15qAsfpcIdot3PGw",
+          "name": "HubSpot account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "email": "={{ $('Extract Reply Data').item.json.sender_email }}",
+        "additionalFields": {
+          "customPropertiesUi": {
+            "customPropertiesValues": [
+              {
+                "property": "outreach_status",
+                "value": "NEEDS_RESPONSE"
+              }
+            ]
+          }
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.hubspot",
+      "typeVersion": 2.2,
+      "position": [
+        1760,
+        928
+      ],
+      "id": "a3f72ba5-b3cb-45ec-ac7e-0c21eb3bed27",
+      "name": "Create or update a contact3",
+      "credentials": {
+        "hubspotOAuth2Api": {
+          "id": "15qAsfpcIdot3PGw",
+          "name": "HubSpot account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "email": "={{ $('Extract Reply Data').item.json.sender_email }}",
+        "additionalFields": {
+          "customPropertiesUi": {
+            "customPropertiesValues": [
+              {
+                "property": "outreach_status",
+                "value": "000"
+              }
+            ]
+          }
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.hubspot",
+      "typeVersion": 2.2,
+      "position": [
+        1760,
+        1120
+      ],
+      "id": "86c65ab1-6cae-4929-a7a1-859fb4ade2bb",
+      "name": "Create or update a contact4",
+      "credentials": {
+        "hubspotOAuth2Api": {
+          "id": "15qAsfpcIdot3PGw",
+          "name": "HubSpot account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Gmail Trigger": {
+      "main": [
+        [
+          {
+            "node": "Extract Reply Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Reply Data": {
+      "main": [
+        [
+          {
+            "node": "Extract Reply Data1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Reply Data1": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Search contacts",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search contacts": {
+      "main": [
+        [
+          {
+            "node": "AI Reply Classifier",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Groq Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Reply Classifier",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Reply Classifier": {
+      "main": [
+        [
+          {
+            "node": "Parse Reply Classification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Reply Classification": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Create or update a contact",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Create or update a contact3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Create or update a contact1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Create or update a contact2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Create or update a contact4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create or update a contact": {
+      "main": [
+        [
+          {
+            "node": "🔥 Positive Lead Reply — Action Required",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Groq Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Search contacts1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "0354fdb6-4ac6-4052-85a3-d405b01088ac",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "e6a682437fd515c9c62ad552b7416fe323b614797713baa203093ff476c8deab"
+  },
+  "nodeGroups": [],
+  "id": "YmxZCETMDRUhLQq9",
+  "tags": []
+}

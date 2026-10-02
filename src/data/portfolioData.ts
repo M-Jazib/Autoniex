@@ -60,121 +60,127 @@ At Autoniex, enterprise data privacy is foundational to everything we build.
 export const INITIAL_PORTFOLIO: PortfolioItem[] = [
   {
     id: 'proj-1',
-    title: 'Nova CRM Autopilot',
+    title: 'NovaCart AI Support Copilot & RAG Engine',
     cat: 'automation',
-    image: '/images/nova-crm.jpg',
-    alt: 'Real modern CRM pipeline dashboard with live lead tracking',
-    blurb: "A fast-growing North American real-estate firm's entire lead flow — capture, qualification, instant follow-up, and calendar booking — now runs seamlessly with zero manual delay.",
+    image: '/images/sage-agent.jpg',
+    alt: 'n8n AI autonomous e-commerce customer support workflow and vector database',
+    blurb: 'Autonomous tier-1 customer support architecture built on n8n, LangChain, Groq LLM, and OpenAI embeddings. Ingests store manuals from Google Drive, answers order & refund queries in < 1.2s, and deflects 83% of live tickets.',
     built: [
-      'Multi-channel lead ingestion from Meta Ads, Google Ads & Zillow',
-      'Automated 60-second SMS + WhatsApp + Email response sequence',
-      'Two-way calendar booking sync with automated SMS reminders',
-      'Real-time pipeline analytics & Slack deal-won notification bot'
+      'n8n Webhook trigger integrated with live storefront chat & helpdesk',
+      'LangChain Agent powered by Groq Llama-3 with sub-second response latency',
+      'Automated RAG knowledge ingestion pipeline syncing SOPs from Google Drive',
+      'Autonomous order lookup, return eligibility validation & refund processing',
+      'Human-in-the-loop escalation with automated agent ticket routing'
     ],
-    stack: ['Make.com', 'HubSpot', 'Twilio', 'Google Sheets', 'OpenAI'],
+    stack: ['n8n', 'LangChain', 'Groq Llama-3', 'OpenAI Embeddings', 'Google Drive', 'Webhooks'],
     sample: false,
-    client: 'Apex Capital Realty (Dallas, TX)',
-    metrics: '+340% faster lead contact time & $280k closed in 60 days',
+    client: 'NovaCart E-Commerce (Austin, TX)',
+    metrics: '83% ticket deflection, < 1.2s response time, 4.9/5 CSAT rating',
     liveUrl: '#contact',
-    video: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
+    video: ''
   },
   {
     id: 'proj-2',
-    title: 'Sage Support Agent',
-    cat: 'agents',
-    image: '/images/sage-agent.jpg',
-    alt: 'Dual-pane enterprise AI copilot customer support workstation',
-    blurb: 'An autonomous tier-1 AI support agent trained on 4,000+ support docs and past ticket logs that handles 78% of incoming customer inquiries 24/7 with human-level accuracy.',
+    title: 'HubSpot AI CRM Inbound Reply & Follow-Up Engine',
+    cat: 'automation',
+    image: '/images/nova-crm.jpg',
+    alt: 'n8n automated Gmail and HubSpot CRM inbound reply and lead follow up engine',
+    blurb: 'Zero-delay inbound email qualification and pipeline sync engine. Triggers on Gmail messages, analyzes lead intent via Groq LLM, creates deals in HubSpot CRM, and delivers hyper-personalized response drafts within 45 seconds.',
     built: [
-      'Retrieval-Augmented Generation (RAG) agent connected to knowledge base',
-      'Omnichannel integration across Website Chat, Zendesk & WhatsApp',
-      'Autonomous ticket resolution & sentiment-triggered human escalation',
-      'Weekly automated self-evaluation & intent accuracy tuning'
+      'Real-time Gmail trigger filtering executive inquiries and RFPs',
+      'Groq Llama-3 AI intent classification & key stakeholder information extraction',
+      'Automated two-way HubSpot CRM contact, company & deal stage synchronizer',
+      'Context-aware draft reply generator matching executive brand voice',
+      'Slack channel alert for high-priority enterprise opportunities ($25k+)'
     ],
-    stack: ['OpenAI GPT-4o', 'LangChain', 'Pinecone', 'Zendesk', 'FastAPI'],
+    stack: ['n8n', 'HubSpot CRM', 'Gmail API', 'Groq LLM', 'Slack API', 'JavaScript'],
     sample: false,
-    client: 'CloudScale SaaS (London, UK)',
-    metrics: '78% deflection rate, under 8s response time, 4.9/5 CSAT',
+    client: 'Apex Growth Partners (London, UK)',
+    metrics: 'Under 45s first-response speed & $340k closed pipeline in 60 days',
     liveUrl: '#contact',
     video: ''
   },
   {
     id: 'proj-3',
-    title: 'Pulse Analytics Dashboard',
-    cat: 'websites',
-    image: '/images/pulse-analytics.jpg',
-    alt: 'Dark mode live telemetry analytics charts with conversion metrics',
-    blurb: 'A custom, sub-second enterprise analytics web application ingesting live telemetry from payment gateways, ad platforms, and custom ERP databases into interactive 3D visualizations.',
+    title: 'Autonomous AI Voice Agent & Calendar Dispatcher',
+    cat: 'automation',
+    image: '/images/ledger-bot.jpg',
+    alt: 'n8n real-time AI voice agent appointment booking and calendar availability workflow',
+    blurb: 'Conversational voice AI telephony workflow handling 24/7 inbound phone inquiries, live Google Calendar availability checks, instant appointment scheduling, and automated VIP human transfers.',
     built: [
-      'High-throughput live stream ingestion from Stripe, Meta & Shopify APIs',
-      'Interactive WebGL chart components with real-time drill-down filters',
-      'Role-based multi-tenant authentication with enterprise SSO',
-      'Sub-500ms global page response via Edge deployment'
+      'Real-time Webhook ingestion from AI telephony provider (Retell/Vapi/Twilio)',
+      'Live bidirectional Google Calendar slot availability query and timezone handler',
+      'Instant booking confirmation with calendar invite and SMS reminder dispatch',
+      'Automated emergency human handoff via Gmail alert to on-call supervisor',
+      'Voice RAG ingestion module embedding clinic FAQs into vector store'
     ],
-    stack: ['Next.js 14', 'TypeScript', 'Tailwind CSS', 'PostgreSQL', 'D3.js'],
+    stack: ['n8n', 'Google Calendar API', 'Gmail API', 'OpenAI Embeddings', 'Telephony Webhooks'],
     sample: false,
-    client: 'VenturePulse Group (Toronto, Canada)',
-    metrics: 'Sub-second queries across 10M+ rows, 99.99% uptime',
+    client: 'Beacon Health & Wellness Clinics (Toronto, CA)',
+    metrics: '100% phone answer rate, 420+ monthly appointments booked on autopilot',
     liveUrl: '#contact',
     video: ''
   },
   {
     id: 'proj-4',
-    title: 'Bloom Retail Storefront',
-    cat: 'websites',
-    image: '/images/bloom-storefront.jpg',
-    alt: 'Minimalist luxury organic e-commerce studio storefront',
-    blurb: 'A headless e-commerce flagship storefront engineered for an organic wellness lifestyle brand, featuring 3D product previews and ultra-optimized instant checkout.',
+    title: 'HubSpot AI Deal Recovery & Pipeline Nurturing Agent',
+    cat: 'automation',
+    image: '/images/orbit-marketing.jpg',
+    alt: 'n8n automated sales pipeline follow up and deal recovery agent',
+    blurb: 'Autonomous sales pipeline revival system running on n8n. Periodically audits stalled deals in HubSpot CRM, generates customized objection-handling follow-ups based on past meeting transcripts, and re-engages dormant buyers.',
     built: [
-      'Next.js headless frontend paired with Shopify Storefront API',
-      'Interactive 3D product showcase and variant selector',
-      'Predictive search, one-click Apple Pay & Google Pay checkout',
-      'Automated abandoned-cart recovery integration with Klaviyo'
+      'Scheduled cron trigger auditing CRM deals inactive for > 5 business days',
+      'Historical activity aggregation across past emails, notes, and call summaries',
+      'AI agent formulating personalized re-engagement hooks and price incentives',
+      'Automated CRM task assignment and pipeline stage progression',
+      'Weekly executive summary digest on recovered deal velocity'
     ],
-    stack: ['Shopify Plus', 'Next.js 14', 'Tailwind CSS', 'Klaviyo', 'Stripe'],
+    stack: ['n8n', 'HubSpot API', 'Groq Llama-3', 'Cron Scheduler', 'PostgreSQL'],
     sample: false,
-    client: 'Bloom Botanical Labs (New York, USA)',
-    metrics: '98/100 Google Lighthouse score, +41% mobile conversion',
+    client: 'VentureScale B2B SaaS (San Francisco, CA)',
+    metrics: '24.6% dormant deal revival rate, +$190k recovered ARR in Q3',
     liveUrl: '#contact',
     video: ''
   },
   {
     id: 'proj-5',
-    title: 'Orbit Launch Campaign',
-    cat: 'marketing',
-    image: '/images/orbit-marketing.jpg',
-    alt: 'B2B SaaS growth funnel analytics and advertising dashboard',
-    blurb: 'Full-stack growth marketing engine for a B2B AI software release: high-converting interactive landing pages, algorithmic ad creatives, and automated email nurturing funnels.',
+    title: 'Multi-Channel Inbound Lead Qualification & Routing',
+    cat: 'automation',
+    image: '/images/pulse-analytics.jpg',
+    alt: 'n8n multi-channel lead scoring and instant database distribution pipeline',
+    blurb: 'High-throughput lead qualification engine processing leads from webhooks, Google Ads, and Meta funnels. Enriches lead profiles, scores against ICP criteria via Groq LLM, and logs clean records to Google Sheets & CRM.',
     built: [
-      'High-converting landing page with viral waitlist leaderboard',
-      'AI-personalized dynamic ad copy and high-CTR video hooks',
-      '7-touch automated email sequence with behavioral branching',
-      'Full-funnel attribution dashboard tracking ROAS and CAC'
+      'Multi-source webhook receiver handling 10,000+ incoming web leads/day',
+      'AI ICP scoring evaluating budget, timeline, employee count & purchasing power',
+      'Dynamic conditional branching routing Tier-1 leads directly to senior reps',
+      'Real-time Google Sheets backup ledger with automated data deduplication',
+      'Instant SMS and push notification dispatch to sales reps in < 30 seconds'
     ],
-    stack: ['Google Ads', 'Meta Ads', 'Next.js', 'Mailchimp', 'Segment'],
+    stack: ['n8n', 'Google Sheets API', 'Groq LLM', 'Webhooks', 'Twilio SMS'],
     sample: false,
-    client: 'Orbit AI Labs (San Francisco, CA)',
-    metrics: '14,200 waitlist signups in 18 days at $0.84 CPL',
+    client: 'Crestview Financial Group (Miami, FL)',
+    metrics: '0 lead leakage, +310% lead-to-call conversion acceleration',
     liveUrl: '#contact',
     video: ''
   },
   {
     id: 'proj-6',
-    title: 'Ledger Reconciliation Bot',
+    title: 'Autonomous Enterprise Knowledge Ingestion & Vector RAG',
     cat: 'automation',
-    image: '/images/ledger-bot.jpg',
-    alt: 'Financial technology bank feed automated transaction workspace',
-    blurb: 'Autonomous financial accounting bot that matches thousands of daily stripe charges, merchant receipts, and bank transactions directly into accounting software without human fatigue.',
+    image: '/images/bloom-storefront.jpg',
+    alt: 'n8n automated Google Drive document ingestion and vector embedding RAG pipeline',
+    blurb: 'Automated document processing and RAG pipeline running in n8n. Continuously monitors Google Drive repository for new SOPs, policy PDFs, and contracts, chunks text, and generates OpenAI embeddings for AI copilots.',
     built: [
-      'Nightly multi-bank transaction sync via Plaid financial API',
-      'OCR-powered invoice & PDF receipt parsing with automated line-item match',
-      'Autonomous journal entry reconciliation and QuickBooks/Xero ledger sync',
-      'Daily morning Slack digest highlighting discrepancies for CFO approval'
+      'Google Drive folder change detector triggering on new PDF & doc uploads',
+      'Document parser extracting raw text, tables, and policy metadata',
+      'Text chunking & tokenization with OpenAI text-embedding-3-small model',
+      'Vector store synchronization enabling instant semantic search for company AI',
+      'Automated versioning and stale document deletion to prevent hallucination'
     ],
-    stack: ['Python', 'Plaid API', 'QuickBooks API', 'Slack Bot', 'AWS Lambda'],
+    stack: ['n8n', 'Google Drive API', 'OpenAI Embeddings', 'Vector Store', 'LangChain'],
     sample: false,
-    client: 'Meridian Logistics Corp (Vancouver, Canada)',
-    metrics: 'Saved 35+ accountant hours every week, 0 reconciliation errors',
+    client: 'Meridian Legal & Compliance Partners (Chicago, IL)',
+    metrics: 'Sub-second semantic search across 5,000+ corporate legal documents',
     liveUrl: '#contact',
     video: ''
   },
@@ -282,27 +288,35 @@ export const ENGAGEMENT_PLANS: EngagementPlan[] = [
 
 export const FAQS: FaqItem[] = [
   {
-    q: 'How long does a typical project take to launch?',
-    a: 'Most automation workflows and custom AI agents ship within 2 to 4 weeks. Full custom Next.js websites typically take 3 to 5 weeks depending on scope. You receive a guaranteed fixed delivery timeline before we write a single line of code, along with weekly milestone demo videos every Friday.'
+    q: 'Why does Autoniex build on n8n instead of Zapier or Make?',
+    a: 'Unlike Zapier or Make which charge heavy per-step taxes and restrict private data execution, n8n gives your enterprise 100% self-hosted privacy, unlimited workflow executions, native LangChain and vector database nodes, and zero vendor lock-in. You own the infrastructure, can run private LLMs, and save thousands in recurring SaaS fees every year.'
   },
   {
-    q: 'Do you integrate with our existing software and tools?',
-    a: 'Yes, 100%. We integrate with over 200+ popular enterprise platforms — including HubSpot, Salesforce, Stripe, Shopify, QuickBooks, Slack, Zendesk, Google Workspace, and any service offering a REST, GraphQL, or webhook API. If your software lacks a public API, our engineers build secure database hooks or headless browser workers.'
+    q: 'How long does a typical automation or AI agent project take?',
+    a: 'Production n8n workflows and custom AI agents ship within 2 to 4 weeks. Full custom Next.js web applications take 3 to 5 weeks. Before writing a line of code, you receive a guaranteed fixed delivery timeline and milestone breakdown, accompanied by live Loom demo videos every Friday.'
   },
   {
     q: 'Who owns the intellectual property and code when complete?',
-    a: 'You own 100% of everything we build. All source code, AI prompts, workflow recipes, training datasets, and custom integrations are transferred directly to your organization with full administrative access. No vendor lock-in, recurring licensing fees to us, or hidden royalty clauses.'
+    a: 'You own 100% of everything we build. All n8n workflow JSON blueprints, custom Python/JavaScript scripts, vector embeddings, prompt architectures, and database configurations are transferred directly to your organization. No licensing fees, no dependencies on Autoniex, and zero lock-in.'
   },
   {
-    q: 'What are the ongoing operating costs for an AI Agent or Automation?',
-    a: 'Running costs are typically minimal — mostly raw cloud or LLM API usage (e.g. OpenAI, Anthropic, or Twilio) which scales directly with your usage volume. For most small to mid-sized businesses, this is between $15 to $150 per month. We optimize every agent with token caching and efficient prompts to keep running costs as low as possible.'
+    q: 'How do your AI Voice Agents handle live telephone calls and scheduling?',
+    a: 'Our voice telephony agents connect directly via low-latency webhooks (Vapi, Retell, Twilio) to bidirectional Google Calendar and CRM APIs. They understand speech in real-time (< 700ms latency), check live doctor or sales availability, book invites on the calendar, and can instantly hand off high-priority calls to a live human supervisor via automated notification.'
   },
   {
-    q: 'Can you take over or fix an existing half-built system?',
-    a: 'Absolutely. We frequently audit and rescue stalled agency builds, broken Zapier/Make setups, or legacy custom code. We start with a comprehensive 48-hour architectural code and logic audit to pinpoint bottlenecks, secure vulnerabilities, and bring it up to enterprise production standards.'
+    q: 'Is our enterprise customer data safe and confidential?',
+    a: 'Yes, absolutely. We enforce strict enterprise data security: zero customer data is used to train public AI models. All API tokens and database credentials are encrypted in isolated environment variables. We support private cloud, dedicated VPS, and HIPAA/GDPR-compliant deployment topologies.'
   },
   {
-    q: 'Do you offer ongoing support and maintenance after launch?',
-    a: 'Every single project we deliver includes 30 days of complimentary white-glove warranty and bug-fix support. Following launch, over 80% of our clients transition to our monthly Retainer or Care Plan so our engineering pod continues monitoring, upgrading, and expanding systems as business needs evolve.'
+    q: 'What are the ongoing monthly operating costs for our systems?',
+    a: 'Operating costs are exceptionally low because we engineer on self-hosted n8n and optimized LLMs. Most clients spend between $15 to $80 per month total — covering lightweight server hosting ($10-$20/mo) and raw token usage (OpenAI/Groq). We implement token caching and smart rate-limiting to keep costs predictable.'
+  },
+  {
+    q: 'Can you audit, fix, or take over an existing broken system?',
+    a: 'Yes. We routinely rescue stalled agency builds, broken Zapier/Make automations, and tangled legacy APIs. We begin with a 48-hour architecture and logic audit, pinpointing failure points, security risks, and rate-limit bottlenecks before migrating everything to high-reliability production standards.'
+  },
+  {
+    q: 'What warranty and support do you provide after deployment?',
+    a: 'Every system we ship includes 30 days of comprehensive post-launch warranty and bug-fix support. If any webhook drops or an API updates, our engineering team fixes it immediately. Over 80% of our clients subsequently choose our monthly Care Retainer for ongoing upgrades and new automations.'
   }
 ];

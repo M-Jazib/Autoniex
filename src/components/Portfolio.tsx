@@ -2,11 +2,10 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
-import { ArrowUpRight, Plus, Play, ChevronLeft, ChevronRight, Pause } from 'lucide-react';
+import { ArrowUpRight, Play, ChevronLeft, ChevronRight, Pause } from 'lucide-react';
 import { PortfolioItem, ProjectCategory } from '@/types';
 import { useSiteContent } from '@/context/SiteContext';
 import PortfolioModal from './PortfolioModal';
-import PortfolioUploader from './PortfolioUploader';
 
 /* ─── Auto-rotating Featured Slide ─── */
 function FeaturedSlider({ projects, onSelect }: { projects: PortfolioItem[]; onSelect: (p: PortfolioItem) => void }) {
@@ -241,10 +240,9 @@ function PortfolioCard({ project, onClick }: { project: PortfolioItem; onClick: 
 
 /* ─── Main Portfolio Section ─── */
 export default function Portfolio() {
-  const { portfolio, addProject } = useSiteContent();
+  const { portfolio } = useSiteContent();
   const [activeCategory, setActiveCategory] = useState<ProjectCategory>('all');
   const [selectedProject, setSelectedProject] = useState<PortfolioItem | null>(null);
-  const [isUploaderOpen, setIsUploaderOpen] = useState(false);
 
   const categories: { label: string; value: ProjectCategory }[] = [
     { label: 'All Projects', value: 'all' },
@@ -263,7 +261,7 @@ export default function Portfolio() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
 
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+        <div className="mb-12">
           <div className="max-w-2xl">
             <div className="inline-flex items-center gap-2 text-volt font-display font-bold text-xs uppercase tracking-widest mb-3">
               <span>02 · Proof of Work</span>
@@ -275,16 +273,6 @@ export default function Portfolio() {
             <p className="mt-3 text-base text-text-muted">
               Real production automations, multi-agent deployments, and web architectures engineered for tier-1 North American and European businesses.
             </p>
-          </div>
-          <div className="flex-shrink-0">
-            <button
-              type="button"
-              onClick={() => setIsUploaderOpen(true)}
-              className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-surface border border-line hover:border-volt text-volt hover:bg-volt/10 font-display font-bold text-xs uppercase tracking-wider transition-all shadow-md group"
-            >
-              <Plus className="w-4 h-4 group-hover:rotate-90 transition-transform duration-200" />
-              Add Project
-            </button>
           </div>
         </div>
 
@@ -328,11 +316,6 @@ export default function Portfolio() {
 
       {/* Modals */}
       <PortfolioModal project={selectedProject} onClose={() => setSelectedProject(null)} />
-      <PortfolioUploader
-        isOpen={isUploaderOpen}
-        onClose={() => setIsUploaderOpen(false)}
-        onAddProject={addProject}
-      />
     </section>
   );
 }

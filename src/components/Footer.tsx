@@ -3,7 +3,7 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowUp, Lock, Mail, MapPin, ShieldCheck, Zap, Globe, Sparkles } from 'lucide-react';
+import { ArrowUp, Mail, MapPin, ShieldCheck, Zap, Globe, Sparkles } from 'lucide-react';
 import { useSiteContent } from '@/context/SiteContext';
 
 export default function Footer() {
@@ -191,17 +191,7 @@ export default function Footer() {
             </Link>
           </div>
 
-          <div className="flex items-center gap-3">
-            {/* Discreet Admin Portal Link */}
-            <Link
-              href="/admin"
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-line bg-surface/60 hover:border-volt/60 hover:text-volt text-text-muted transition-colors text-xs font-semibold shadow-sm"
-              title="Autoniex CMS Administration"
-            >
-              <Lock className="w-3.5 h-3.5 text-volt" />
-              <span>Admin Portal</span>
-            </Link>
-
+          <div>
             {/* Back to top */}
             <button
               type="button"

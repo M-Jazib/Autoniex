@@ -1,0 +1,97 @@
+{
+  "name": "AI Voice Agent — Human Handoff",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "human-handoff",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "ada55f28-73ac-4128-83e9-1152ba4c7232",
+      "name": "Webhook",
+      "webhookId": "e59090d6-723a-464d-81dd-b2037873069d"
+    },
+    {
+      "parameters": {
+        "sendTo": "jazibishtiaq30@gmail.com",
+        "subject": "=🚨 Human Handoff Request — {{ $json.body.name }}",
+        "emailType": "text",
+        "message": "=New Human Handoff Request  \n\nCustomer Name: {{ $json.body.name }} \nEmail: {{ $json.body.email }} \nPhone: {{ $json.body.phone }}  \n\nReason: {{ $json.body.reason }}  \n\nThe customer requested human assistance through the AI Voice Agent.  \n\nPlease follow up with the customer.",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        224,
+        0
+      ],
+      "id": "ff631fc6-20d0-4d3d-85dd-bca9071684ea",
+      "name": "Send a message",
+      "webhookId": "bb9d8446-abab-49e6-b690-85a302198bf2",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "k7pIjR6f6K89qHBy",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        448,
+        0
+      ],
+      "id": "5cbbdfed-70d6-4e09-b2a9-84e76a2cb578",
+      "name": "Respond to Webhook"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "950b22ef-ab39-4d10-a1f2-0adb87775e15",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "e6a682437fd515c9c62ad552b7416fe323b614797713baa203093ff476c8deab"
+  },
+  "nodeGroups": [],
+  "id": "Rvu1Rf31R1guWOJE",
+  "tags": []
+}
