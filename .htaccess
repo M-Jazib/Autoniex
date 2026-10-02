@@ -1,0 +1,28 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # Security headers
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+
+  # Cache static assets
+  <IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType text/css "access plus 1 year"
+    ExpiresByType application/javascript "access plus 1 year"
+    ExpiresByType image/webp "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/svg+xml "access plus 1 year"
+  </IfModule>
+
+  # If file exists in out/, serve it directly
+  RewriteCond %{DOCUMENT_ROOT}/out%{REQUEST_URI} -f [OR]
+  RewriteCond %{DOCUMENT_ROOT}/out%{REQUEST_URI} -d
+  RewriteRule ^(.*)$ out/$1 [L]
+
+  # Default root to out/index.html
+  RewriteRule ^$ out/index.html [L]
+</IfModule>
