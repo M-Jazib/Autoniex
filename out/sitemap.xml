@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+
+  <!-- ==============================================
+       AUTONIEX — PREMIER AI & AUTOMATION AGENCY
+       Target Markets: USA, UK, Canada, Australia, UAE
+       Core Services: n8n Workflow Automation, Custom AI Agents,
+                      High-Performance Next.js Web Development,
+                      B2B Marketing & Growth Engines
+       ============================================== -->
+
+  <!-- 1. Homepage (Core Hub: Automation, Web Development, AI Agents) -->
+  <url>
+    <loc>https://autoniex.com/</loc>
+    <lastmod>2026-10-03T12:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    
+    <!-- Image 1: NovaCart Customer Support AI Agent & RAG -->
+    <image:image>
+      <image:loc>https://autoniex.com/images/sage-agent.jpg</image:loc>
+      <image:title>Autoniex NovaCart AI Support Copilot and RAG Knowledge Base</image:title>
+      <image:caption>Autonomous e-commerce customer support workflow built on n8n, LangChain, Groq LLM, and OpenAI embeddings with 83% ticket deflection.</image:caption>
+      <image:geo_location>San Francisco, CA, USA</image:geo_location>
+    </image:image>
+
+    <!-- Image 2: HubSpot AI CRM Inbound Reply Engine -->
+    <image:image>
+      <image:loc>https://autoniex.com/images/nova-crm.jpg</image:loc>
+      <image:title>Autoniex HubSpot AI CRM Inbound Reply and Lead Follow-Up Engine</image:title>
+      <image:caption>Enterprise n8n workflow automating Gmail trigger, Groq LLM intent classification, and real-time HubSpot CRM deal synchronization.</image:caption>
+      <image:geo_location>London, UK</image:geo_location>
+    </image:image>
+
+    <!-- Image 3: Autonomous AI Voice Agent & Calendar Dispatcher -->
+    <image:image>
+      <image:loc>https://autoniex.com/images/ledger-bot.jpg</image:loc>
+      <image:title>Autoniex Autonomous AI Voice Agent and Google Calendar Scheduler</image:title>
+      <image:caption>Real-time conversational AI voice telephony agent with two-way Google Calendar availability check, automated appointment booking, and VIP human handoff.</image:caption>
+      <image:geo_location>Toronto, Canada</image:geo_location>
+    </image:image>
+
+    <!-- Image 4: HubSpot AI Deal Recovery & Pipeline Nurturing Agent -->
+    <image:image>
+      <image:loc>https://autoniex.com/images/orbit-marketing.jpg</image:loc>
+      <image:title>Autoniex HubSpot AI Deal Recovery and Sales Pipeline Nurturing</image:title>
+      <image:caption>Automated cron-scheduled n8n sales pipeline revival agent formulating personalized objection-handling follow-ups for dormant B2B buyers.</image:caption>
+      <image:geo_location>San Francisco, CA, USA</image:geo_location>
+    </image:image>
+
+    <!-- Image 5: Multi-Channel Lead Qualification & Scoring -->
+    <image:image>
+      <image:loc>https://autoniex.com/images/pulse-analytics.jpg</image:loc>
+      <image:title>Autoniex Multi-Channel Inbound Lead Qualification and Instant Routing</image:title>
+      <image:caption>High-throughput lead scoring engine analyzing incoming ad webhooks, evaluating ICP fit via Groq LLM, and dispatching instant rep alerts.</image:caption>
+      <image:geo_location>Austin, TX, USA</image:geo_location>
+    </image:image>
+
+    <!-- Image 6: Autonomous Enterprise Knowledge Ingestion & Vector RAG -->
+    <image:image>
+      <image:loc>https://autoniex.com/images/bloom-storefront.jpg</image:loc>
+      <image:title>Autoniex Enterprise Knowledge Ingestion and Vector RAG Architecture</image:title>
+      <image:caption>Continuous document sync pipeline monitoring Google Drive, chunking corporate SOPs, and updating vector stores for sub-second semantic search.</image:caption>
+      <image:geo_location>Chicago, IL, USA</image:geo_location>
+    </image:image>
+
+    <!-- Image 7: Official Brand Identity -->
+    <image:image>
+      <image:loc>https://autoniex.com/logo.webp</image:loc>
+      <image:title>Autoniex AI Systems &amp; Web Development Agency Logo</image:title>
+      <image:caption>Autoniex — Premier AI Agency engineering autonomous workflows, intelligent AI agents, and high-performance websites.</image:caption>
+    </image:image>
+  </url>
+
+  <!-- 2. About Autoniex AI Agency -->
+  <url>
+    <loc>https://autoniex.com/p/about/</loc>
+    <lastmod>2026-10-03T12:00:00+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- 3. Enterprise Data Privacy & Security Governance -->
+  <url>
+    <loc>https://autoniex.com/p/privacy/</loc>
+    <lastmod>2026-10-03T12:00:00+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+</urlset>

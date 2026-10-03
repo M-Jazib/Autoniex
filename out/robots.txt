@@ -1,0 +1,16 @@
+# ==============================================================
+# Autoniex — Autonomous AI Systems & Web Development Agency
+# https://autoniex.com
+# ==============================================================
+
+User-agent: *
+Allow: /
+Allow: /images/
+Allow: /_next/static/
+
+# Disallow private administration portal from search indexing
+Disallow: /admin
+Disallow: /admin/
+
+# Google Search Console XML Sitemap
+Sitemap: https://autoniex.com/sitemap.xml

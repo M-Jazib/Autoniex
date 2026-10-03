@@ -19,30 +19,57 @@ const manrope = Manrope({
 });
 
 export const metadata: Metadata = {
-  title: 'Autoniex — AI Agents, Workflow Automation, Websites & Growth Engines',
+  metadataBase: new URL('https://autoniex.com'),
+  title: 'Autoniex — AI Agents, n8n Workflow Automation & Next.js Web Development',
   description:
-    'Autoniex is a premier full-service AI systems agency building autonomous business workflows, conversational AI agents, high-converting websites, and marketing engines for ambitious enterprises in USA, UK, Canada, and globally.',
+    'Autoniex is a premier enterprise AI agency engineering autonomous n8n workflows, intelligent AI agents, custom Next.js websites, and automated growth engines for ambitious businesses in USA, UK, Canada, and globally.',
   keywords: [
-    'AI Agency',
-    'Workflow Automation',
+    'Autoniex',
+    'Autoniex AI Agency',
+    'AI Automation Agency',
+    'n8n Workflow Automation',
+    'n8n Agency',
+    'Next.js Web Development',
+    'Custom Web Development',
     'AI Agents',
-    'Next.js Website Development',
-    'Make.com Automation',
-    'Zapier Integrations',
+    'Conversational AI Agents',
+    'AI Voice Agents',
+    'HubSpot AI CRM Integration',
+    'LangChain RAG Systems',
+    'Enterprise AI Consulting',
+    'Automated Lead Qualification',
+    'Make.com n8n Migration',
     'B2B Growth Engine',
-    'Chatbot Support Agents',
-    'Autoniex'
+    'Web Development Agency USA UK Canada'
   ],
-  authors: [{ name: 'Autoniex Team' }],
+  authors: [{ name: 'Autoniex Team', url: 'https://autoniex.com' }],
   creator: 'Autoniex',
+  alternates: {
+    canonical: 'https://autoniex.com',
+  },
   openGraph: {
-    title: 'Autoniex — AI Agents, Automation, Websites & Growth Engines',
+    title: 'Autoniex — Autonomous AI Agents, n8n Automation & Web Development',
     description:
-      'We engineer autonomous workflows, custom AI agents, and high-converting websites that eliminate manual overhead and drive 10x business leverage.',
+      'We engineer autonomous n8n workflows, custom conversational AI agents, and high-converting Next.js web applications that eliminate manual overhead and drive 10x business leverage.',
     url: 'https://autoniex.com',
     siteName: 'Autoniex AI Agency',
     locale: 'en_US',
     type: 'website',
+    images: [
+      {
+        url: 'https://autoniex.com/images/nova-crm.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Autoniex AI Agents & Workflow Automation Platform',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Autoniex — AI Agents, n8n Automation & Web Development',
+    description:
+      'We engineer autonomous workflows, custom AI copilots, and high-performance Next.js websites.',
+    images: ['https://autoniex.com/images/nova-crm.jpg'],
   },
   icons: {
     icon: '/logo.webp',
@@ -64,18 +91,72 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               '@context': 'https://schema.org',
-              '@type': 'Organization',
-              name: 'Autoniex',
-              url: 'https://autoniex.com',
-              logo: 'https://autoniex.com/logo.webp',
-              description:
-                'Full-service AI systems agency engineering autonomous workflows, intelligent AI agents, custom websites, and marketing engines.',
-              email: 'info@autoniex.com',
-              contactPoint: {
-                '@type': 'ContactPoint',
-                email: 'info@autoniex.com',
-                contactType: 'customer service',
-              },
+              '@graph': [
+                {
+                  '@type': 'WebSite',
+                  '@id': 'https://autoniex.com/#website',
+                  url: 'https://autoniex.com',
+                  name: 'Autoniex',
+                  description:
+                    'Premier AI agency engineering autonomous n8n workflows, AI agents, and custom web development.',
+                  publisher: {
+                    '@id': 'https://autoniex.com/#organization',
+                  },
+                },
+                {
+                  '@type': 'ProfessionalService',
+                  '@id': 'https://autoniex.com/#organization',
+                  name: 'Autoniex',
+                  url: 'https://autoniex.com',
+                  logo: 'https://autoniex.com/logo.webp',
+                  image: 'https://autoniex.com/images/nova-crm.jpg',
+                  description:
+                    'Full-service AI systems agency engineering autonomous n8n workflows, intelligent AI agents, custom websites, and marketing engines for enterprises in USA, UK, and Canada.',
+                  email: 'info@autoniex.com',
+                  telephone: '+1 (415) 890-5214',
+                  priceRange: '$$$$',
+                  areaServed: [
+                    { '@type': 'Country', name: 'United States' },
+                    { '@type': 'Country', name: 'United Kingdom' },
+                    { '@type': 'Country', name: 'Canada' },
+                    { '@type': 'Country', name: 'United Arab Emirates' },
+                    { '@type': 'Country', name: 'Australia' },
+                  ],
+                  hasOfferCatalog: {
+                    '@type': 'OfferCatalog',
+                    name: 'Autoniex AI & Automation Services',
+                    itemListElement: [
+                      {
+                        '@type': 'Offer',
+                        itemOffered: {
+                          '@type': 'Service',
+                          name: 'n8n Workflow Automation',
+                          description:
+                            'End-to-end autonomous business workflows connecting CRM, databases, inbox, and APIs into a unified 24/7 engine.',
+                        },
+                      },
+                      {
+                        '@type': 'Offer',
+                        itemOffered: {
+                          '@type': 'Service',
+                          name: 'Custom AI Agents & Copilots',
+                          description:
+                            'Domain-specific LLM agents, customer support deflection bots, and voice telephony SDR agents.',
+                        },
+                      },
+                      {
+                        '@type': 'Offer',
+                        itemOffered: {
+                          '@type': 'Service',
+                          name: 'High-Performance Next.js Web Development',
+                          description:
+                            'Sub-second custom Next.js web applications, headless e-commerce, and high-converting landing pages.',
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
             }),
           }}
         />
