@@ -90,7 +90,7 @@ export default function Navbar() {
                 <Zap className="w-3.5 h-3.5 text-volt fill-volt animate-pulse" />
               </span>
               <span className="text-[10px] tracking-widest text-text-muted uppercase font-semibold">
-                AI Agency
+                AI &amp; Automation Studio
               </span>
             </div>
           </a>

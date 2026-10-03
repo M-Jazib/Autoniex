@@ -42,7 +42,7 @@ export default function Footer() {
                   <span className="w-2 h-2 rounded-full bg-volt animate-pulse" />
                 </span>
                 <span className="text-[10px] tracking-widest text-text-muted uppercase font-semibold">
-                  Enterprise AI Systems Agency
+                  AI Automation &amp; Web Studio
                 </span>
               </div>
             </div>

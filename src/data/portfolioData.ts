@@ -2,9 +2,9 @@ import { PortfolioItem, ServiceItem, EngagementPlan, FaqItem, HeroContent, SiteS
 
 export const DEFAULT_HERO: HeroContent = {
   badge: 'Serving Clients in USA · UK · Canada · Worldwide',
-  headline: 'Build Intelligent Machines.',
-  highlight: 'Scale Without Limits.',
-  subheadline: 'Autoniex is a full-service AI agency engineering autonomous workflows, intelligent AI agents, high-converting websites, and automated growth engines for ambitious businesses.',
+  headline: 'Autonomous AI & Workflows.',
+  highlight: 'High-Performance Web Development.',
+  subheadline: 'Autoniex engineers bespoke n8n workflow automations, conversational AI agents, and sub-second Next.js web applications that eliminate manual overhead and scale your revenue.',
   guarantees: [
     'Fixed Scope & Price',
     '2–4 Week Delivery',
