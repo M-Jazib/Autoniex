@@ -3,7 +3,7 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowUp, Mail, MapPin, ShieldCheck, Zap, Globe, Sparkles } from 'lucide-react';
+import { ArrowUp, Mail, MapPin, ShieldCheck, Zap, Sparkles } from 'lucide-react';
 import { useSiteContent } from '@/context/SiteContext';
 
 export default function Footer() {
@@ -48,7 +48,7 @@ export default function Footer() {
             </div>
 
             <p className="text-xs sm:text-sm text-text-muted max-w-md leading-relaxed">
-              Autoniex engineers bespoke workflow automation, domain-trained AI agents, high-converting Next.js web applications, and algorithmic growth engines for ambitious companies in North America, the UK, and Europe.
+              We&apos;re a small team that builds n8n automations, AI agents, and fast websites for growing businesses. We keep things simple — tell us what takes up your team&apos;s time, and we&apos;ll build something that handles it automatically.
             </p>
 
             {/* Trust Badges */}
@@ -150,36 +150,38 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Column 4: Target Regions (2 cols) */}
+
+          {/* Column 4: Trusted By Industries */}
           <div className="lg:col-span-2">
             <h4 className="font-display font-bold text-xs uppercase tracking-widest text-text mb-5 flex items-center gap-2">
-              <span>Target Markets</span>
-              <Globe className="w-3.5 h-3.5 text-volt" />
+              <span>We Work With</span>
+              <Sparkles className="w-3.5 h-3.5 text-volt" />
             </h4>
             <ul className="space-y-2.5 text-xs text-text-muted font-medium">
               <li className="flex items-center gap-2">
-                <span className="text-sm">🇺🇸</span>
-                <span>United States</span>
+                <span className="w-1.5 h-1.5 rounded-full bg-volt flex-shrink-0" />
+                <span>SaaS & Tech Startups</span>
               </li>
               <li className="flex items-center gap-2">
-                <span className="text-sm">🇬🇧</span>
-                <span>United Kingdom</span>
+                <span className="w-1.5 h-1.5 rounded-full bg-cyber-teal flex-shrink-0" />
+                <span>Real Estate Agencies</span>
               </li>
               <li className="flex items-center gap-2">
-                <span className="text-sm">🇨🇦</span>
-                <span>Canada</span>
+                <span className="w-1.5 h-1.5 rounded-full bg-volt flex-shrink-0" />
+                <span>E-Commerce Brands</span>
               </li>
               <li className="flex items-center gap-2">
-                <span className="text-sm">🇦🇪</span>
-                <span>United Arab Emirates</span>
+                <span className="w-1.5 h-1.5 rounded-full bg-cyber-teal flex-shrink-0" />
+                <span>Healthcare & Clinics</span>
               </li>
               <li className="flex items-center gap-2">
-                <span className="text-sm">🇦🇺</span>
-                <span>Australia / NZ</span>
+                <span className="w-1.5 h-1.5 rounded-full bg-volt flex-shrink-0" />
+                <span>Digital Agencies</span>
               </li>
             </ul>
           </div>
         </div>
+
 
         {/* Bottom Bar */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-6 text-xs text-text-faint">

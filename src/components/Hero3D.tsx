@@ -152,12 +152,12 @@ export default function Hero3D() {
 
   const currentCard = HERO_CARDS[activeCardIndex];
 
-  // Three.js WebGL background
+  // Three.js WebGL background — immersive 3D scene
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    let renderer: THREE.WebGLRenderer;
+    let renderer;
     try {
       renderer = new THREE.WebGLRenderer({
         canvas,
@@ -172,85 +172,124 @@ export default function Hero3D() {
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
 
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(55, 1, 0.1, 100);
-    camera.position.set(0, 0, 15);
+    const camera = new THREE.PerspectiveCamera(60, 1, 0.1, 200);
+    camera.position.set(0, 2, 18);
 
-    const C_ACCENT = 0xc6f52e; // Volt neon
-    const C_TEAL = 0x4fe0c0;   // Cyber teal
-    const C_SOFT = 0x6f7d5e;
+    const C_VOLT   = 0xc6f52e;
+    const C_TEAL   = 0x4fe0c0;
+    const C_SOFT   = 0x6f7d5e;
+    const C_PURPLE = 0x8855ff;
 
-    // 1. Particle Cloud Field
-    const N = 1600;
-    const pos = new Float32Array(N * 3);
-    for (let i = 0; i < N; i++) {
-      pos[i * 3] = (Math.random() - 0.5) * 44;
-      pos[i * 3 + 1] = (Math.random() - 0.5) * 28;
-      pos[i * 3 + 2] = (Math.random() - 0.5) * 16;
+    // 1. Dense Star-field (three layers for parallax depth)
+    function makeStars(count: number, spread: number, size: number, color: number, opacity: number) {
+      const arr = new Float32Array(count * 3);
+      for (let i = 0; i < count; i++) {
+        arr[i * 3]     = (Math.random() - 0.5) * spread;
+        arr[i * 3 + 1] = (Math.random() - 0.5) * spread * 0.6;
+        arr[i * 3 + 2] = (Math.random() - 0.5) * spread * 0.5 - 10;
+      }
+      const geo = new THREE.BufferGeometry();
+      geo.setAttribute('position', new THREE.BufferAttribute(arr, 3));
+      return { mesh: new THREE.Points(geo, new THREE.PointsMaterial({
+        color, size, transparent: true, opacity,
+        blending: THREE.AdditiveBlending, depthWrite: false,
+      })), geo };
     }
-    const pGeo = new THREE.BufferGeometry();
-    pGeo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
-    const points = new THREE.Points(
-      pGeo,
-      new THREE.PointsMaterial({
-        color: C_ACCENT,
-        size: 0.065,
-        transparent: true,
-        opacity: 0.75,
-        blending: THREE.AdditiveBlending,
-        depthWrite: false,
-      })
-    );
-    scene.add(points);
+    const { mesh: starsNear, geo: starsNearGeo } = makeStars(900,  55, 0.055, C_VOLT,   0.80);
+    const { mesh: starsFar,  geo: starsFarGeo  } = makeStars(1800, 90, 0.035, C_TEAL,   0.45);
+    const { mesh: starsPurp, geo: starsPurpGeo } = makeStars(600,  70, 0.045, C_PURPLE, 0.35);
+    scene.add(starsNear, starsFar, starsPurp);
 
-    // 2. Wireframe Central Core (Dual Icosahedron)
+    // 2. Dual Icosahedron Core (Triple)
     const core = new THREE.Group();
     const ico1 = new THREE.Mesh(
-      new THREE.IcosahedronGeometry(3.3, 1),
-      new THREE.MeshBasicMaterial({
-        color: C_TEAL,
-        wireframe: true,
-        transparent: true,
-        opacity: 0.35,
-      })
+      new THREE.IcosahedronGeometry(3.5, 1),
+      new THREE.MeshBasicMaterial({ color: C_TEAL,   wireframe: true, transparent: true, opacity: 0.30 })
     );
     const ico2 = new THREE.Mesh(
-      new THREE.IcosahedronGeometry(2.3, 0),
-      new THREE.MeshBasicMaterial({
-        color: C_ACCENT,
-        wireframe: true,
-        transparent: true,
-        opacity: 0.55,
-      })
+      new THREE.IcosahedronGeometry(2.4, 0),
+      new THREE.MeshBasicMaterial({ color: C_VOLT,   wireframe: true, transparent: true, opacity: 0.52 })
     );
-    core.add(ico1);
-    core.add(ico2);
-    core.position.set(4.8, 0.4, -2);
+    const ico3 = new THREE.Mesh(
+      new THREE.IcosahedronGeometry(1.5, 0),
+      new THREE.MeshBasicMaterial({ color: C_PURPLE, wireframe: true, transparent: true, opacity: 0.40 })
+    );
+    core.add(ico1, ico2, ico3);
+    core.position.set(5, 0.5, -2);
     scene.add(core);
 
-    // 3. Floating Geometric Shapes
-    const floaters: THREE.Mesh[] = [];
-    const geos = [
-      new THREE.OctahedronGeometry(0.55),
-      new THREE.BoxGeometry(0.7, 0.7, 0.7),
-      new THREE.TetrahedronGeometry(0.65),
+    // 3. Three Orbital Torus Rings
+    const rings: THREE.Mesh[] = [];
+    const ringDefs = [
+      { r: 5.8, tube: 0.040, color: C_VOLT,   opacity: 0.50, rx: Math.PI / 4 },
+      { r: 4.6, tube: 0.030, color: C_TEAL,   opacity: 0.40, rx: -Math.PI / 5 },
+      { r: 7.2, tube: 0.022, color: C_PURPLE, opacity: 0.28, rx: Math.PI / 2.5 },
     ];
-
-    for (let f = 0; f < 14; f++) {
-      const mat = new THREE.MeshBasicMaterial({
-        color: f % 3 === 0 ? C_SOFT : f % 3 === 1 ? C_TEAL : C_ACCENT,
-        wireframe: true,
-        transparent: true,
-        opacity: 0.45,
-      });
-      const m = new THREE.Mesh(geos[f % 3], mat);
-      m.position.set(
-        (Math.random() - 0.5) * 26,
-        (Math.random() - 0.5) * 16,
-        (Math.random() - 0.5) * 10 - 2
+    for (const d of ringDefs) {
+      const m = new THREE.Mesh(
+        new THREE.TorusGeometry(d.r, d.tube, 4, 90),
+        new THREE.MeshBasicMaterial({
+          color: d.color, transparent: true, opacity: d.opacity,
+          blending: THREE.AdditiveBlending, depthWrite: false,
+        })
       );
+      m.rotation.x = d.rx;
+      m.position.copy(core.position);
+      scene.add(m);
+      rings.push(m);
+    }
+
+    // 4. Wormhole Tunnel
+    const worm = new THREE.Mesh(
+      new THREE.TorusGeometry(11, 0.7, 3, 64),
+      new THREE.MeshBasicMaterial({ color: C_TEAL, wireframe: true, transparent: true, opacity: 0.10 })
+    );
+    worm.rotation.x = Math.PI / 2;
+    worm.position.set(-3, 0, -12);
+    scene.add(worm);
+
+    // 5. Perspective Grid Floor
+    const grid = new THREE.GridHelper(80, 36, C_VOLT, C_SOFT);
+    (grid.material as THREE.Material & { transparent: boolean; opacity: number }).transparent = true;
+    (grid.material as THREE.Material & { transparent: boolean; opacity: number }).opacity = 0.055;
+    grid.position.set(0, -8, -6);
+    scene.add(grid);
+
+    // 6. Floating Wireframe Shapes
+    const floaters: THREE.Mesh[] = [];
+    const fGeos = [
+      new THREE.OctahedronGeometry(0.6),
+      new THREE.BoxGeometry(0.75, 0.75, 0.75),
+      new THREE.TetrahedronGeometry(0.7),
+      new THREE.DodecahedronGeometry(0.5, 0),
+    ];
+    for (let f = 0; f < 18; f++) {
+      const col = [C_SOFT, C_TEAL, C_VOLT, C_PURPLE][f % 4];
+      const m = new THREE.Mesh(
+        fGeos[f % 4],
+        new THREE.MeshBasicMaterial({ color: col, wireframe: true, transparent: true, opacity: 0.38 })
+      );
+      m.position.set((Math.random() - 0.5) * 30, (Math.random() - 0.5) * 18, (Math.random() - 0.5) * 12 - 2);
       scene.add(m);
       floaters.push(m);
     }
+
+    // 7. Energy Lines
+    const lineGroup = new THREE.Group();
+    for (let i = 0; i < 12; i++) {
+      const pts = [
+        new THREE.Vector3((Math.random() - 0.5) * 40, (Math.random() - 0.5) * 20, Math.random() * -15),
+        new THREE.Vector3((Math.random() - 0.5) * 40, (Math.random() - 0.5) * 20, Math.random() * -5),
+      ];
+      const lGeo = new THREE.BufferGeometry().setFromPoints(pts);
+      const lMat = new THREE.LineBasicMaterial({
+        color: i % 2 === 0 ? C_VOLT : C_TEAL,
+        transparent: true,
+        opacity: 0.12 + Math.random() * 0.10,
+      });
+      lineGroup.add(new THREE.Line(lGeo, lMat));
+    }
+    scene.add(lineGroup);
 
     // Resize Handler
     const onResize = () => {
@@ -259,73 +298,76 @@ export default function Hero3D() {
       renderer.setSize(w, h, false);
       camera.aspect = w / h;
       camera.updateProjectionMatrix();
-
-      // Adapt core position for mobile screens
-      if (w < 1024) {
-        core.position.set(0, -1, -5);
-        core.scale.set(0.65, 0.65, 0.65);
-      } else {
-        core.position.set(4.8, 0.4, -2);
-        core.scale.set(1, 1, 1);
-      }
+      const isMob = w < 1024;
+      const cPos = isMob ? new THREE.Vector3(0, -1, -5) : new THREE.Vector3(5, 0.5, -2);
+      const cScale = isMob ? 0.6 : 1;
+      core.position.copy(cPos);
+      core.scale.setScalar(cScale);
+      rings.forEach(r => { r.position.copy(cPos); r.scale.setScalar(cScale); });
     };
     window.addEventListener('resize', onResize);
     onResize();
 
-    // Mouse Tracking for Parallax
-    let targetX = 0;
-    let targetY = 0;
-    let curX = 0;
-    let curY = 0;
-
-    const onMouseMove = (e: MouseEvent) => {
-      targetX = (e.clientX / window.innerWidth - 0.5) * 2;
-      targetY = (e.clientY / window.innerHeight - 0.5) * 2;
+    // Mouse Parallax
+    let tX = 0, tY = 0, cX = 0, cY = 0; // mouse parallax
+    const onMM = (e: MouseEvent) => {
+      tX = (e.clientX / window.innerWidth  - 0.5) * 2;
+      tY = (e.clientY / window.innerHeight - 0.5) * 2;
     };
-    window.addEventListener('mousemove', onMouseMove, { passive: true });
+    window.addEventListener('mousemove', onMM, { passive: true });
 
     // Animation Loop
     let animId: number;
-    let clock = new THREE.Clock();
+    const clock = new THREE.Clock();
 
     const animate = () => {
       animId = requestAnimationFrame(animate);
       const t = clock.getElapsedTime();
 
-      // Smooth camera dampening
-      curX += (targetX - curX) * 0.04;
-      curY += (targetY - curY) * 0.04;
-      camera.position.x = curX * 1.5;
-      camera.position.y = -curY * 1.2;
+      cX += (tX - cX) * 0.035;
+      cY += (tY - cY) * 0.035;
+      camera.position.x = cX * 2.0;
+      camera.position.y = 2 - cY * 1.5;
       camera.lookAt(0, 0, 0);
 
-      // Core rotation
-      core.rotation.x = t * 0.14;
-      core.rotation.y = t * 0.22;
-      ico1.rotation.y = -t * 0.18;
-      ico2.rotation.x = t * 0.28;
+      core.rotation.x = t * 0.12;
+      core.rotation.y = t * 0.20;
+      ico1.rotation.y = -t * 0.16;
+      ico2.rotation.x =  t * 0.25;
+      ico3.rotation.z = -t * 0.30;
 
-      // Particle subtle drifting
-      points.rotation.y = t * 0.03;
+      rings[0].rotation.z =  t * 0.13;
+      rings[1].rotation.y =  t * 0.10;
+      rings[2].rotation.x = t * 0.07 + Math.PI / 2.5;
 
-      // Floating objects animation
+      worm.rotation.z = t * 0.04;
+      const pulse = 1 + Math.sin(t * 0.8) * 0.04;
+      worm.scale.setScalar(pulse);
+
+      starsNear.rotation.y = t * 0.012;
+      starsFar.rotation.y  = -t * 0.007;
+      starsPurp.rotation.x = t * 0.005;
+
       floaters.forEach((m, idx) => {
-        m.rotation.x += 0.008 * (idx % 2 === 0 ? 1 : -1);
-        m.rotation.y += 0.012;
-        m.position.y += Math.sin(t * 1.2 + idx) * 0.004;
+        m.rotation.x += 0.007 * (idx % 2 === 0 ? 1 : -1);
+        m.rotation.y += 0.010;
+        m.position.y += Math.sin(t * 1.1 + idx) * 0.005;
       });
+
+      lineGroup.rotation.y = t * 0.015;
 
       renderer.render(scene, camera);
     };
-
     animate();
 
     return () => {
       cancelAnimationFrame(animId);
       window.removeEventListener('resize', onResize);
-      window.removeEventListener('mousemove', onMouseMove);
+      window.removeEventListener('mousemove', onMM);
       renderer.dispose();
-      pGeo.dispose();
+      starsNearGeo.dispose();
+      starsFarGeo.dispose();
+      starsPurpGeo.dispose();
     };
   }, []);
 

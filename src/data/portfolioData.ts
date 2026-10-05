@@ -1,15 +1,15 @@
 import { PortfolioItem, ServiceItem, EngagementPlan, FaqItem, HeroContent, SiteSettings, CustomPage } from '@/types';
 
 export const DEFAULT_HERO: HeroContent = {
-  badge: 'Serving Clients in USA · UK · Canada · Worldwide',
-  headline: 'Autonomous AI & Workflows.',
-  highlight: 'High-Performance Web Development.',
-  subheadline: 'Autoniex engineers bespoke n8n workflow automations, conversational AI agents, and sub-second Next.js web applications that eliminate manual overhead and scale your revenue.',
+  badge: 'Working with clients in USA · UK · Canada & beyond',
+  headline: 'We build automations that actually save you time.',
+  highlight: 'And websites that bring real results.',
+  subheadline: 'We use n8n, AI agents, and Next.js to cut out the boring manual work — so your team can focus on what matters. No fluff, just systems that run 24/7 without you babysitting them.',
   guarantees: [
-    'Fixed Scope & Price',
-    '2–4 Week Delivery',
-    '100% Code Ownership',
-    '24/7 AI Reliability'
+    'Fixed price, no surprises',
+    'Ships in 2–4 weeks',
+    'You own everything we build',
+    'Works while you sleep'
   ],
   leadResponseSpeed: '< 45 Seconds',
   targetRegion: 'USA · UK · CA'
@@ -20,7 +20,7 @@ export const DEFAULT_SETTINGS: SiteSettings = {
   contactEmail: 'info@autoniex.com',
   phone: '+1 (415) 890-5214',
   address: 'San Francisco, CA & London, UK',
-  adminPin: 'autoniex2026',
+  adminPin: 'jaijhamu2026',
   calendlyUrl: 'https://calendly.com'
 };
 
@@ -28,17 +28,19 @@ export const DEFAULT_CUSTOM_PAGES: CustomPage[] = [
   {
     id: 'page-1',
     slug: 'about',
-    title: 'About Autoniex AI Agency',
-    subtitle: 'High-leverage engineering for modern enterprises.',
+    title: 'About Autoniex',
+    subtitle: 'Real people building real tools for real businesses.',
     content: `## Who We Are
-Autoniex was founded with a single mission: to eliminate operational friction and human fatigue in high-growth businesses.
+We started Autoniex because we saw too many businesses spending hours every day on work that a computer should be doing. Copy-pasting data between apps. Manually following up on leads. Chasing invoices. Sending the same email 40 times.
 
-We combine cutting-edge Large Language Models (LLMs), custom workflow orchestrations, and world-class frontend engineering to give companies an unfair competitive advantage.
+We fix that.
 
-### Our Core Principles
-1. **Zero Fluff, 100% ROI**: We do not build novelty AI demos. Every system we build has direct revenue impact or hours saved.
-2. **Speed & Reliability**: Production sprints ship in 2 to 4 weeks with weekly working demos.
-3. **Total IP Ownership**: You own every line of code, prompt recipe, and dataset. No lock-in, ever.`,
+We build n8n automations, AI agents, and custom websites. Not demos — actual working systems that run in the background while your team does more important things.
+
+### How We Work
+1. **We keep it honest**: If something can't be automated or isn't worth it, we'll tell you upfront. No overselling.
+2. **We move fast**: Most projects go from kickoff to live in 2 to 4 weeks. You get a working demo every Friday.
+3. **You own it all**: Every workflow, every script, every database — it's yours when we're done. No monthly licensing nonsense.`,
     updatedAt: new Date().toISOString()
   },
   {
@@ -288,35 +290,35 @@ export const ENGAGEMENT_PLANS: EngagementPlan[] = [
 
 export const FAQS: FaqItem[] = [
   {
-    q: 'Why does Autoniex build on n8n instead of Zapier or Make?',
-    a: 'Unlike Zapier or Make which charge heavy per-step taxes and restrict private data execution, n8n gives your enterprise 100% self-hosted privacy, unlimited workflow executions, native LangChain and vector database nodes, and zero vendor lock-in. You own the infrastructure, can run private LLMs, and save thousands in recurring SaaS fees every year.'
+    q: 'Why n8n instead of Zapier or Make?',
+    a: 'Zapier and Make charge you per task — which sounds fine until your automations actually run at scale and you get a \$800 monthly bill for clicking buttons. n8n runs on your own server, so there\'s no per-execution cost. You also get full control: private data, custom code, and integrations that Zapier just doesn\'t support. Most clients pay \$15–\$20/month for hosting and that\'s it.'
   },
   {
-    q: 'How long does a typical automation or AI agent project take?',
-    a: 'Production n8n workflows and custom AI agents ship within 2 to 4 weeks. Full custom Next.js web applications take 3 to 5 weeks. Before writing a line of code, you receive a guaranteed fixed delivery timeline and milestone breakdown, accompanied by live Loom demo videos every Friday.'
+    q: 'How long does a project actually take?',
+    a: 'For most n8n automations and AI agent projects, we\'re talking 2 to 4 weeks from kickoff to handover. A full website takes around 3 to 5 weeks. You get a proper timeline before we start, not vague estimates. And every Friday you get a video showing exactly where things are.'
   },
   {
-    q: 'Who owns the intellectual property and code when complete?',
-    a: 'You own 100% of everything we build. All n8n workflow JSON blueprints, custom Python/JavaScript scripts, vector embeddings, prompt architectures, and database configurations are transferred directly to your organization. No licensing fees, no dependencies on Autoniex, and zero lock-in.'
+    q: 'Do we keep ownership of everything after you build it?',
+    a: 'Yes — 100%. The code, the workflows, the prompts, the database — everything goes to you when we\'re done. You can host it yourself, modify it, hand it to another developer — whatever you need. We don\'t lock you into a platform or charge ongoing fees for something we already built.'
   },
   {
-    q: 'How do your AI Voice Agents handle live telephone calls and scheduling?',
-    a: 'Our voice telephony agents connect directly via low-latency webhooks (Vapi, Retell, Twilio) to bidirectional Google Calendar and CRM APIs. They understand speech in real-time (< 700ms latency), check live doctor or sales availability, book invites on the calendar, and can instantly hand off high-priority calls to a live human supervisor via automated notification.'
+    q: 'How do the AI voice agents actually handle phone calls?',
+    a: 'They connect to your phone line (via Twilio, Vapi, or Retell), listen to the caller in real time, and respond naturally — checking availability, booking appointments, answering questions, or routing to a human when needed. Response time is under a second. It sounds like a real person, not a phone tree.'
   },
   {
-    q: 'Is our enterprise customer data safe and confidential?',
-    a: 'Yes, absolutely. We enforce strict enterprise data security: zero customer data is used to train public AI models. All API tokens and database credentials are encrypted in isolated environment variables. We support private cloud, dedicated VPS, and HIPAA/GDPR-compliant deployment topologies.'
+    q: 'Is our data safe when you\'re building these systems?',
+    a: 'Yes. We don\'t feed your data to public AI models. Credentials are stored in encrypted environment variables, not in code. If you need HIPAA or GDPR compliance, we set up private cloud deployments. Your data stays yours — we just build the pipes.'
   },
   {
-    q: 'What are the ongoing monthly operating costs for our systems?',
-    a: 'Operating costs are exceptionally low because we engineer on self-hosted n8n and optimized LLMs. Most clients spend between $15 to $80 per month total — covering lightweight server hosting ($10-$20/mo) and raw token usage (OpenAI/Groq). We implement token caching and smart rate-limiting to keep costs predictable.'
+    q: 'What does it actually cost to run these systems monthly?',
+    a: 'Usually between \$15 and \$80/month total. That\'s a cheap VPS for n8n (\$10–20) and whatever you use in AI tokens (OpenAI, Groq, etc.). We build with token caching so you\'re not burning money on repeated calls. Most clients are shocked at how low the operating costs are.'
   },
   {
-    q: 'Can you audit, fix, or take over an existing broken system?',
-    a: 'Yes. We routinely rescue stalled agency builds, broken Zapier/Make automations, and tangled legacy APIs. We begin with a 48-hour architecture and logic audit, pinpointing failure points, security risks, and rate-limit bottlenecks before migrating everything to high-reliability production standards.'
+    q: 'Can you take over or fix a system someone else built?',
+    a: 'Yes, and we do this regularly. Whether it\'s a Zapier setup that broke, a custom script nobody understands anymore, or an agency handover with no documentation — we dig in, audit what\'s there, and either fix it or rebuild it properly. Takes 2–3 days to audit before we touch anything.'
   },
   {
-    q: 'What warranty and support do you provide after deployment?',
-    a: 'Every system we ship includes 30 days of comprehensive post-launch warranty and bug-fix support. If any webhook drops or an API updates, our engineering team fixes it immediately. Over 80% of our clients subsequently choose our monthly Care Retainer for ongoing upgrades and new automations.'
+    q: 'What happens after you hand over the project?',
+    a: 'Every project comes with 30 days of free support. If something breaks, an API changes, or a webhook misbehaves — we fix it at no extra cost. After that, most clients join our Care Retainer for ongoing updates and new features. But there\'s no pressure; the system works fine on its own too.'
   }
 ];
