@@ -2,9 +2,9 @@ import { PortfolioItem, ServiceItem, EngagementPlan, FaqItem, HeroContent, SiteS
 
 export const DEFAULT_HERO: HeroContent = {
   badge: 'Working with clients in USA · UK · Canada & beyond',
-  headline: 'We build automations that actually save you time.',
-  highlight: 'And websites that bring real results.',
-  subheadline: 'We use n8n, AI agents, and Next.js to cut out the boring manual work — so your team can focus on what matters. No fluff, just systems that run 24/7 without you babysitting them.',
+  headline: 'Stop doing it manually.',
+  highlight: "We'll automate it.",
+  subheadline: 'n8n workflows, AI agents & fast websites — built in weeks, running 24/7.',
   guarantees: [
     'Fixed price, no surprises',
     'Ships in 2–4 weeks',
