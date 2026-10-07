@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { ArrowRight, ChevronDown, CheckCircle2, ShieldCheck, Zap, Pause, Play, ChevronLeft, ChevronRight } from 'lucide-react';
 import * as THREE from 'three';
 import { useSiteContent } from '@/context/SiteContext';
+import { useTheme } from '@/context/ThemeContext';
 
 interface HeroCardItem {
   id: string;
@@ -120,6 +121,7 @@ const HERO_CARDS: HeroCardItem[] = [
 
 export default function Hero3D() {
   const { hero } = useSiteContent();
+  const { theme } = useTheme();
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
   // Rotating Hero Card state
@@ -175,14 +177,14 @@ export default function Hero3D() {
 
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
 
-    // Theme-aware colors: light mode uses darker, highly visible colors
-    const isLight = document.documentElement.classList.contains('light-mode');
-    const C_VOLT = isLight ? 0x3a8000 : 0xc6f52e; // deep green vs neon volt
-    const C_TEAL = isLight ? 0x097060 : 0x4fe0c0; // deep teal vs cyber teal
-    const PARTICLE_SIZE    = isLight ? 0.13  : 0.055;
-    const PARTICLE_OPACITY = isLight ? 0.75  : 0.55;
-    const RING_OPACITY_1   = isLight ? 0.45  : 0.07;
-    const RING_OPACITY_2   = isLight ? 0.35  : 0.06;
+    // Theme-aware colors — using React theme state (reliable, reactive)
+    const isLight = theme === 'light';
+    const C_VOLT = isLight ? 0x2d6e00 : 0xc6f52e;
+    const C_TEAL = isLight ? 0x076050 : 0x4fe0c0;
+    const PARTICLE_SIZE    = isLight ? 0.14  : 0.055;
+    const PARTICLE_OPACITY = isLight ? 0.80  : 0.55;
+    const RING_OPACITY_1   = isLight ? 0.50  : 0.07;
+    const RING_OPACITY_2   = isLight ? 0.40  : 0.06;
 
     // ─── Ambient Particle Field (Starfield-style, very subtle) ───
     const COUNT = 1800;
@@ -293,7 +295,7 @@ export default function Hero3D() {
       ringGeo.dispose();
       ringGeo2.dispose();
     };
-  }, []);
+  }, [theme]);
 
   return (
     <section className="relative min-h-[100svh] flex items-center justify-center overflow-hidden isolation-auto pt-24 pb-16">
