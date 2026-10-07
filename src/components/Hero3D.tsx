@@ -175,13 +175,14 @@ export default function Hero3D() {
 
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
 
-    // Theme-aware colors: light mode uses darker visible colors
+    // Theme-aware colors: light mode uses darker, highly visible colors
     const isLight = document.documentElement.classList.contains('light-mode');
-    const C_VOLT = isLight ? 0x449100 : 0xc6f52e; // dark green vs neon volt
-    const C_TEAL = isLight ? 0x0b7d5f : 0x4fe0c0; // dark teal vs cyber teal
-    const PARTICLE_OPACITY = isLight ? 0.45 : 0.55;
-    const RING_OPACITY_1   = isLight ? 0.18 : 0.07;
-    const RING_OPACITY_2   = isLight ? 0.14 : 0.06;
+    const C_VOLT = isLight ? 0x3a8000 : 0xc6f52e; // deep green vs neon volt
+    const C_TEAL = isLight ? 0x097060 : 0x4fe0c0; // deep teal vs cyber teal
+    const PARTICLE_SIZE    = isLight ? 0.13  : 0.055;
+    const PARTICLE_OPACITY = isLight ? 0.75  : 0.55;
+    const RING_OPACITY_1   = isLight ? 0.45  : 0.07;
+    const RING_OPACITY_2   = isLight ? 0.35  : 0.06;
 
     // ─── Ambient Particle Field (Starfield-style, very subtle) ───
     const COUNT = 1800;
@@ -205,7 +206,7 @@ export default function Hero3D() {
     pGeo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
 
     const pMat = new THREE.PointsMaterial({
-      size: 0.055,
+      size: PARTICLE_SIZE,
       vertexColors: true,
       transparent: true,
       opacity: PARTICLE_OPACITY,
