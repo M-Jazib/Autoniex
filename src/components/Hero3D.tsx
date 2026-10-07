@@ -182,20 +182,20 @@ export default function Hero3D() {
     // ─────────────────────────────────────────────────────────────
     // 1. Interactive 3D Neural Wave Terrain (Dynamic Sine Surface)
     // ─────────────────────────────────────────────────────────────
-    const planeW = 46;
-    const planeH = 34;
-    const segW = 54;
-    const segH = 40;
+    const planeW = 56;
+    const planeH = 40;
+    const segW = 60;
+    const segH = 44;
     const terrainGeo = new THREE.PlaneGeometry(planeW, planeH, segW, segH);
     const terrainMat = new THREE.MeshBasicMaterial({
       color: C_VOLT,
       wireframe: true,
       transparent: true,
-      opacity: 0.16,
+      opacity: 0.35,
     });
     const terrain = new THREE.Mesh(terrainGeo, terrainMat);
     terrain.rotation.x = -Math.PI / 2.3;
-    terrain.position.set(0, -5.5, -4);
+    terrain.position.set(0, -4.5, -2);
     scene.add(terrain);
 
     // Store base positions for fluid procedural undulating waves
@@ -302,9 +302,9 @@ export default function Hero3D() {
     pGeo.setAttribute('position', new THREE.BufferAttribute(pPos, 3));
     const pMat = new THREE.PointsMaterial({
       color: C_VOLT,
-      size: 0.075,
+      size: 0.12,
       transparent: true,
-      opacity: 0.85,
+      opacity: 0.95,
       blending: THREE.AdditiveBlending,
       depthWrite: false,
     });
@@ -325,9 +325,9 @@ export default function Hero3D() {
       dGeo,
       new THREE.PointsMaterial({
         color: C_TEAL,
-        size: 0.05,
+        size: 0.08,
         transparent: true,
-        opacity: 0.55,
+        opacity: 0.75,
         blending: THREE.AdditiveBlending,
         depthWrite: false,
       })
@@ -468,18 +468,17 @@ export default function Hero3D() {
 
   return (
     <section className="relative min-h-[100svh] flex items-center justify-center overflow-hidden isolation-auto pt-24 pb-16">
-      {/* 3D WebGL Canvas Layer */}
+      {/* 3D WebGL Canvas Layer - Elevated so it's fully visible and vibrant */}
       <canvas
         ref={canvasRef}
-        className="absolute inset-0 w-full h-full -z-10 pointer-events-none"
+        className="absolute inset-0 w-full h-full z-0 pointer-events-none"
         aria-hidden="true"
       />
 
-      {/* Radial Gradient Backdrops */}
-      <div className="absolute inset-0 bg-gradient-to-b from-bg/40 via-transparent to-bg -z-10 pointer-events-none" />
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-volt/5 blur-[140px] rounded-full -z-10 pointer-events-none" />
+      {/* Subtle Ambient Radial Lighting Behind Elements */}
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[700px] h-[700px] bg-volt/5 blur-[160px] rounded-full z-0 pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full z-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
           {/* Left Column: Hero Content */}
           <div className="lg:col-span-7 flex flex-col items-start text-left">
