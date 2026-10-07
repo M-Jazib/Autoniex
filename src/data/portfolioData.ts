@@ -29,18 +29,43 @@ export const DEFAULT_CUSTOM_PAGES: CustomPage[] = [
     id: 'page-1',
     slug: 'about',
     title: 'About Autoniex',
-    subtitle: 'Real people building real tools for real businesses.',
-    content: `## Who We Are
-We started Autoniex because we saw too many businesses spending hours every day on work that a computer should be doing. Copy-pasting data between apps. Manually following up on leads. Chasing invoices. Sending the same email 40 times.
+    subtitle: 'We build the systems your business should already have.',
+    content: `## A bit about us
 
-We fix that.
+Autoniex is a small, focused team of developers and automation specialists. We work with growing businesses that are tired of doing the same repetitive tasks every day — manual follow-ups, copy-pasting data between apps, missed leads because nobody was online at 2am.
 
-We build n8n automations, AI agents, and custom websites. Not demos — actual working systems that run in the background while your team does more important things.
+We fix that. Quietly, efficiently, without making it complicated.
 
-### How We Work
-1. **We keep it honest**: If something can't be automated or isn't worth it, we'll tell you upfront. No overselling.
-2. **We move fast**: Most projects go from kickoff to live in 2 to 4 weeks. You get a working demo every Friday.
-3. **You own it all**: Every workflow, every script, every database — it's yours when we're done. No monthly licensing nonsense.`,
+## What we actually do
+
+We build three types of things:
+
+**1. Workflow automations with n8n**
+We set up systems that run in the background 24/7 — capturing leads, sending follow-ups, syncing your CRM, notifying your team, routing calls. You set it once, it runs forever.
+
+**2. AI agents that handle real work**
+From voice bots that answer your phone and book appointments, to AI assistants that respond to customer messages, handle support tickets, or generate weekly reports — we build agents that actually do something useful.
+
+**3. Fast, clean websites with Next.js**
+Websites that load in under a second, look great on every device, and are built to convert. No bloated WordPress setups — just clean, maintainable code that you own.
+
+## How we work
+
+We keep things simple. You tell us what problem you want solved. We scope it, give you a fixed price, and ship it in 2–4 weeks. You get a working demo every Friday so there are no surprises at the end.
+
+When we're done, everything goes to you — the code, the workflows, the credentials. No subscriptions, no lock-in.
+
+## Why clients stay with us
+
+Most of our clients come back. Not because of a contract, but because once you've seen how much time a good automation saves, you start noticing other things that could be automated too.
+
+We're honest about what's possible. If something isn't worth building, we'll tell you. If a simpler solution exists, we'll suggest it.
+
+That's how we prefer to work.
+
+## Get in touch
+
+If you have a repetitive process that's eating your team's time, or you want a website that actually performs — we'd love to talk. No sales pitch, just a conversation.`,
     updatedAt: new Date().toISOString()
   },
   {
