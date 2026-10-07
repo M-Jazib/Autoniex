@@ -179,12 +179,12 @@ export default function Hero3D() {
 
     // Theme-aware colors — using React theme state (reliable, reactive)
     const isLight = theme === 'light';
-    const C_VOLT = isLight ? 0x2d6e00 : 0xc6f52e;
-    const C_TEAL = isLight ? 0x076050 : 0x4fe0c0;
-    const PARTICLE_SIZE    = isLight ? 0.14  : 0.055;
-    const PARTICLE_OPACITY = isLight ? 0.80  : 0.55;
-    const RING_OPACITY_1   = isLight ? 0.50  : 0.07;
-    const RING_OPACITY_2   = isLight ? 0.40  : 0.06;
+    const C_VOLT = isLight ? 0x4a9900 : 0xc6f52e;
+    const C_TEAL = isLight ? 0x0e8a6e : 0x4fe0c0;
+    const PARTICLE_SIZE    = isLight ? 0.07  : 0.055;
+    const PARTICLE_OPACITY = isLight ? 0.55  : 0.55;
+    const RING_OPACITY_1   = isLight ? 0.12  : 0.07;
+    const RING_OPACITY_2   = isLight ? 0.09  : 0.06;
 
     // ─── Ambient Particle Field (Starfield-style, very subtle) ───
     const COUNT = 1800;
