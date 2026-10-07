@@ -72,14 +72,66 @@ If you have a repetitive process that's eating your team's time, or you want a w
     id: 'page-2',
     slug: 'privacy',
     title: 'Privacy Policy',
-    subtitle: 'How we respect and safeguard your enterprise data.',
-    content: `## Privacy & Data Protection Commitment
-At Autoniex, enterprise data privacy is foundational to everything we build.
+    subtitle: 'Last updated: October 2025',
+    content: `## Overview
 
-### Data Security
-- We never train public AI models on proprietary client data.
-- All API integrations use encrypted HTTPS protocols with isolated environment variables.
-- We support private cloud / dedicated VPC deployments for healthcare and financial institutions.`,
+This Privacy Policy explains how Autoniex ("we", "us", "our") handles information when you visit our website (autoniex.com) or engage us for services. We keep this simple and honest — no legal jargon walls.
+
+## What information we collect
+
+**When you contact us:**
+We collect your name, email address, and any details you share in your message. We use this only to respond to your inquiry or discuss a potential project.
+
+**When you visit our website:**
+Our hosting provider (Hostinger) may collect standard server logs including your IP address, browser type, and pages visited. We do not run any tracking pixels or sell this data.
+
+**When you become a client:**
+We collect project-related information needed to do the work — this may include access credentials, API keys, business data, or system configurations. All of this is handled confidentially and deleted or transferred to you upon project completion.
+
+## How we use your information
+
+We use the information we collect to:
+- Respond to your messages and project inquiries
+- Deliver and manage agreed services
+- Send project updates and deliverables
+- Comply with legal obligations
+
+We do not use your data for advertising, we do not sell it, and we do not share it with third parties except where required to deliver your project (e.g. cloud hosting providers under your direction).
+
+## Data security
+
+We take security seriously:
+- Client credentials and API keys are stored in encrypted environment variables, never in code or plain text files
+- We do not train public AI models on your proprietary data
+- Project files are transferred securely and removed from our systems after handover
+- We support private cloud and dedicated VPS deployments for clients with compliance requirements (HIPAA, GDPR)
+
+## Third-party services
+
+When building your systems, we may work with services like OpenAI, Groq, Vapi, Twilio, Google Cloud, or similar providers — always under your account and at your direction. We are not responsible for the privacy practices of these third-party platforms.
+
+## Cookies
+
+Our website uses minimal cookies required for basic functionality. We do not use advertising or tracking cookies. The admin panel uses sessionStorage (not persistent cookies) for authentication — this clears when you close your browser.
+
+## Your rights
+
+You have the right to:
+- Request what personal information we hold about you
+- Ask us to correct or delete your information
+- Withdraw consent for any communication at any time
+
+To exercise these rights, email us at info@autoniex.com.
+
+## Changes to this policy
+
+If we make significant changes to this policy, we will update the "Last updated" date at the top. Continued use of our website after changes constitutes acceptance.
+
+## Contact
+
+For any privacy-related questions or requests:
+**Email:** info@autoniex.com
+**Response time:** We aim to respond within 2 business days.`,
     updatedAt: new Date().toISOString()
   }
 ];

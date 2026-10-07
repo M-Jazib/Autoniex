@@ -96,12 +96,12 @@ export default function AdminPage() {
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    if (enteredPin === settings.adminPin || enteredPin === 'autoniex2026') {
+    if (enteredPin === settings.adminPin) {
       setIsAuthenticated(true);
       sessionStorage.setItem('autoniex_admin_auth', 'true');
       setPinError('');
     } else {
-      setPinError('Incorrect access password. Default is: autoniex2026');
+      setPinError('Incorrect password. Please try again.');
     }
   };
 

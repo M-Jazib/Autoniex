@@ -147,6 +147,7 @@ export default function Navbar() {
             {/* About page link in desktop nav */}
             <Link
               href="/p/about"
+              onMouseEnter={handleMouseEnter}
               className="relative text-sm font-semibold text-text-muted hover:text-volt transition-colors duration-200 px-4 py-2 rounded-full z-10"
             >
               About
