@@ -152,7 +152,7 @@ export default function Hero3D() {
 
   const currentCard = HERO_CARDS[activeCardIndex];
 
-  // Three.js WebGL background — Premium Kinetic Autonomous Mesh & Neural Constellation
+  // Three.js WebGL background — Minimal Ambient Constellation
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -161,295 +161,118 @@ export default function Hero3D() {
     try {
       renderer = new THREE.WebGLRenderer({
         canvas,
-        antialias: true,
+        antialias: false,
         alpha: true,
-        powerPreference: 'high-performance',
+        powerPreference: 'low-power',
       });
     } catch {
       return;
     }
 
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
-
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(55, 1, 0.1, 100);
-    camera.position.set(0, 0, 16);
+    const camera = new THREE.PerspectiveCamera(60, 1, 0.1, 200);
+    camera.position.set(0, 0, 18);
 
-    const C_VOLT   = 0xc6f52e; // Neon Volt
-    const C_TEAL   = 0x4fe0c0; // Cyber Teal
-    const C_PURPLE = 0x8855ff; // Neural Violet
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
 
-    // ─────────────────────────────────────────────────────────────
-    // 1. Interactive 3D Neural Wave Terrain (Dynamic Sine Surface)
-    // ─────────────────────────────────────────────────────────────
-    const planeW = 56;
-    const planeH = 40;
-    const segW = 60;
-    const segH = 44;
-    const terrainGeo = new THREE.PlaneGeometry(planeW, planeH, segW, segH);
-    const terrainMat = new THREE.MeshBasicMaterial({
-      color: C_VOLT,
-      wireframe: true,
-      transparent: true,
-      opacity: 0.35,
-    });
-    const terrain = new THREE.Mesh(terrainGeo, terrainMat);
-    terrain.rotation.x = -Math.PI / 2.3;
-    terrain.position.set(0, -4.5, -2);
-    scene.add(terrain);
+    const C_VOLT = 0xc6f52e;
+    const C_TEAL = 0x4fe0c0;
 
-    // Store base positions for fluid procedural undulating waves
-    const terrainPos = terrainGeo.attributes.position;
-    const baseCoords = new Float32Array(terrainPos.count * 3);
-    for (let i = 0; i < terrainPos.count * 3; i++) {
-      baseCoords[i] = terrainPos.array[i];
-    }
-
-    // ─────────────────────────────────────────────────────────────
-    // 2. Central Autonomous Quantum Core (Right Column Alignment)
-    // ─────────────────────────────────────────────────────────────
-    const coreGroup = new THREE.Group();
-
-    // Inner Glowing Polyhedron Core
-    const coreIco1 = new THREE.Mesh(
-      new THREE.IcosahedronGeometry(2.6, 1),
-      new THREE.MeshBasicMaterial({
-        color: C_VOLT,
-        wireframe: true,
-        transparent: true,
-        opacity: 0.65,
-      })
-    );
-
-    // Outer Orbiting Polyhedron Lattice
-    const coreIco2 = new THREE.Mesh(
-      new THREE.IcosahedronGeometry(3.6, 1),
-      new THREE.MeshBasicMaterial({
-        color: C_TEAL,
-        wireframe: true,
-        transparent: true,
-        opacity: 0.35,
-      })
-    );
-
-    // Core Solid Subtle Shimmer Kernel
-    const coreSphere = new THREE.Mesh(
-      new THREE.SphereGeometry(1.4, 16, 16),
-      new THREE.MeshBasicMaterial({
-        color: C_PURPLE,
-        wireframe: true,
-        transparent: true,
-        opacity: 0.40,
-      })
-    );
-
-    coreGroup.add(coreIco1, coreIco2, coreSphere);
-    coreGroup.position.set(4.6, 0.6, -1);
-    scene.add(coreGroup);
-
-    // ─────────────────────────────────────────────────────────────
-    // 3. Dual Gyroscopic Orbital Quantum Rings (Pulsing Orbitals)
-    // ─────────────────────────────────────────────────────────────
-    const ring1 = new THREE.Mesh(
-      new THREE.TorusGeometry(5.2, 0.038, 4, 100),
-      new THREE.MeshBasicMaterial({
-        color: C_VOLT,
-        transparent: true,
-        opacity: 0.55,
-        blending: THREE.AdditiveBlending,
-      })
-    );
-    ring1.rotation.x = Math.PI / 3.2;
-
-    const ring2 = new THREE.Mesh(
-      new THREE.TorusGeometry(6.4, 0.030, 4, 100),
-      new THREE.MeshBasicMaterial({
-        color: C_TEAL,
-        transparent: true,
-        opacity: 0.45,
-        blending: THREE.AdditiveBlending,
-      })
-    );
-    ring2.rotation.y = Math.PI / 4;
-
-    const ring3 = new THREE.Mesh(
-      new THREE.TorusGeometry(7.6, 0.024, 4, 100),
-      new THREE.MeshBasicMaterial({
-        color: C_PURPLE,
-        transparent: true,
-        opacity: 0.35,
-        blending: THREE.AdditiveBlending,
-      })
-    );
-    ring3.rotation.x = -Math.PI / 2.6;
-
-    ring1.position.copy(coreGroup.position);
-    ring2.position.copy(coreGroup.position);
-    ring3.position.copy(coreGroup.position);
-    scene.add(ring1, ring2, ring3);
-
-    // ─────────────────────────────────────────────────────────────
-    // 4. Particle Constellation Network (Ambient High-Tech Field)
-    // ─────────────────────────────────────────────────────────────
-    const pCount = 1400;
-    const pPos = new Float32Array(pCount * 3);
-    for (let i = 0; i < pCount; i++) {
-      pPos[i * 3]     = (Math.random() - 0.5) * 48;
-      pPos[i * 3 + 1] = (Math.random() - 0.5) * 32;
-      pPos[i * 3 + 2] = (Math.random() - 0.5) * 22;
-    }
+    // ─── Ambient Particle Field (Starfield-style, very subtle) ───
+    const COUNT = 1800;
     const pGeo = new THREE.BufferGeometry();
-    pGeo.setAttribute('position', new THREE.BufferAttribute(pPos, 3));
+    const positions = new Float32Array(COUNT * 3);
+    const colors    = new Float32Array(COUNT * 3);
+    const vColor    = new THREE.Color(C_VOLT);
+    const tColor    = new THREE.Color(C_TEAL);
+
+    for (let i = 0; i < COUNT; i++) {
+      positions[i * 3]     = (Math.random() - 0.5) * 70;
+      positions[i * 3 + 1] = (Math.random() - 0.5) * 40;
+      positions[i * 3 + 2] = (Math.random() - 0.5) * 40;
+      const c = Math.random() > 0.45 ? vColor : tColor;
+      colors[i * 3]     = c.r;
+      colors[i * 3 + 1] = c.g;
+      colors[i * 3 + 2] = c.b;
+    }
+
+    pGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    pGeo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
     const pMat = new THREE.PointsMaterial({
-      color: C_VOLT,
-      size: 0.12,
+      size: 0.055,
+      vertexColors: true,
       transparent: true,
-      opacity: 0.95,
-      blending: THREE.AdditiveBlending,
-      depthWrite: false,
+      opacity: 0.55,
+      sizeAttenuation: true,
     });
-    const pointsField = new THREE.Points(pGeo, pMat);
-    scene.add(pointsField);
+    const points = new THREE.Points(pGeo, pMat);
+    scene.add(points);
 
-    // Cyber Teal Secondary Ambient Dust
-    const dCount = 800;
-    const dPos = new Float32Array(dCount * 3);
-    for (let i = 0; i < dCount; i++) {
-      dPos[i * 3]     = (Math.random() - 0.5) * 56;
-      dPos[i * 3 + 1] = (Math.random() - 0.5) * 36;
-      dPos[i * 3 + 2] = (Math.random() - 0.5) * 26 - 4;
-    }
-    const dGeo = new THREE.BufferGeometry();
-    dGeo.setAttribute('position', new THREE.BufferAttribute(dPos, 3));
-    const dustField = new THREE.Points(
-      dGeo,
-      new THREE.PointsMaterial({
-        color: C_TEAL,
-        size: 0.08,
-        transparent: true,
-        opacity: 0.75,
-        blending: THREE.AdditiveBlending,
-        depthWrite: false,
-      })
-    );
-    scene.add(dustField);
+    // ─── Two very faint distant wireframe rings (barely visible) ───
+    const ringGeo = new THREE.TorusGeometry(9, 0.012, 6, 80);
+    const ringMat = new THREE.MeshBasicMaterial({
+      color: C_VOLT,
+      transparent: true,
+      opacity: 0.07,
+      wireframe: false,
+    });
+    const ring1 = new THREE.Mesh(ringGeo, ringMat);
+    ring1.rotation.x = Math.PI / 3;
+    ring1.position.set(-3, 1, -8);
+    scene.add(ring1);
 
-    // ─────────────────────────────────────────────────────────────
-    // 5. Orbiting Architectural Polyhedra (Data Nodes)
-    // ─────────────────────────────────────────────────────────────
-    const floaters: THREE.Mesh[] = [];
-    const nodeGeos = [
-      new THREE.OctahedronGeometry(0.55),
-      new THREE.TetrahedronGeometry(0.6),
-      new THREE.BoxGeometry(0.65, 0.65, 0.65),
-    ];
-    for (let i = 0; i < 12; i++) {
-      const col = i % 3 === 0 ? C_VOLT : i % 3 === 1 ? C_TEAL : C_PURPLE;
-      const m = new THREE.Mesh(
-        nodeGeos[i % 3],
-        new THREE.MeshBasicMaterial({
-          color: col,
-          wireframe: true,
-          transparent: true,
-          opacity: 0.45,
-        })
-      );
-      m.position.set(
-        (Math.random() - 0.5) * 32,
-        (Math.random() - 0.5) * 20,
-        (Math.random() - 0.5) * 12 - 2
-      );
-      scene.add(m);
-      floaters.push(m);
-    }
+    const ringGeo2 = new THREE.TorusGeometry(7, 0.01, 6, 80);
+    const ringMat2 = new THREE.MeshBasicMaterial({
+      color: C_TEAL,
+      transparent: true,
+      opacity: 0.06,
+      wireframe: false,
+    });
+    const ring2 = new THREE.Mesh(ringGeo2, ringMat2);
+    ring2.rotation.x = -Math.PI / 4;
+    ring2.rotation.y = Math.PI / 5;
+    ring2.position.set(4, -2, -10);
+    scene.add(ring2);
 
-    // ─────────────────────────────────────────────────────────────
-    // Responsive Resize & Layout Sync
-    // ─────────────────────────────────────────────────────────────
+    // ─── Resize handler ───
     const onResize = () => {
-      const w = window.innerWidth;
-      const h = window.innerHeight;
+      const w = canvas.clientWidth;
+      const h = canvas.clientHeight;
       renderer.setSize(w, h, false);
       camera.aspect = w / h;
       camera.updateProjectionMatrix();
-
-      const isMob = w < 1024;
-      const cPos = isMob ? new THREE.Vector3(0, -1.2, -6) : new THREE.Vector3(4.6, 0.6, -1);
-      const cScale = isMob ? 0.65 : 1;
-      coreGroup.position.copy(cPos);
-      coreGroup.scale.setScalar(cScale);
-      ring1.position.copy(cPos);
-      ring1.scale.setScalar(cScale);
-      ring2.position.copy(cPos);
-      ring2.scale.setScalar(cScale);
-      ring3.position.copy(cPos);
-      ring3.scale.setScalar(cScale);
     };
-    window.addEventListener('resize', onResize);
     onResize();
+    window.addEventListener('resize', onResize);
 
-    // ─────────────────────────────────────────────────────────────
-    // Interactive Mouse Tracking (Smooth Easing Parallax)
-    // ─────────────────────────────────────────────────────────────
-    let tX = 0, tY = 0, cX = 0, cY = 0;
+    // ─── Very gentle mouse parallax ───
+    let mx = 0, my = 0;
     const onMouseMove = (e: MouseEvent) => {
-      tX = (e.clientX / window.innerWidth  - 0.5) * 2;
-      tY = (e.clientY / window.innerHeight - 0.5) * 2;
+      mx = (e.clientX / window.innerWidth  - 0.5) * 0.6;
+      my = (e.clientY / window.innerHeight - 0.5) * 0.4;
     };
-    window.addEventListener('mousemove', onMouseMove, { passive: true });
+    window.addEventListener('mousemove', onMouseMove);
 
-    // ─────────────────────────────────────────────────────────────
-    // Master Animation Loop
-    // ─────────────────────────────────────────────────────────────
+    // ─── Animation loop ───
     let animId: number;
-    const clock = new THREE.Clock();
-
+    let t = 0;
     const animate = () => {
       animId = requestAnimationFrame(animate);
-      const t = clock.getElapsedTime();
+      t += 0.004;
 
-      // Smooth Camera Spring Interpolation
-      cX += (tX - cX) * 0.04;
-      cY += (tY - cY) * 0.04;
-      camera.position.x = cX * 2.2;
-      camera.position.y = -cY * 1.6;
+      // Very slow drift rotation
+      points.rotation.y = t * 0.018;
+      points.rotation.x = Math.sin(t * 0.12) * 0.04;
+
+      // Subtle ring spin
+      ring1.rotation.z = t * 0.06;
+      ring2.rotation.z = -t * 0.05;
+
+      // Gentle camera parallax
+      camera.position.x += (mx * 1.2 - camera.position.x) * 0.025;
+      camera.position.y += (-my * 0.8 - camera.position.y) * 0.025;
       camera.lookAt(0, 0, 0);
-
-      // Procedural Neural Undulating Waves on Floor Terrain
-      const posArr = terrainPos.array as Float32Array;
-      for (let i = 0; i < terrainPos.count; i++) {
-        const u = baseCoords[i * 3];
-        const v = baseCoords[i * 3 + 1];
-        // Dynamic Sine / Cosine displacement with ripple effect
-        posArr[i * 3 + 2] =
-          Math.sin(u * 0.22 + t * 1.4) * 0.85 +
-          Math.cos(v * 0.28 + t * 1.1) * 0.65 +
-          Math.sin((u + v) * 0.15 + t * 0.8) * 0.4;
-      }
-      terrainPos.needsUpdate = true;
-
-      // Core Dynamic Counter-Rotation
-      coreGroup.rotation.x = t * 0.14;
-      coreGroup.rotation.y = t * 0.22;
-      coreIco1.rotation.y = -t * 0.24;
-      coreIco2.rotation.z = t * 0.18;
-      coreSphere.rotation.x = -t * 0.30;
-
-      // Gyro Orbital Rings Continuous Elevation & Spin
-      ring1.rotation.z = t * 0.16;
-      ring2.rotation.y = -t * 0.12;
-      ring3.rotation.x = t * 0.10 + Math.PI / 2.6;
-
-      // Slow Stellar & Particle Drift
-      pointsField.rotation.y = t * 0.015;
-      dustField.rotation.y = -t * 0.009;
-
-      // Floating Polyhedral Data Nodes
-      floaters.forEach((m, idx) => {
-        m.rotation.x += 0.009 * (idx % 2 === 0 ? 1 : -1);
-        m.rotation.y += 0.012;
-        m.position.y += Math.sin(t * 1.2 + idx) * 0.005;
-      });
 
       renderer.render(scene, camera);
     };
@@ -460,9 +283,9 @@ export default function Hero3D() {
       window.removeEventListener('resize', onResize);
       window.removeEventListener('mousemove', onMouseMove);
       renderer.dispose();
-      terrainGeo.dispose();
       pGeo.dispose();
-      dGeo.dispose();
+      ringGeo.dispose();
+      ringGeo2.dispose();
     };
   }, []);
 
