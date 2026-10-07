@@ -133,6 +133,157 @@ For any privacy-related questions or requests:
 **Email:** info@autoniex.com
 **Response time:** We aim to respond within 2 business days.`,
     updatedAt: new Date().toISOString()
+  },
+  {
+    id: 'page-3',
+    slug: 'n8n-automation',
+    title: 'n8n Workflow Automation Services',
+    subtitle: 'Self-hosted automation that runs 24/7 — without the Zapier bill.',
+    content: `## What is n8n automation?
+
+n8n is an open-source workflow automation tool that connects your apps, databases, APIs, and AI models into automated pipelines. Unlike Zapier or Make, it runs on your own server — so there are no per-execution fees and your data never leaves your infrastructure.
+
+We build n8n automations for businesses that are ready to stop doing things manually.
+
+## What we automate with n8n
+
+**Lead capture & CRM sync**
+Every form submission, LinkedIn message, or email inquiry gets captured, enriched, scored, and pushed to your CRM automatically. Your team gets notified only for high-quality leads.
+
+**AI-powered follow-up sequences**
+We connect n8n to OpenAI or Groq so your follow-up emails are generated fresh for each prospect — not templates. Personalized, timely, and sent while you sleep.
+
+**Document processing & data extraction**
+Invoices, contracts, and reports go in — structured data comes out. n8n reads PDFs, extracts fields using AI, and updates your spreadsheets or database automatically.
+
+**Customer support automation**
+We build RAG (Retrieval-Augmented Generation) pipelines that answer customer queries from your knowledge base in under 2 seconds — deflecting 70–85% of support tickets.
+
+**Internal team notifications**
+Slack alerts, email digests, dashboard updates — triggered by real business events like a deal closing, a payment failing, or an SLA breach.
+
+## Why n8n instead of Zapier or Make?
+
+Zapier and Make charge per task execution. When your automations run thousands of times per month, the bill adds up fast. n8n runs on a $10–20/month VPS and costs nothing per execution.
+
+You also get full control: run private AI models, connect internal databases, write custom code nodes, and own 100% of the infrastructure.
+
+## Our n8n process
+
+1. We audit your current manual workflows in a 30-minute call
+2. We scope and price the automation with a fixed deliverable
+3. We build, test, and document everything in 1–3 weeks
+4. You get the full workflow JSON + server access
+
+## Get started
+
+If you have a process that your team repeats more than 10 times a week, it should probably be automated. Let's talk about it.`,
+    updatedAt: new Date().toISOString()
+  },
+  {
+    id: 'page-4',
+    slug: 'ai-agents',
+    title: 'Custom AI Agents for Business',
+    subtitle: 'AI that actually does things — not just chats.',
+    content: `## What is an AI agent?
+
+An AI agent is software that can understand instructions, take actions, and complete tasks on its own — without a human doing each step. It's not just a chatbot that answers questions. It's a system that books appointments, sends emails, looks up data, makes decisions, and reports back.
+
+We build AI agents that do real work in your business.
+
+## Types of agents we build
+
+**AI voice agents (phone & scheduling)**
+Your phone line, answered by AI. It checks your availability, books appointments on Google Calendar, answers common questions, and only routes to a human when genuinely needed. Handles 100% of inbound calls, 24/7.
+
+Built with: Vapi / Retell / Twilio + n8n + Google Calendar API
+
+**Customer support AI agents**
+Reads your documentation, FAQs, and past tickets. Answers customer questions in under 2 seconds with accurate, on-brand responses. Escalates complex issues to your team with full context.
+
+Built with: n8n + LangChain + OpenAI / Groq + Vector database (Pinecone / Qdrant)
+
+**Lead qualification agents**
+Engages new leads via chat or email, asks qualifying questions, scores them based on your criteria, and books discovery calls with only the best prospects.
+
+**Internal knowledge assistants**
+Your team asks questions in Slack or a chat interface — the agent searches your internal docs, SOPs, and databases to give accurate answers instantly.
+
+## What makes a good AI agent?
+
+The difference between a demo and a production agent is reliability. We build agents with:
+- Error handling and fallback paths
+- Human escalation triggers
+- Logging and monitoring
+- Token cost controls
+- Latency under 1 second for most responses
+
+## Who this is for
+
+AI agents work best for businesses with:
+- High inbound volume (calls, support tickets, leads)
+- Repetitive decision-making processes
+- 24/7 coverage requirements
+- Teams that are bottlenecked by manual qualification or response time
+
+## Get started
+
+Tell us what task your team does manually, repeatedly. We'll tell you if an AI agent can handle it — and what it would take to build one.`,
+    updatedAt: new Date().toISOString()
+  },
+  {
+    id: 'page-5',
+    slug: 'web-development',
+    title: 'Next.js Web Development Services',
+    subtitle: 'Fast, clean websites built to convert — not just to look good.',
+    content: `## What we build
+
+We build custom websites and web applications using Next.js — the same framework used by Netflix, TikTok, Twitch, and thousands of high-growth startups. The result is a site that loads in under a second, ranks well on Google, and works on every device.
+
+No WordPress. No page builders. Clean, maintainable code that you own.
+
+## Types of projects we take on
+
+**Business & agency websites**
+Professional websites that communicate what you do, build trust, and convert visitors into leads. Built with your brand, your content, and your conversion goals in mind.
+
+**SaaS landing pages & marketing sites**
+High-converting pages for software products, with fast load times and proper SEO foundations. A/B testing friendly and easy to update.
+
+**E-commerce storefronts**
+Custom Next.js storefronts connected to Shopify, WooCommerce, or your own backend. Faster than any theme, fully customized to your brand.
+
+**Client portals & dashboards**
+Internal tools, client-facing dashboards, and data visualization interfaces. Authentication, role management, real-time updates.
+
+**AI-powered web applications**
+Web apps with AI features built in — chatbots, content generators, search, recommendations. We integrate OpenAI, Groq, or your model of choice.
+
+## Why Next.js?
+
+Next.js delivers:
+- Sub-second page loads (important for both UX and Google rankings)
+- Server-side rendering for SEO
+- Built-in image optimization
+- Edge-ready deployment
+- TypeScript for maintainability
+
+Compared to WordPress or Webflow, a Next.js site is faster, more secure, and easier to extend with custom features.
+
+## Our development process
+
+1. **Discovery** — we map your goals, pages, and content in a brief
+2. **Design** — wireframes and visual direction, aligned on before we write code
+3. **Build** — 3–5 week sprint with Friday demos
+4. **Launch** — deployment, testing, and handover
+5. **Support** — 30-day post-launch warranty included
+
+You get the full source code. Host it anywhere, modify it anytime.
+
+## Get started
+
+Tell us what you need. We'll scope it, quote it, and ship it — without the project management overhead most agencies add.`,
+    updatedAt: new Date().toISOString()
   }
 ];
 

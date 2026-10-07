@@ -90,25 +90,25 @@ export default function Footer() {
             </h4>
             <ul className="space-y-3 text-xs sm:text-sm text-text-muted font-medium">
               <li>
-                <a href="#services" className="hover:text-volt transition-colors flex items-center justify-between group">
-                  <span>Workflow Automation</span>
+                <Link href="/p/n8n-automation" className="hover:text-volt transition-colors flex items-center justify-between group">
+                  <span>n8n Workflow Automation</span>
                   <span className="text-volt opacity-0 group-hover:opacity-100 transition-opacity text-xs">→</span>
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#services" className="hover:text-volt transition-colors flex items-center justify-between group">
-                  <span>Custom AI Copilots & SDRs</span>
+                <Link href="/p/ai-agents" className="hover:text-volt transition-colors flex items-center justify-between group">
+                  <span>Custom AI Agents & Voice Bots</span>
                   <span className="text-volt opacity-0 group-hover:opacity-100 transition-opacity text-xs">→</span>
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#services" className="hover:text-volt transition-colors flex items-center justify-between group">
-                  <span>High-Performance Websites</span>
+                <Link href="/p/web-development" className="hover:text-volt transition-colors flex items-center justify-between group">
+                  <span>Next.js Web Development</span>
                   <span className="text-volt opacity-0 group-hover:opacity-100 transition-opacity text-xs">→</span>
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#services" className="hover:text-volt transition-colors flex items-center justify-between group">
+                <a href="#engage" className="hover:text-volt transition-colors flex items-center justify-between group">
                   <span>B2B Growth & Acquisition</span>
                   <span className="text-volt opacity-0 group-hover:opacity-100 transition-opacity text-xs">→</span>
                 </a>

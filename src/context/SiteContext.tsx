@@ -47,7 +47,7 @@ interface SiteContextType {
 
 const SiteContext = createContext<SiteContextType | undefined>(undefined);
 
-const STORAGE_KEY = 'autoniex_cms_data_v4';
+const STORAGE_KEY = 'autoniex_cms_data_v5';
 
 export function SiteProvider({ children }: { children: React.ReactNode }) {
   const [portfolio, setPortfolio] = useState<PortfolioItem[]>(INITIAL_PORTFOLIO);
