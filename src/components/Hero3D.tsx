@@ -152,7 +152,7 @@ export default function Hero3D() {
 
   const currentCard = HERO_CARDS[activeCardIndex];
 
-  // Three.js WebGL background — Minimal Ambient Constellation
+  // Three.js WebGL background — Minimal Ambient Constellation (Theme-Aware)
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -175,8 +175,13 @@ export default function Hero3D() {
 
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
 
-    const C_VOLT = 0xc6f52e;
-    const C_TEAL = 0x4fe0c0;
+    // Theme-aware colors: light mode uses darker visible colors
+    const isLight = document.documentElement.classList.contains('light-mode');
+    const C_VOLT = isLight ? 0x449100 : 0xc6f52e; // dark green vs neon volt
+    const C_TEAL = isLight ? 0x0b7d5f : 0x4fe0c0; // dark teal vs cyber teal
+    const PARTICLE_OPACITY = isLight ? 0.45 : 0.55;
+    const RING_OPACITY_1   = isLight ? 0.18 : 0.07;
+    const RING_OPACITY_2   = isLight ? 0.14 : 0.06;
 
     // ─── Ambient Particle Field (Starfield-style, very subtle) ───
     const COUNT = 1800;
@@ -203,7 +208,7 @@ export default function Hero3D() {
       size: 0.055,
       vertexColors: true,
       transparent: true,
-      opacity: 0.55,
+      opacity: PARTICLE_OPACITY,
       sizeAttenuation: true,
     });
     const points = new THREE.Points(pGeo, pMat);
@@ -214,7 +219,7 @@ export default function Hero3D() {
     const ringMat = new THREE.MeshBasicMaterial({
       color: C_VOLT,
       transparent: true,
-      opacity: 0.07,
+      opacity: RING_OPACITY_1,
       wireframe: false,
     });
     const ring1 = new THREE.Mesh(ringGeo, ringMat);
@@ -226,7 +231,7 @@ export default function Hero3D() {
     const ringMat2 = new THREE.MeshBasicMaterial({
       color: C_TEAL,
       transparent: true,
-      opacity: 0.06,
+      opacity: RING_OPACITY_2,
       wireframe: false,
     });
     const ring2 = new THREE.Mesh(ringGeo2, ringMat2);
