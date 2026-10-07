@@ -96,12 +96,40 @@ export default function Services() {
                   </ul>
                 </div>
 
-                <div className="pt-4">
+                <div className="pt-4 flex flex-wrap items-center justify-between gap-3 border-t border-line/40">
+                  {svc.num === '01' ? (
+                    <a
+                      href="/p/n8n-automation"
+                      className="inline-flex items-center gap-1.5 text-xs font-semibold text-text-muted hover:text-volt transition-colors"
+                    >
+                      <span>Explore Architecture</span>
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </a>
+                  ) : svc.num === '02' ? (
+                    <a
+                      href="/p/ai-agents"
+                      className="inline-flex items-center gap-1.5 text-xs font-semibold text-text-muted hover:text-cyber-teal transition-colors"
+                    >
+                      <span>Explore Architecture</span>
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </a>
+                  ) : svc.num === '03' ? (
+                    <a
+                      href="/p/web-development"
+                      className="inline-flex items-center gap-1.5 text-xs font-semibold text-text-muted hover:text-volt transition-colors"
+                    >
+                      <span>Explore Tech Stack</span>
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </a>
+                  ) : (
+                    <span />
+                  )}
+
                   <a
                     href="#contact"
                     className="inline-flex items-center gap-2 text-xs font-bold font-display uppercase tracking-wider text-volt hover:text-text group-hover:translate-x-1 transition-all"
                   >
-                    <span>Discuss This Solution</span>
+                    <span>Discuss Solution</span>
                     <ArrowRight className="w-3.5 h-3.5" />
                   </a>
                 </div>

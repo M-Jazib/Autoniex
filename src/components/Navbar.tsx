@@ -4,14 +4,16 @@ import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { Menu, X, Sparkles, Sun, Moon, Zap } from 'lucide-react';
+import { Menu, X, Sparkles, Sun, Moon, Zap, ChevronDown, Cpu, Bot, Layout, ArrowRight } from 'lucide-react';
 import { useTheme } from '@/context/ThemeContext';
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [servicesDropdown, setServicesDropdown] = useState(false);
   const [indicatorStyle, setIndicatorStyle] = useState({ left: 0, width: 0, opacity: 0 });
   const navRef = useRef<HTMLDivElement>(null);
+  const dropdownTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const { theme, toggleTheme } = useTheme();
   const pathname = usePathname();
   const router = useRouter();
@@ -27,8 +29,34 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const solutions = [
+    {
+      title: 'n8n Workflow Automation',
+      desc: 'Self-hosted 24/7 pipelines & integrations',
+      href: '/p/n8n-automation',
+      icon: Cpu,
+      color: 'text-volt',
+      badge: 'POPULAR',
+    },
+    {
+      title: 'Custom AI Agents & Voice',
+      desc: 'Telephony bots & 80%+ support deflection',
+      href: '/p/ai-agents',
+      icon: Bot,
+      color: 'text-cyber-teal',
+      badge: '24/7 LIVE',
+    },
+    {
+      title: 'Next.js Web Development',
+      desc: 'Sub-second custom high-conversion sites',
+      href: '/p/web-development',
+      icon: Layout,
+      color: 'text-volt',
+      badge: 'SUB-SECOND',
+    },
+  ];
+
   const navLinks = [
-    { label: 'Services', href: '#services' },
     { label: 'Work', href: '#work' },
     { label: 'Process', href: '#process' },
     { label: 'Models', href: '#engage' },
@@ -50,7 +78,7 @@ export default function Navbar() {
     }
   }
 
-  function handleMouseEnter(e: React.MouseEvent<HTMLAnchorElement>) {
+  function handleMouseEnter(e: React.MouseEvent<HTMLElement>) {
     const el = e.currentTarget;
     const nav = navRef.current;
     if (!nav) return;
@@ -64,8 +92,19 @@ export default function Navbar() {
   }
 
   function handleMouseLeave() {
-    setIndicatorStyle(prev => ({ ...prev, opacity: 0 }));
+    setIndicatorStyle((prev) => ({ ...prev, opacity: 0 }));
   }
+
+  const handleDropdownEnter = () => {
+    if (dropdownTimeoutRef.current) clearTimeout(dropdownTimeoutRef.current);
+    setServicesDropdown(true);
+  };
+
+  const handleDropdownLeave = () => {
+    dropdownTimeoutRef.current = setTimeout(() => {
+      setServicesDropdown(false);
+    }, 180);
+  };
 
   return (
     <header
@@ -131,6 +170,90 @@ export default function Navbar() {
                 opacity: indicatorStyle.opacity,
               }}
             />
+
+            {/* Solutions Dropdown Menu */}
+            <div
+              className="relative"
+              onMouseEnter={(e) => {
+                handleMouseEnter(e);
+                handleDropdownEnter();
+              }}
+              onMouseLeave={handleDropdownLeave}
+            >
+              <button
+                type="button"
+                onClick={(e) => {
+                  if (isHome) {
+                    const el = document.querySelector('#services');
+                    if (el) el.scrollIntoView({ behavior: 'smooth' });
+                  } else {
+                    router.push('/#services');
+                  }
+                }}
+                className="relative text-sm font-semibold text-text-muted hover:text-volt transition-colors duration-200 px-4 py-2 rounded-full z-10 inline-flex items-center gap-1.5 focus:outline-none"
+              >
+                <span>Services</span>
+                <ChevronDown
+                  className={`w-3.5 h-3.5 transition-transform duration-200 ${
+                    servicesDropdown ? 'rotate-180 text-volt' : ''
+                  }`}
+                />
+              </button>
+
+              {/* Flyout Dropdown */}
+              {servicesDropdown && (
+                <div
+                  className="absolute top-full left-0 mt-2 w-80 rounded-2xl bg-surface/95 backdrop-blur-xl border border-line p-3 shadow-2xl z-50 animate-in fade-in slide-in-from-top-2 duration-200"
+                  onMouseEnter={handleDropdownEnter}
+                  onMouseLeave={handleDropdownLeave}
+                >
+                  <div className="text-[10px] uppercase font-bold tracking-widest text-text-muted px-3 py-1.5 border-b border-line mb-2 flex items-center justify-between">
+                    <span>Dedicated Architectures</span>
+                    <span className="text-volt font-mono">3 LIVE</span>
+                  </div>
+                  <div className="space-y-1">
+                    {solutions.map((item) => {
+                      const Icon = item.icon;
+                      return (
+                        <Link
+                          key={item.href}
+                          href={item.href}
+                          onClick={() => setServicesDropdown(false)}
+                          className="flex items-start gap-3 p-2.5 rounded-xl hover:bg-volt/10 transition-colors group"
+                        >
+                          <div className={`p-2 rounded-lg bg-bg border border-line mt-0.5 group-hover:border-volt/40 transition-colors ${item.color}`}>
+                            <Icon className="w-4 h-4" />
+                          </div>
+                          <div className="flex-1">
+                            <div className="flex items-center justify-between">
+                              <span className="text-xs font-bold text-text group-hover:text-volt transition-colors">
+                                {item.title}
+                              </span>
+                              <span className="text-[9px] font-extrabold px-1.5 py-0.5 rounded bg-volt/10 text-volt border border-volt/30">
+                                {item.badge}
+                              </span>
+                            </div>
+                            <p className="text-[11px] text-text-muted line-clamp-1 mt-0.5">
+                              {item.desc}
+                            </p>
+                          </div>
+                        </Link>
+                      );
+                    })}
+                  </div>
+                  <div className="mt-2 pt-2 border-t border-line px-2">
+                    <a
+                      href={isHome ? '#services' : '/#services'}
+                      onClick={() => setServicesDropdown(false)}
+                      className="text-[11px] font-bold text-volt hover:underline flex items-center justify-between"
+                    >
+                      <span>View All Capabilities on Home</span>
+                      <ArrowRight className="w-3 h-3" />
+                    </a>
+                  </div>
+                </div>
+              )}
+            </div>
 
             {navLinks.map((link) => (
               <a
@@ -207,17 +330,38 @@ export default function Navbar() {
       {/* Mobile Drawer */}
       <div
         className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${
-          mobileOpen ? 'max-h-[32rem] opacity-100' : 'max-h-0 opacity-0'
+          mobileOpen ? 'max-h-[38rem] opacity-100' : 'max-h-0 opacity-0'
         }`}
       >
         <div className="glass-panel border-t border-line py-5 px-6 shadow-2xl flex flex-col gap-4 mt-2 mx-2 rounded-2xl">
-          <nav className="flex flex-col gap-1">
+          <div className="text-[10px] uppercase font-bold tracking-widest text-text-muted border-b border-line pb-2 flex items-center justify-between">
+            <span>Specialized Architectures</span>
+            <span className="text-volt font-mono">3 PAGES</span>
+          </div>
+
+          <div className="grid grid-cols-1 gap-1">
+            {solutions.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                onClick={() => setMobileOpen(false)}
+                className="text-xs font-bold text-text hover:text-volt py-2 px-3 rounded-lg hover:bg-volt/5 flex items-center justify-between"
+              >
+                <span>{item.title}</span>
+                <span className="text-[9px] font-extrabold px-1.5 py-0.5 rounded bg-volt/10 text-volt">
+                  {item.badge}
+                </span>
+              </Link>
+            ))}
+          </div>
+
+          <nav className="flex flex-col gap-1 border-t border-line pt-3">
             {navLinks.map((link, i) => (
               <a
                 key={link.label}
                 href={isHome ? link.href : '/' + link.href}
                 onClick={(e) => handleNavClick(e, link.href)}
-                className="text-base font-semibold text-text hover:text-volt hover:bg-volt/5 py-3 px-4 rounded-xl flex items-center justify-between transition-all duration-150"
+                className="text-base font-semibold text-text hover:text-volt hover:bg-volt/5 py-2.5 px-4 rounded-xl flex items-center justify-between transition-all duration-150"
                 style={{ animationDelay: `${i * 50}ms` }}
               >
                 <span>{link.label}</span>
@@ -227,7 +371,7 @@ export default function Navbar() {
             <Link
               href="/p/about"
               onClick={() => setMobileOpen(false)}
-              className="text-base font-semibold text-text hover:text-volt hover:bg-volt/5 py-3 px-4 rounded-xl flex items-center justify-between transition-all duration-150"
+              className="text-base font-semibold text-text hover:text-volt hover:bg-volt/5 py-2.5 px-4 rounded-xl flex items-center justify-between transition-all duration-150"
             >
               <span>About</span>
               <span className="text-xs text-volt opacity-60">→</span>

@@ -130,6 +130,9 @@ export default function Footer() {
             </h4>
             <ul className="space-y-3 text-xs sm:text-sm text-text-muted font-medium">
               <li>
+                <Link href="/p/about" className="hover:text-volt transition-colors font-semibold text-text">About Us</Link>
+              </li>
+              <li>
                 <a href="#work" className="hover:text-volt transition-colors">Case Studies</a>
               </li>
               <li>
@@ -140,9 +143,6 @@ export default function Footer() {
               </li>
               <li>
                 <a href="#faq" className="hover:text-volt transition-colors">Client FAQ</a>
-              </li>
-              <li>
-                <Link href="/p/about" className="hover:text-volt transition-colors">About Us</Link>
               </li>
               <li>
                 <Link href="/p/privacy" className="hover:text-volt transition-colors">Privacy Policy</Link>
