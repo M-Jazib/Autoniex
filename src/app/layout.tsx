@@ -3,6 +3,7 @@ import { Unbounded, Manrope } from 'next/font/google';
 import './globals.css';
 import { SiteProvider } from '@/context/SiteContext';
 import { ThemeProvider } from '@/context/ThemeContext';
+import GoogleAnalytics from '@/components/GoogleAnalytics';
 
 const unbounded = Unbounded({
   subsets: ['latin'],
@@ -89,6 +90,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${unbounded.variable} ${manrope.variable}`}>
       <head>
+        <GoogleAnalytics />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

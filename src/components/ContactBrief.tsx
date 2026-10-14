@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { Send, Copy, Check, Mail, Sparkles, Phone, Building2, CheckCircle2, Clock, ShieldCheck, Loader2 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { useSiteContent } from '@/context/SiteContext';
+import { event as gaEvent } from '@/lib/gtag';
 
 const SOLUTIONS = [
   { id: 'automation', label: '⚡ Workflow Automation' },
@@ -101,6 +102,12 @@ Project Overview: ${details || 'N/A'}
 
       if (res.ok) {
         setSubmitted(true);
+        // Fire GA4 generate_lead event — no PII, only non-identifying metadata
+        gaEvent('generate_lead', {
+          event_category: 'contact_form',
+          service_selected: service,
+          budget_range: budget,
+        });
         // Celebration confetti!
         confetti({
           particleCount: 90,
