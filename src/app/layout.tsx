@@ -4,6 +4,7 @@ import './globals.css';
 import { SiteProvider } from '@/context/SiteContext';
 import { ThemeProvider } from '@/context/ThemeContext';
 import GoogleAnalytics from '@/components/GoogleAnalytics';
+import MetaPixel from '@/components/MetaPixel';
 
 const unbounded = Unbounded({
   subsets: ['latin'],
@@ -91,6 +92,7 @@ export default function RootLayout({
     <html lang="en" className={`${unbounded.variable} ${manrope.variable}`}>
       <head>
         <GoogleAnalytics />
+        <MetaPixel />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

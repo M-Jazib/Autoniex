@@ -5,6 +5,7 @@ import { Send, Copy, Check, Mail, Sparkles, Phone, Building2, CheckCircle2, Cloc
 import confetti from 'canvas-confetti';
 import { useSiteContent } from '@/context/SiteContext';
 import { event as gaEvent } from '@/lib/gtag';
+import { pixelEvent } from '@/components/MetaPixel';
 
 const SOLUTIONS = [
   { id: 'automation', label: '⚡ Workflow Automation' },
@@ -108,6 +109,8 @@ Project Overview: ${details || 'N/A'}
           service_selected: service,
           budget_range: budget,
         });
+        // Fire Meta Pixel Lead event — standard event for FB/IG ad optimization
+        pixelEvent('Lead');
         // Celebration confetti!
         confetti({
           particleCount: 90,
