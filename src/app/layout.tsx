@@ -91,8 +91,42 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${unbounded.variable} ${manrope.variable}`}>
       <head>
-        <GoogleAnalytics />
-        <MetaPixel />
+        {/* Google Analytics 4 */}
+        <script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=G-3NXKWNCLH9"
+        />
+        <script
+          id="ga4-init"
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-3NXKWNCLH9', { page_path: window.location.pathname });
+            `,
+          }}
+        />
+
+        {/* Meta Pixel Code */}
+        <script
+          id="meta-pixel-init"
+          dangerouslySetInnerHTML={{
+            __html: `
+              !function(f,b,e,v,n,t,s)
+              {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+              n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+              if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+              n.queue=[];t=b.createElement(e);t.async=!0;
+              t.src=v;s=b.getElementsByTagName(e)[0];
+              s.parentNode.insertBefore(t,s)}(window, document,'script',
+              'https://connect.facebook.net/en_US/fbevents.js');
+              fbq('init', '4528939364024228');
+              fbq('track', 'PageView');
+            `,
+          }}
+        />
+
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -207,6 +241,18 @@ export default function RootLayout({
         />
       </head>
       <body className="bg-bg text-text antialiased selection:bg-volt selection:text-volt-ink">
+        <noscript>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            height="1"
+            width="1"
+            style={{ display: 'none' }}
+            src="https://www.facebook.com/tr?id=4528939364024228&ev=PageView&noscript=1"
+            alt=""
+          />
+        </noscript>
+        <GoogleAnalytics />
+        <MetaPixel />
         <ThemeProvider>
           <SiteProvider>
             {children}

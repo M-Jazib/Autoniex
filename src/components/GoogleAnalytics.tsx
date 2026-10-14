@@ -1,19 +1,23 @@
 'use client';
 
-import Script from 'next/script';
 import { usePathname, useSearchParams } from 'next/navigation';
-import { useEffect, Suspense } from 'react';
+import { useEffect, useRef, Suspense } from 'react';
 import { GA_ID, pageview } from '@/lib/gtag';
 
 /**
- * Inner component that reads search params (must be wrapped in Suspense).
- * Fires a page_view event on every client-side navigation.
+ * Inner component that reads search params (wrapped in Suspense).
+ * Fires a page_view event on client-side navigations after initial load.
  */
 function GANavigationTracker() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const isFirstRender = useRef(true);
 
   useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
     if (!GA_ID) return;
     const url = pathname + (searchParams.toString() ? '?' + searchParams.toString() : '');
     pageview(url);
@@ -23,37 +27,14 @@ function GANavigationTracker() {
 }
 
 /**
- * GoogleAnalytics component.
- * Drop this once into layout.tsx — it loads GA4 exactly once and
- * tracks all client-side page navigations automatically.
- * Renders nothing if NEXT_PUBLIC_GA_ID is not set (safe for local dev).
+ * GoogleAnalytics SPA route tracker.
+ * The base gtag script is loaded in RootLayout HTML for instant initialization.
+ * This client component tracks subsequent SPA navigations.
  */
 export default function GoogleAnalytics() {
-  if (!GA_ID) return null;
-
   return (
-    <>
-      {/* Load the GA4 gtag.js script — strategy="afterInteractive" prevents blocking render */}
-      <Script
-        src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
-        strategy="afterInteractive"
-      />
-      {/* Initialize dataLayer and configure the measurement ID */}
-      <Script id="gtag-init" strategy="afterInteractive">
-        {`
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-          gtag('config', '${GA_ID}', {
-            page_path: window.location.pathname,
-            send_page_view: true
-          });
-        `}
-      </Script>
-      {/* Track SPA route changes — wrapped in Suspense per Next.js 14 requirement */}
-      <Suspense fallback={null}>
-        <GANavigationTracker />
-      </Suspense>
-    </>
+    <Suspense fallback={null}>
+      <GANavigationTracker />
+    </Suspense>
   );
 }

@@ -1,5 +1,5 @@
-// GA4 Measurement ID from environment variable — never hardcoded
-export const GA_ID = process.env.NEXT_PUBLIC_GA_ID || '';
+// GA4 Measurement ID from environment variable or fallback
+export const GA_ID = process.env.NEXT_PUBLIC_GA_ID || 'G-3NXKWNCLH9';
 
 // Declare gtag on the window object for TypeScript
 declare global {
