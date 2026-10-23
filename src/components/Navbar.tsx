@@ -29,6 +29,18 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Auto-scroll when landing on homepage with a hash (e.g. /#contact)
+  useEffect(() => {
+    if (isHome && typeof window !== 'undefined' && window.location.hash) {
+      const hash = window.location.hash;
+      const timer = setTimeout(() => {
+        const el = document.querySelector(hash);
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+      }, 300);
+      return () => clearTimeout(timer);
+    }
+  }, [isHome, pathname]);
+
   const solutions = [
     {
       title: 'n8n Workflow Automation',
@@ -64,22 +76,20 @@ export default function Navbar() {
     { label: 'Contact', href: '#contact' },
   ];
 
-  // Smart anchor navigation: if on homepage scroll to section, otherwise navigate to home then scroll
+  // Smart anchor navigation: scroll to section AND update URL hash
   function handleNavClick(e: React.MouseEvent<HTMLAnchorElement>, href: string) {
     if (href.startsWith('#')) {
       e.preventDefault();
       if (isHome) {
+        // Homepage par: scroll karo + URL mein #contact dikhao
         const el = document.querySelector(href);
-        if (el) el.scrollIntoView({ behavior: 'smooth' });
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth' });
+          window.history.pushState(null, '', href);
+        }
       } else {
-        // Navigate to homepage without hash in URL, then scroll after load
-        const sectionId = href.slice(1);
-        router.push('/');
-        // Wait for navigation then scroll
-        setTimeout(() => {
-          const el = document.getElementById(sectionId);
-          if (el) el.scrollIntoView({ behavior: 'smooth' });
-        }, 400);
+        // Doosre page se: autoniex.com/#contact par navigate karo
+        router.push('/' + href);
       }
       setMobileOpen(false);
     }
@@ -189,16 +199,15 @@ export default function Navbar() {
             >
               <button
                 type="button"
-                onClick={(e) => {
+                onClick={() => {
                   if (isHome) {
                     const el = document.querySelector('#services');
-                    if (el) el.scrollIntoView({ behavior: 'smooth' });
+                    if (el) {
+                      el.scrollIntoView({ behavior: 'smooth' });
+                      window.history.pushState(null, '', '#services');
+                    }
                   } else {
-                    router.push('/');
-                    setTimeout(() => {
-                      const el = document.getElementById('services');
-                      if (el) el.scrollIntoView({ behavior: 'smooth' });
-                    }, 400);
+                    router.push('/#services');
                   }
                 }}
                 className="relative text-sm font-semibold text-text-muted hover:text-volt transition-colors duration-200 px-4 py-2 rounded-full z-10 inline-flex items-center gap-1.5 focus:outline-none"
@@ -255,7 +264,10 @@ export default function Navbar() {
                   <div className="mt-2 pt-2 border-t border-line px-2">
                     <a
                       href={isHome ? '#services' : '/#services'}
-                      onClick={() => setServicesDropdown(false)}
+                      onClick={(e) => {
+                        setServicesDropdown(false);
+                        handleNavClick(e, '#services');
+                      }}
                       className="text-[11px] font-bold text-volt hover:underline flex items-center justify-between"
                     >
                       <span>View All Capabilities on Home</span>
@@ -269,7 +281,7 @@ export default function Navbar() {
             {navLinks.map((link) => (
               <a
                 key={link.label}
-                href={isHome ? link.href : '/'}
+                href={isHome ? link.href : '/' + link.href}
                 onClick={(e) => handleNavClick(e, link.href)}
                 onMouseEnter={handleMouseEnter}
                 className="relative text-sm font-semibold text-text-muted hover:text-volt transition-colors duration-200 px-4 py-2 rounded-full z-10"
@@ -308,17 +320,8 @@ export default function Navbar() {
 
             {/* CTA */}
             <a
-              href={isHome ? '#contact' : '/'}
-              onClick={(e) => {
-                if (!isHome) {
-                  e.preventDefault();
-                  router.push('/');
-                  setTimeout(() => {
-                    const el = document.getElementById('contact');
-                    if (el) el.scrollIntoView({ behavior: 'smooth' });
-                  }, 400);
-                }
-              }}
+              href={isHome ? '#contact' : '/#contact'}
+              onClick={(e) => handleNavClick(e, '#contact')}
               className="inline-flex items-center gap-2 bg-volt text-volt-ink font-display font-bold text-xs uppercase tracking-wider px-5 py-2.5 rounded-full shadow-neon hover:bg-volt-hover hover:scale-105 hover:shadow-[0_0_24px_rgba(198,245,46,0.6)] active:scale-100 transition-all duration-200"
             >
               <Sparkles className="w-3.5 h-3.5" />
@@ -380,7 +383,7 @@ export default function Navbar() {
             {navLinks.map((link, i) => (
               <a
                 key={link.label}
-                href={isHome ? link.href : '/'}
+                href={isHome ? link.href : '/' + link.href}
                 onClick={(e) => handleNavClick(e, link.href)}
                 className="text-base font-semibold text-text hover:text-volt hover:bg-volt/5 py-2.5 px-4 rounded-xl flex items-center justify-between transition-all duration-150"
                 style={{ animationDelay: `${i * 50}ms` }}
@@ -399,18 +402,8 @@ export default function Navbar() {
             </Link>
           </nav>
           <a
-            href={isHome ? '#contact' : '/'}
-            onClick={(e) => {
-              setMobileOpen(false);
-              if (!isHome) {
-                e.preventDefault();
-                router.push('/');
-                setTimeout(() => {
-                  const el = document.getElementById('contact');
-                  if (el) el.scrollIntoView({ behavior: 'smooth' });
-                }, 400);
-              }
-            }}
+            href={isHome ? '#contact' : '/#contact'}
+            onClick={(e) => handleNavClick(e, '#contact')}
             className="w-full text-center bg-volt text-volt-ink font-display font-bold text-xs uppercase tracking-wider py-3.5 rounded-full shadow-neon"
           >
             Build With Us

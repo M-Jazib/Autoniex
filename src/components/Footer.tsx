@@ -108,13 +108,13 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <a href="#engage" className="hover:text-volt transition-colors flex items-center justify-between group">
+                <a href="/#engage" className="hover:text-volt transition-colors flex items-center justify-between group">
                   <span>B2B Growth & Acquisition</span>
                   <span className="text-volt opacity-0 group-hover:opacity-100 transition-opacity text-xs">→</span>
                 </a>
               </li>
               <li>
-                <a href="#work" className="hover:text-volt transition-colors flex items-center justify-between group">
+                <a href="/#work" className="hover:text-volt transition-colors flex items-center justify-between group">
                   <span>Enterprise RAG & APIs</span>
                   <span className="text-volt opacity-0 group-hover:opacity-100 transition-opacity text-xs">→</span>
                 </a>
@@ -133,16 +133,16 @@ export default function Footer() {
                 <Link href="/p/about" className="hover:text-volt transition-colors font-semibold text-text">About Us</Link>
               </li>
               <li>
-                <a href="#work" className="hover:text-volt transition-colors">Case Studies</a>
+                <a href="/#work" className="hover:text-volt transition-colors">Case Studies</a>
               </li>
               <li>
-                <a href="#process" className="hover:text-volt transition-colors">Sprint Cycle</a>
+                <a href="/#process" className="hover:text-volt transition-colors">Sprint Cycle</a>
               </li>
               <li>
-                <a href="#engage" className="hover:text-volt transition-colors">Pricing Models</a>
+                <a href="/#engage" className="hover:text-volt transition-colors">Pricing Models</a>
               </li>
               <li>
-                <a href="#faq" className="hover:text-volt transition-colors">Client FAQ</a>
+                <a href="/#faq" className="hover:text-volt transition-colors">Client FAQ</a>
               </li>
               <li>
                 <Link href="/p/privacy" className="hover:text-volt transition-colors">Privacy Policy</Link>
