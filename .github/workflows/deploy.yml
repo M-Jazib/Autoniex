@@ -31,17 +31,19 @@ jobs:
       - name: 🏗️ Build static export
         run: npm run build
 
-      # 5. Deploy out/ folder to Hostinger via FTP
-      - name: 📡 Deploy to Hostinger via FTP
+      # 5. Deploy out/ folder to Hostinger via FTPS
+      - name: 📡 Deploy to Hostinger via FTPS
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./out/
-          server-dir: /
-          protocol: ftp
+          server-dir: public_html/
+          protocol: ftps
           port: 21
+          security: loose
+          timeout: 120000
           dangerous-clean-slate: false
           exclude: |
             **/.git*
