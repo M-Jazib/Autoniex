@@ -5,81 +5,108 @@ import Link from 'next/link';
 import { ArrowLeft, ArrowRight, Sparkles } from 'lucide-react';
 import { useSiteContent } from '@/context/SiteContext';
 
-function renderContent(raw: string) {
-  const lines = raw.split('\n');
-  const elements: React.ReactNode[] = [];
-  let i = 0;
-
-  while (i < lines.length) {
-    const line = lines[i];
-
-    if (line.startsWith('## ')) {
-      elements.push(
-        <h2 key={i} className="font-display font-bold text-2xl sm:text-3xl text-text mt-10 mb-4 border-b border-line pb-3">
-          {line.slice(3)}
-        </h2>
-      );
-    } else if (line.startsWith('### ')) {
-      elements.push(
-        <h3 key={i} className="font-display font-bold text-xl text-text mt-8 mb-3">
-          {line.slice(4)}
-        </h3>
-      );
-    } else if (line.startsWith('**') && line.endsWith('**')) {
-      elements.push(
-        <p key={i} className="font-bold text-text text-base mt-5 mb-1">
-          {line.slice(2, -2)}
-        </p>
-      );
-    } else if (/^\*\*\d+\./.test(line)) {
-      // **1. Title** style
-      const cleaned = line.replace(/\*\*/g, '');
-      elements.push(
-        <p key={i} className="font-bold text-text text-base mt-6 mb-1">
-          {cleaned}
-        </p>
-      );
-    } else if (line.match(/^\d+\.\s\*\*/)) {
-      // numbered list with bold: 1. **Bold** text
-      const cleaned = line.replace(/\*\*(.*?)\*\*/g, '$1');
-      elements.push(
-        <li key={i} className="text-text-muted text-sm sm:text-base leading-relaxed ml-4 list-decimal">
-          <span className="font-semibold text-text">{cleaned.split(':')[0].replace(/^\d+\.\s/, '')}</span>
-          {cleaned.includes(':') ? ': ' + cleaned.split(':').slice(1).join(':') : ''}
-        </li>
-      );
-    } else if (line.startsWith('- ')) {
-      elements.push(
-        <li key={i} className="text-text-muted text-sm sm:text-base leading-relaxed ml-4 list-disc">
-          {renderInline(line.slice(2))}
-        </li>
-      );
-    } else if (line.trim() === '') {
-      elements.push(<div key={i} className="h-2" />);
-    } else {
-      elements.push(
-        <p key={i} className="text-text-muted text-sm sm:text-base leading-relaxed">
-          {renderInline(line)}
-        </p>
-      );
-    }
-    i++;
+function renderInline(text: string): React.ReactNode {
+  if (!text || typeof text !== 'string') return '';
+  try {
+    const parts = text.split(/\*\*(.*?)\*\*/g);
+    return parts.map((part, idx) =>
+      idx % 2 === 1 ? (
+        <strong key={idx} className="text-text font-semibold">
+          {part}
+        </strong>
+      ) : (
+        part
+      )
+    );
+  } catch {
+    return text;
   }
-  return elements;
 }
 
-function renderInline(text: string): React.ReactNode {
-  // Handle **bold** inline
-  const parts = text.split(/\*\*(.*?)\*\*/g);
-  return parts.map((part, idx) =>
-    idx % 2 === 1 ? <strong key={idx} className="text-text font-semibold">{part}</strong> : part
-  );
+function renderContent(raw: string) {
+  if (!raw || typeof raw !== 'string') return null;
+
+  try {
+    const lines = raw.split('\n');
+    const elements: React.ReactNode[] = [];
+    let i = 0;
+
+    while (i < lines.length) {
+      const line = lines[i] || '';
+
+      if (line.startsWith('## ')) {
+        elements.push(
+          <h2
+            key={i}
+            className="font-display font-bold text-2xl sm:text-3xl text-text mt-10 mb-4 border-b border-line pb-3"
+          >
+            {line.slice(3)}
+          </h2>
+        );
+      } else if (line.startsWith('### ')) {
+        elements.push(
+          <h3 key={i} className="font-display font-bold text-xl text-text mt-8 mb-3">
+            {line.slice(4)}
+          </h3>
+        );
+      } else if (line.startsWith('**') && line.endsWith('**')) {
+        elements.push(
+          <p key={i} className="font-bold text-text text-base mt-5 mb-1">
+            {line.slice(2, -2)}
+          </p>
+        );
+      } else if (/^\*\*\d+\./.test(line)) {
+        const cleaned = line.replace(/\*\*/g, '');
+        elements.push(
+          <p key={i} className="font-bold text-text text-base mt-6 mb-1">
+            {cleaned}
+          </p>
+        );
+      } else if (line.match(/^\d+\.\s\*\*/)) {
+        const cleaned = line.replace(/\*\*(.*?)\*\*/g, '$1');
+        const parts = cleaned.split(':');
+        elements.push(
+          <li
+            key={i}
+            className="text-text-muted text-sm sm:text-base leading-relaxed ml-4 list-decimal"
+          >
+            <span className="font-semibold text-text">
+              {parts[0]?.replace(/^\d+\.\s/, '') || ''}
+            </span>
+            {parts.length > 1 ? ': ' + parts.slice(1).join(':') : ''}
+          </li>
+        );
+      } else if (line.startsWith('- ')) {
+        elements.push(
+          <li
+            key={i}
+            className="text-text-muted text-sm sm:text-base leading-relaxed ml-4 list-disc"
+          >
+            {renderInline(line.slice(2))}
+          </li>
+        );
+      } else if (line.trim() === '') {
+        elements.push(<div key={i} className="h-2" />);
+      } else {
+        elements.push(
+          <p key={i} className="text-text-muted text-sm sm:text-base leading-relaxed">
+            {renderInline(line)}
+          </p>
+        );
+      }
+      i++;
+    }
+    return elements;
+  } catch (e) {
+    console.error('Error rendering markdown content:', e);
+    return <p className="text-text-muted text-sm leading-relaxed whitespace-pre-line">{raw}</p>;
+  }
 }
 
 export default function CustomPageContent({ slug }: { slug: string }) {
   const { customPages } = useSiteContent();
 
-  const page = customPages.find((p) => p.slug === slug);
+  const page = customPages?.find((p) => p && p.slug === slug);
 
   if (!page) {
     return (
@@ -119,7 +146,7 @@ export default function CustomPageContent({ slug }: { slug: string }) {
           <span>Autoniex</span>
         </div>
         <h1 className="font-display font-extrabold text-4xl sm:text-5xl text-text leading-tight mb-5">
-          {page.title}
+          {page.title || 'About Autoniex'}
         </h1>
         {page.subtitle && (
           <p className="text-lg sm:text-xl text-text-muted leading-relaxed font-medium">
@@ -130,7 +157,7 @@ export default function CustomPageContent({ slug }: { slug: string }) {
 
       {/* Content Body */}
       <div className="space-y-2">
-        {renderContent(page.content)}
+        {page.content ? renderContent(page.content) : null}
       </div>
 
       {/* CTA at bottom */}
@@ -138,7 +165,7 @@ export default function CustomPageContent({ slug }: { slug: string }) {
         <div className="bg-surface rounded-2xl border border-line p-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
           <div>
             <p className="font-display font-bold text-lg text-text mb-1">Ready to talk?</p>
-            <p className="text-sm text-text-muted">Tell us what you need. We'll give you a straight answer.</p>
+            <p className="text-sm text-text-muted">Tell us what you need. We&apos;ll give you a straight answer.</p>
           </div>
           <Link
             href="/#contact"

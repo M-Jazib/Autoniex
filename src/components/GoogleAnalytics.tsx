@@ -1,16 +1,16 @@
 'use client';
 
-import { usePathname, useSearchParams } from 'next/navigation';
-import { useEffect, useRef, Suspense } from 'react';
+import { usePathname } from 'next/navigation';
+import { useEffect, useRef } from 'react';
 import { GA_ID, pageview } from '@/lib/gtag';
 
 /**
- * Inner component that reads search params (wrapped in Suspense).
- * Fires a page_view event on client-side navigations after initial load.
+ * GoogleAnalytics SPA route tracker.
+ * The base gtag script is loaded in RootLayout HTML for instant initialization.
+ * This client component tracks subsequent SPA navigations safely without useSearchParams.
  */
-function GANavigationTracker() {
+export default function GoogleAnalytics() {
   const pathname = usePathname();
-  const searchParams = useSearchParams();
   const isFirstRender = useRef(true);
 
   useEffect(() => {
@@ -19,22 +19,10 @@ function GANavigationTracker() {
       return;
     }
     if (!GA_ID) return;
-    const url = pathname + (searchParams.toString() ? '?' + searchParams.toString() : '');
+    const search = typeof window !== 'undefined' ? window.location.search : '';
+    const url = pathname + search;
     pageview(url);
-  }, [pathname, searchParams]);
+  }, [pathname]);
 
   return null;
-}
-
-/**
- * GoogleAnalytics SPA route tracker.
- * The base gtag script is loaded in RootLayout HTML for instant initialization.
- * This client component tracks subsequent SPA navigations.
- */
-export default function GoogleAnalytics() {
-  return (
-    <Suspense fallback={null}>
-      <GANavigationTracker />
-    </Suspense>
-  );
 }

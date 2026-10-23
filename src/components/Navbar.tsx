@@ -34,8 +34,13 @@ export default function Navbar() {
     if (isHome && typeof window !== 'undefined' && window.location.hash) {
       const hash = window.location.hash;
       const timer = setTimeout(() => {
-        const el = document.querySelector(hash);
-        if (el) el.scrollIntoView({ behavior: 'smooth' });
+        try {
+          const id = hash.startsWith('#') ? hash.slice(1) : hash;
+          const el = id ? document.getElementById(id) : null;
+          if (el) el.scrollIntoView({ behavior: 'smooth' });
+        } catch {
+          // ignore
+        }
       }, 300);
       return () => clearTimeout(timer);
     }
@@ -82,7 +87,8 @@ export default function Navbar() {
       e.preventDefault();
       if (isHome) {
         // Homepage par: scroll karo + URL mein #contact dikhao
-        const el = document.querySelector(href);
+        const id = href.slice(1);
+        const el = id ? document.getElementById(id) : null;
         if (el) {
           el.scrollIntoView({ behavior: 'smooth' });
           window.history.pushState(null, '', href);
@@ -201,7 +207,7 @@ export default function Navbar() {
                 type="button"
                 onClick={() => {
                   if (isHome) {
-                    const el = document.querySelector('#services');
+                    const el = document.getElementById('services');
                     if (el) {
                       el.scrollIntoView({ behavior: 'smooth' });
                       window.history.pushState(null, '', '#services');
