@@ -64,7 +64,7 @@ export default function Navbar() {
     { label: 'Contact', href: '#contact' },
   ];
 
-  // Smart anchor navigation: if on homepage scroll to section, otherwise go to /#section
+  // Smart anchor navigation: if on homepage scroll to section, otherwise navigate to home then scroll
   function handleNavClick(e: React.MouseEvent<HTMLAnchorElement>, href: string) {
     if (href.startsWith('#')) {
       e.preventDefault();
@@ -72,7 +72,14 @@ export default function Navbar() {
         const el = document.querySelector(href);
         if (el) el.scrollIntoView({ behavior: 'smooth' });
       } else {
-        router.push('/' + href);
+        // Navigate to homepage without hash in URL, then scroll after load
+        const sectionId = href.slice(1);
+        router.push('/');
+        // Wait for navigation then scroll
+        setTimeout(() => {
+          const el = document.getElementById(sectionId);
+          if (el) el.scrollIntoView({ behavior: 'smooth' });
+        }, 400);
       }
       setMobileOpen(false);
     }
@@ -187,7 +194,11 @@ export default function Navbar() {
                     const el = document.querySelector('#services');
                     if (el) el.scrollIntoView({ behavior: 'smooth' });
                   } else {
-                    router.push('/#services');
+                    router.push('/');
+                    setTimeout(() => {
+                      const el = document.getElementById('services');
+                      if (el) el.scrollIntoView({ behavior: 'smooth' });
+                    }, 400);
                   }
                 }}
                 className="relative text-sm font-semibold text-text-muted hover:text-volt transition-colors duration-200 px-4 py-2 rounded-full z-10 inline-flex items-center gap-1.5 focus:outline-none"
@@ -258,7 +269,7 @@ export default function Navbar() {
             {navLinks.map((link) => (
               <a
                 key={link.label}
-                href={isHome ? link.href : '/' + link.href}
+                href={isHome ? link.href : '/'}
                 onClick={(e) => handleNavClick(e, link.href)}
                 onMouseEnter={handleMouseEnter}
                 className="relative text-sm font-semibold text-text-muted hover:text-volt transition-colors duration-200 px-4 py-2 rounded-full z-10"
@@ -297,7 +308,17 @@ export default function Navbar() {
 
             {/* CTA */}
             <a
-              href={isHome ? '#contact' : '/#contact'}
+              href={isHome ? '#contact' : '/'}
+              onClick={(e) => {
+                if (!isHome) {
+                  e.preventDefault();
+                  router.push('/');
+                  setTimeout(() => {
+                    const el = document.getElementById('contact');
+                    if (el) el.scrollIntoView({ behavior: 'smooth' });
+                  }, 400);
+                }
+              }}
               className="inline-flex items-center gap-2 bg-volt text-volt-ink font-display font-bold text-xs uppercase tracking-wider px-5 py-2.5 rounded-full shadow-neon hover:bg-volt-hover hover:scale-105 hover:shadow-[0_0_24px_rgba(198,245,46,0.6)] active:scale-100 transition-all duration-200"
             >
               <Sparkles className="w-3.5 h-3.5" />
@@ -359,7 +380,7 @@ export default function Navbar() {
             {navLinks.map((link, i) => (
               <a
                 key={link.label}
-                href={isHome ? link.href : '/' + link.href}
+                href={isHome ? link.href : '/'}
                 onClick={(e) => handleNavClick(e, link.href)}
                 className="text-base font-semibold text-text hover:text-volt hover:bg-volt/5 py-2.5 px-4 rounded-xl flex items-center justify-between transition-all duration-150"
                 style={{ animationDelay: `${i * 50}ms` }}
@@ -378,8 +399,18 @@ export default function Navbar() {
             </Link>
           </nav>
           <a
-            href={isHome ? '#contact' : '/#contact'}
-            onClick={() => setMobileOpen(false)}
+            href={isHome ? '#contact' : '/'}
+            onClick={(e) => {
+              setMobileOpen(false);
+              if (!isHome) {
+                e.preventDefault();
+                router.push('/');
+                setTimeout(() => {
+                  const el = document.getElementById('contact');
+                  if (el) el.scrollIntoView({ behavior: 'smooth' });
+                }, 400);
+              }
+            }}
             className="w-full text-center bg-volt text-volt-ink font-display font-bold text-xs uppercase tracking-wider py-3.5 rounded-full shadow-neon"
           >
             Build With Us
