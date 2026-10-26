@@ -2,14 +2,20 @@
 # Hostinger Apache / LiteSpeed Configuration for Autoniex (Next.js)
 # ====================================================================
 
-# 1. Force HTTPS
+# 1. Force HTTPS & Non-WWW (Canonical Domain Enforcement)
 <IfModule mod_rewrite.c>
   RewriteEngine On
+
+  # Redirect www.autoniex.com -> https://autoniex.com
+  RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+  RewriteRule ^(.*)$ https://%1/$1 [R=301,L]
+
+  # Redirect HTTP -> HTTPS
   RewriteCond %{HTTPS} off
-  RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+  RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
 </IfModule>
 
-# 2. Clean URLs & SPA Fallback
+# 2. Clean URLs & Static Directory Routing
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteBase /

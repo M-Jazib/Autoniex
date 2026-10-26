@@ -50,7 +50,7 @@ export default function Navbar() {
     {
       title: 'n8n Workflow Automation',
       desc: 'Self-hosted 24/7 pipelines & integrations',
-      href: '/p/n8n-automation',
+      href: '/p/n8n-automation/',
       icon: Cpu,
       color: 'text-volt',
       badge: 'POPULAR',
@@ -58,7 +58,7 @@ export default function Navbar() {
     {
       title: 'Custom AI Agents & Voice',
       desc: 'Telephony bots & 80%+ support deflection',
-      href: '/p/ai-agents',
+      href: '/p/ai-agents/',
       icon: Bot,
       color: 'text-cyber-teal',
       badge: '24/7 LIVE',
@@ -66,7 +66,7 @@ export default function Navbar() {
     {
       title: 'Next.js Web Development',
       desc: 'Sub-second custom high-conversion sites',
-      href: '/p/web-development',
+      href: '/p/web-development/',
       icon: Layout,
       color: 'text-volt',
       badge: 'SUB-SECOND',
@@ -298,7 +298,7 @@ export default function Navbar() {
 
             {/* About page link in desktop nav */}
             <Link
-              href="/p/about"
+              href="/p/about/"
               onMouseEnter={handleMouseEnter}
               className="relative text-sm font-semibold text-text-muted hover:text-volt transition-colors duration-200 px-4 py-2 rounded-full z-10"
             >
@@ -399,7 +399,7 @@ export default function Navbar() {
               </a>
             ))}
             <Link
-              href="/p/about"
+              href="/p/about/"
               onClick={() => setMobileOpen(false)}
               className="text-base font-semibold text-text hover:text-volt hover:bg-volt/5 py-2.5 px-4 rounded-xl flex items-center justify-between transition-all duration-150"
             >

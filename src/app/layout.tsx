@@ -248,7 +248,7 @@ export default function RootLayout({
                           name: 'n8n Workflow Automation Agency',
                           description:
                             'End-to-end autonomous business workflows. Connect CRM, databases, email, and APIs into a unified 24/7 automation engine with n8n.',
-                          url: 'https://autoniex.com/p/n8n-automation',
+                          url: 'https://autoniex.com/p/n8n-automation/',
                         },
                       },
                       {
@@ -258,7 +258,7 @@ export default function RootLayout({
                           name: 'Custom AI Agents & Voice Bots',
                           description:
                             'Domain-specific LLM agents, AI voice receptionists, customer support deflection bots, and autonomous SDR agents.',
-                          url: 'https://autoniex.com/p/ai-agents',
+                          url: 'https://autoniex.com/p/ai-agents/',
                         },
                       },
                       {
@@ -268,7 +268,7 @@ export default function RootLayout({
                           name: 'High-Performance Next.js Web Development',
                           description:
                             'Sub-second custom Next.js web applications, headless e-commerce, and high-converting landing pages.',
-                          url: 'https://autoniex.com/p/web-development',
+                          url: 'https://autoniex.com/p/web-development/',
                         },
                       },
                     ],

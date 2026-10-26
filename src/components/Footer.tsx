@@ -90,19 +90,19 @@ export default function Footer() {
             </h4>
             <ul className="space-y-3 text-xs sm:text-sm text-text-muted font-medium">
               <li>
-                <Link href="/p/n8n-automation" className="hover:text-volt transition-colors flex items-center justify-between group">
+                <Link href="/p/n8n-automation/" className="hover:text-volt transition-colors flex items-center justify-between group">
                   <span>n8n Workflow Automation</span>
                   <span className="text-volt opacity-0 group-hover:opacity-100 transition-opacity text-xs">→</span>
                 </Link>
               </li>
               <li>
-                <Link href="/p/ai-agents" className="hover:text-volt transition-colors flex items-center justify-between group">
+                <Link href="/p/ai-agents/" className="hover:text-volt transition-colors flex items-center justify-between group">
                   <span>Custom AI Agents & Voice Bots</span>
                   <span className="text-volt opacity-0 group-hover:opacity-100 transition-opacity text-xs">→</span>
                 </Link>
               </li>
               <li>
-                <Link href="/p/web-development" className="hover:text-volt transition-colors flex items-center justify-between group">
+                <Link href="/p/web-development/" className="hover:text-volt transition-colors flex items-center justify-between group">
                   <span>Next.js Web Development</span>
                   <span className="text-volt opacity-0 group-hover:opacity-100 transition-opacity text-xs">→</span>
                 </Link>
@@ -130,7 +130,7 @@ export default function Footer() {
             </h4>
             <ul className="space-y-3 text-xs sm:text-sm text-text-muted font-medium">
               <li>
-                <Link href="/p/about" className="hover:text-volt transition-colors font-semibold text-text">About Us</Link>
+                <Link href="/p/about/" className="hover:text-volt transition-colors font-semibold text-text">About Us</Link>
               </li>
               <li>
                 <a href="/#work" className="hover:text-volt transition-colors">Case Studies</a>
@@ -145,7 +145,7 @@ export default function Footer() {
                 <a href="/#faq" className="hover:text-volt transition-colors">Client FAQ</a>
               </li>
               <li>
-                <Link href="/p/privacy" className="hover:text-volt transition-colors">Privacy Policy</Link>
+                <Link href="/p/privacy/" className="hover:text-volt transition-colors">Privacy Policy</Link>
               </li>
             </ul>
           </div>

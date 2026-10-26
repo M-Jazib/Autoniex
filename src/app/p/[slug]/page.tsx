@@ -22,12 +22,12 @@ export function generateMetadata({ params }: { params: { slug: string } }): Meta
     title,
     description,
     alternates: {
-      canonical: `https://autoniex.com/p/${params.slug}`,
+      canonical: `https://autoniex.com/p/${params.slug}/`,
     },
     openGraph: {
       title,
       description,
-      url: `https://autoniex.com/p/${params.slug}`,
+      url: `https://autoniex.com/p/${params.slug}/`,
     },
   };
 }
