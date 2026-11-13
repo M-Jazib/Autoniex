@@ -292,7 +292,7 @@ export const INITIAL_PORTFOLIO: PortfolioItem[] = [
     id: 'proj-1',
     title: 'NovaCart AI Support Copilot & RAG Engine',
     cat: 'automation',
-    image: '/images/sage-agent.jpg',
+    image: '/images/sage-agent.webp',
     alt: 'n8n AI autonomous e-commerce customer support workflow and vector database',
     blurb: 'Autonomous tier-1 customer support architecture built on n8n, LangChain, Groq LLM, and OpenAI embeddings. Ingests store manuals from Google Drive, answers order & refund queries in < 1.2s, and deflects 83% of live tickets.',
     built: [
@@ -313,7 +313,7 @@ export const INITIAL_PORTFOLIO: PortfolioItem[] = [
     id: 'proj-2',
     title: 'HubSpot AI CRM Inbound Reply & Follow-Up Engine',
     cat: 'automation',
-    image: '/images/nova-crm.jpg',
+    image: '/images/nova-crm.webp',
     alt: 'n8n automated Gmail and HubSpot CRM inbound reply and lead follow up engine',
     blurb: 'Zero-delay inbound email qualification and pipeline sync engine. Triggers on Gmail messages, analyzes lead intent via Groq LLM, creates deals in HubSpot CRM, and delivers hyper-personalized response drafts within 45 seconds.',
     built: [
@@ -334,7 +334,7 @@ export const INITIAL_PORTFOLIO: PortfolioItem[] = [
     id: 'proj-3',
     title: 'Autonomous AI Voice Agent & Calendar Dispatcher',
     cat: 'automation',
-    image: '/images/ledger-bot.jpg',
+    image: '/images/ledger-bot.webp',
     alt: 'n8n real-time AI voice agent appointment booking and calendar availability workflow',
     blurb: 'Conversational voice AI telephony workflow handling 24/7 inbound phone inquiries, live Google Calendar availability checks, instant appointment scheduling, and automated VIP human transfers.',
     built: [
@@ -355,7 +355,7 @@ export const INITIAL_PORTFOLIO: PortfolioItem[] = [
     id: 'proj-4',
     title: 'HubSpot AI Deal Recovery & Pipeline Nurturing Agent',
     cat: 'automation',
-    image: '/images/orbit-marketing.jpg',
+    image: '/images/orbit-marketing.webp',
     alt: 'n8n automated sales pipeline follow up and deal recovery agent',
     blurb: 'Autonomous sales pipeline revival system running on n8n. Periodically audits stalled deals in HubSpot CRM, generates customized objection-handling follow-ups based on past meeting transcripts, and re-engages dormant buyers.',
     built: [
@@ -376,7 +376,7 @@ export const INITIAL_PORTFOLIO: PortfolioItem[] = [
     id: 'proj-5',
     title: 'Multi-Channel Inbound Lead Qualification & Routing',
     cat: 'automation',
-    image: '/images/pulse-analytics.jpg',
+    image: '/images/pulse-analytics.webp',
     alt: 'n8n multi-channel lead scoring and instant database distribution pipeline',
     blurb: 'High-throughput lead qualification engine processing leads from webhooks, Google Ads, and Meta funnels. Enriches lead profiles, scores against ICP criteria via Groq LLM, and logs clean records to Google Sheets & CRM.',
     built: [
@@ -397,7 +397,7 @@ export const INITIAL_PORTFOLIO: PortfolioItem[] = [
     id: 'proj-6',
     title: 'Autonomous Enterprise Knowledge Ingestion & Vector RAG',
     cat: 'automation',
-    image: '/images/bloom-storefront.jpg',
+    image: '/images/bloom-storefront.webp',
     alt: 'n8n automated Google Drive document ingestion and vector embedding RAG pipeline',
     blurb: 'Automated document processing and RAG pipeline running in n8n. Continuously monitors Google Drive repository for new SOPs, policy PDFs, and contracts, chunks text, and generates OpenAI embeddings for AI copilots.',
     built: [

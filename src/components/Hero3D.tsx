@@ -2,8 +2,7 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
-import { ArrowRight, ChevronDown, CheckCircle2, ShieldCheck, Zap, Pause, Play, ChevronLeft, ChevronRight } from 'lucide-react';
-import * as THREE from 'three';
+import { ArrowRight, ChevronDown, CheckCircle2, Zap, Pause, Play, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useSiteContent } from '@/context/SiteContext';
 import { useTheme } from '@/context/ThemeContext';
 
@@ -33,7 +32,7 @@ const HERO_CARDS: HeroCardItem[] = [
     subtitle: 'Autonomous Workflow Engine',
     tag: 'ONLINE',
     tagPulse: true,
-    image: '/images/nova-crm.jpg',
+    image: '/images/nova-crm.webp',
     alt: 'Real enterprise n8n workflow pipeline automation dashboard',
     metric1Label: 'Lead Response Speed:',
     metric1Val: '< 45 Seconds',
@@ -51,7 +50,7 @@ const HERO_CARDS: HeroCardItem[] = [
     subtitle: 'RAG Support & Helpdesk Agent',
     tag: '83% DEFLECTION',
     tagPulse: true,
-    image: '/images/sage-agent.jpg',
+    image: '/images/sage-agent.webp',
     alt: 'Real enterprise n8n AI customer support ticket copilot',
     metric1Label: 'Average Resolution:',
     metric1Val: '< 1.2 Seconds',
@@ -69,7 +68,7 @@ const HERO_CARDS: HeroCardItem[] = [
     subtitle: '24/7 Phone & Calendar Agent',
     tag: 'REAL-TIME SYNC',
     tagPulse: true,
-    image: '/images/ledger-bot.jpg',
+    image: '/images/ledger-bot.webp',
     alt: 'n8n AI voice telephony agent and Google Calendar availability scheduler',
     metric1Label: 'Answer Rate:',
     metric1Val: '100% Inbound Calls',
@@ -87,7 +86,7 @@ const HERO_CARDS: HeroCardItem[] = [
     subtitle: 'Deal Recovery & Inbound Sync',
     tag: 'GROQ LLM',
     tagPulse: false,
-    image: '/images/orbit-marketing.jpg',
+    image: '/images/orbit-marketing.webp',
     alt: 'n8n automated HubSpot CRM deal acceleration and email follow up',
     metric1Label: 'Response Time:',
     metric1Val: 'Under 45s Drafts',
@@ -105,7 +104,7 @@ const HERO_CARDS: HeroCardItem[] = [
     subtitle: 'Continuous Document Pipeline',
     tag: 'SUB-SECOND RAG',
     tagPulse: true,
-    image: '/images/bloom-storefront.jpg',
+    image: '/images/bloom-storefront.webp',
     alt: 'n8n Google Drive document ingestion and OpenAI embeddings vector store',
     metric1Label: 'Semantic Search:',
     metric1Val: '< 800ms Retrieval',
@@ -154,146 +153,155 @@ export default function Hero3D() {
 
   const currentCard = HERO_CARDS[activeCardIndex];
 
-  // Three.js WebGL background — Minimal Ambient Constellation (Theme-Aware)
+  // Three.js WebGL background — lazy loaded after mount to avoid blocking LCP
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    let renderer: THREE.WebGLRenderer;
-    try {
-      renderer = new THREE.WebGLRenderer({
-        canvas,
-        antialias: false,
-        alpha: true,
-        powerPreference: 'low-power',
-      });
-    } catch {
-      return;
-    }
-
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(60, 1, 0.1, 200);
-    camera.position.set(0, 0, 18);
-
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
-
-    // Theme-aware colors — using React theme state (reliable, reactive)
-    const isLight = theme === 'light';
-    const C_VOLT = isLight ? 0x4a9900 : 0xc6f52e;
-    const C_TEAL = isLight ? 0x0e8a6e : 0x4fe0c0;
-    const PARTICLE_SIZE    = isLight ? 0.07  : 0.055;
-    const PARTICLE_OPACITY = isLight ? 0.55  : 0.55;
-    const RING_OPACITY_1   = isLight ? 0.12  : 0.07;
-    const RING_OPACITY_2   = isLight ? 0.09  : 0.06;
-
-    // ─── Ambient Particle Field (Starfield-style, very subtle) ───
-    const COUNT = 1800;
-    const pGeo = new THREE.BufferGeometry();
-    const positions = new Float32Array(COUNT * 3);
-    const colors    = new Float32Array(COUNT * 3);
-    const vColor    = new THREE.Color(C_VOLT);
-    const tColor    = new THREE.Color(C_TEAL);
-
-    for (let i = 0; i < COUNT; i++) {
-      positions[i * 3]     = (Math.random() - 0.5) * 70;
-      positions[i * 3 + 1] = (Math.random() - 0.5) * 40;
-      positions[i * 3 + 2] = (Math.random() - 0.5) * 40;
-      const c = Math.random() > 0.45 ? vColor : tColor;
-      colors[i * 3]     = c.r;
-      colors[i * 3 + 1] = c.g;
-      colors[i * 3 + 2] = c.b;
-    }
-
-    pGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-    pGeo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
-
-    const pMat = new THREE.PointsMaterial({
-      size: PARTICLE_SIZE,
-      vertexColors: true,
-      transparent: true,
-      opacity: PARTICLE_OPACITY,
-      sizeAttenuation: true,
-    });
-    const points = new THREE.Points(pGeo, pMat);
-    scene.add(points);
-
-    // ─── Two very faint distant wireframe rings (barely visible) ───
-    const ringGeo = new THREE.TorusGeometry(9, 0.012, 6, 80);
-    const ringMat = new THREE.MeshBasicMaterial({
-      color: C_VOLT,
-      transparent: true,
-      opacity: RING_OPACITY_1,
-      wireframe: false,
-    });
-    const ring1 = new THREE.Mesh(ringGeo, ringMat);
-    ring1.rotation.x = Math.PI / 3;
-    ring1.position.set(-3, 1, -8);
-    scene.add(ring1);
-
-    const ringGeo2 = new THREE.TorusGeometry(7, 0.01, 6, 80);
-    const ringMat2 = new THREE.MeshBasicMaterial({
-      color: C_TEAL,
-      transparent: true,
-      opacity: RING_OPACITY_2,
-      wireframe: false,
-    });
-    const ring2 = new THREE.Mesh(ringGeo2, ringMat2);
-    ring2.rotation.x = -Math.PI / 4;
-    ring2.rotation.y = Math.PI / 5;
-    ring2.position.set(4, -2, -10);
-    scene.add(ring2);
-
-    // ─── Resize handler ───
-    const onResize = () => {
-      const w = canvas.clientWidth;
-      const h = canvas.clientHeight;
-      renderer.setSize(w, h, false);
-      camera.aspect = w / h;
-      camera.updateProjectionMatrix();
-    };
-    onResize();
-    window.addEventListener('resize', onResize);
-
-    // ─── Very gentle mouse parallax ───
-    let mx = 0, my = 0;
-    const onMouseMove = (e: MouseEvent) => {
-      mx = (e.clientX / window.innerWidth  - 0.5) * 0.6;
-      my = (e.clientY / window.innerHeight - 0.5) * 0.4;
-    };
-    window.addEventListener('mousemove', onMouseMove);
-
-    // ─── Animation loop ───
+    let renderer: import('three').WebGLRenderer;
     let animId: number;
-    let t = 0;
-    const animate = () => {
-      animId = requestAnimationFrame(animate);
-      t += 0.004;
+    let cleanupFn: (() => void) | undefined;
 
-      // Very slow drift rotation
-      points.rotation.y = t * 0.018;
-      points.rotation.x = Math.sin(t * 0.12) * 0.04;
+    // Dynamic import — Three.js is loaded only after the page is interactive
+    const loadThree = async () => {
+      const THREE = await import('three');
 
-      // Subtle ring spin
-      ring1.rotation.z = t * 0.06;
-      ring2.rotation.z = -t * 0.05;
+      try {
+        renderer = new THREE.WebGLRenderer({
+          canvas,
+          antialias: false,
+          alpha: true,
+          powerPreference: 'low-power',
+        });
+      } catch {
+        return;
+      }
 
-      // Gentle camera parallax
-      camera.position.x += (mx * 1.2 - camera.position.x) * 0.025;
-      camera.position.y += (-my * 0.8 - camera.position.y) * 0.025;
-      camera.lookAt(0, 0, 0);
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(60, 1, 0.1, 200);
+      camera.position.set(0, 0, 18);
 
-      renderer.render(scene, camera);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
+
+      const isLight = theme === 'light';
+      const C_VOLT = isLight ? 0x4a9900 : 0xc6f52e;
+      const C_TEAL = isLight ? 0x0e8a6e : 0x4fe0c0;
+      const PARTICLE_SIZE    = isLight ? 0.07  : 0.055;
+      const PARTICLE_OPACITY = isLight ? 0.55  : 0.55;
+      const RING_OPACITY_1   = isLight ? 0.12  : 0.07;
+      const RING_OPACITY_2   = isLight ? 0.09  : 0.06;
+
+      // Reduced particle count for performance (1200 → was 1800)
+      const COUNT = 1200;
+      const pGeo = new THREE.BufferGeometry();
+      const positions = new Float32Array(COUNT * 3);
+      const colors    = new Float32Array(COUNT * 3);
+      const vColor    = new THREE.Color(C_VOLT);
+      const tColor    = new THREE.Color(C_TEAL);
+
+      for (let i = 0; i < COUNT; i++) {
+        positions[i * 3]     = (Math.random() - 0.5) * 70;
+        positions[i * 3 + 1] = (Math.random() - 0.5) * 40;
+        positions[i * 3 + 2] = (Math.random() - 0.5) * 40;
+        const c = Math.random() > 0.45 ? vColor : tColor;
+        colors[i * 3]     = c.r;
+        colors[i * 3 + 1] = c.g;
+        colors[i * 3 + 2] = c.b;
+      }
+
+      pGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+      pGeo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+      const pMat = new THREE.PointsMaterial({
+        size: PARTICLE_SIZE,
+        vertexColors: true,
+        transparent: true,
+        opacity: PARTICLE_OPACITY,
+        sizeAttenuation: true,
+      });
+      const points = new THREE.Points(pGeo, pMat);
+      scene.add(points);
+
+      const ringGeo = new THREE.TorusGeometry(9, 0.012, 6, 80);
+      const ringMat = new THREE.MeshBasicMaterial({
+        color: C_VOLT,
+        transparent: true,
+        opacity: RING_OPACITY_1,
+        wireframe: false,
+      });
+      const ring1 = new THREE.Mesh(ringGeo, ringMat);
+      ring1.rotation.x = Math.PI / 3;
+      ring1.position.set(-3, 1, -8);
+      scene.add(ring1);
+
+      const ringGeo2 = new THREE.TorusGeometry(7, 0.01, 6, 80);
+      const ringMat2 = new THREE.MeshBasicMaterial({
+        color: C_TEAL,
+        transparent: true,
+        opacity: RING_OPACITY_2,
+        wireframe: false,
+      });
+      const ring2 = new THREE.Mesh(ringGeo2, ringMat2);
+      ring2.rotation.x = -Math.PI / 4;
+      ring2.rotation.y = Math.PI / 5;
+      ring2.position.set(4, -2, -10);
+      scene.add(ring2);
+
+      const onResize = () => {
+        const w = canvas.clientWidth;
+        const h = canvas.clientHeight;
+        renderer.setSize(w, h, false);
+        camera.aspect = w / h;
+        camera.updateProjectionMatrix();
+      };
+      onResize();
+      window.addEventListener('resize', onResize);
+
+      let mx = 0, my = 0;
+      const onMouseMove = (e: MouseEvent) => {
+        mx = (e.clientX / window.innerWidth  - 0.5) * 0.6;
+        my = (e.clientY / window.innerHeight - 0.5) * 0.4;
+      };
+      window.addEventListener('mousemove', onMouseMove);
+
+      let t = 0;
+      const animate = () => {
+        animId = requestAnimationFrame(animate);
+        t += 0.004;
+
+        points.rotation.y = t * 0.018;
+        points.rotation.x = Math.sin(t * 0.12) * 0.04;
+
+        ring1.rotation.z = t * 0.06;
+        ring2.rotation.z = -t * 0.05;
+
+        camera.position.x += (mx * 1.2 - camera.position.x) * 0.025;
+        camera.position.y += (-my * 0.8 - camera.position.y) * 0.025;
+        camera.lookAt(0, 0, 0);
+
+        renderer.render(scene, camera);
+      };
+      animate();
+
+      cleanupFn = () => {
+        cancelAnimationFrame(animId);
+        window.removeEventListener('resize', onResize);
+        window.removeEventListener('mousemove', onMouseMove);
+        renderer.dispose();
+        pGeo.dispose();
+        ringGeo.dispose();
+        ringGeo2.dispose();
+      };
     };
-    animate();
+
+    // Delay Three.js init until after first paint (improves LCP significantly)
+    const timer = setTimeout(() => {
+      loadThree();
+    }, 300);
 
     return () => {
-      cancelAnimationFrame(animId);
-      window.removeEventListener('resize', onResize);
-      window.removeEventListener('mousemove', onMouseMove);
-      renderer.dispose();
-      pGeo.dispose();
-      ringGeo.dispose();
-      ringGeo2.dispose();
+      clearTimeout(timer);
+      if (cleanupFn) cleanupFn();
     };
   }, [theme]);
 

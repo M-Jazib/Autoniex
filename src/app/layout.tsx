@@ -115,7 +115,7 @@ export const metadata: Metadata = {
     type: 'website',
     images: [
       {
-        url: 'https://autoniex.com/images/nova-crm.jpg',
+        url: 'https://autoniex.com/images/nova-crm.webp',
         width: 1200,
         height: 630,
         alt: 'Autoniex — AI Automation Agency & AI Agents',
@@ -127,7 +127,7 @@ export const metadata: Metadata = {
     title: 'Autoniex — AI Automation Agency | n8n & AI Agents',
     description:
       'AI agents, n8n workflow automations, and fast Next.js websites. Fixed price, ships in weeks.',
-    images: ['https://autoniex.com/images/nova-crm.jpg'],
+    images: ['https://autoniex.com/images/nova-crm.webp'],
   },
   icons: {
     icon: '/logo.webp',
@@ -144,47 +144,67 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${unbounded.variable} ${manrope.variable}`}>
       <head>
-        {/* Google Analytics 4 */}
+        {/* DNS prefetch & preconnect for critical third-party origins */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+        <link rel="dns-prefetch" href="https://connect.facebook.net" />
+        <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com" />
+
+        {/* Google Analytics 4 — deferred so it never blocks FCP/LCP */}
         <script
-          async
-          src="https://www.googletagmanager.com/gtag/js?id=G-3NXKWNCLH9"
-        />
-        <script
-          id="ga4-init"
+          id="ga4-loader"
           dangerouslySetInnerHTML={{
             __html: `
               window.dataLayer = window.dataLayer || [];
               function gtag(){dataLayer.push(arguments);}
               gtag('js', new Date());
               gtag('config', 'G-3NXKWNCLH9', { page_path: window.location.pathname });
+              window.addEventListener('load', function() {
+                var s = document.createElement('script');
+                s.src = 'https://www.googletagmanager.com/gtag/js?id=G-3NXKWNCLH9';
+                s.async = true;
+                document.head.appendChild(s);
+              });
             `,
           }}
         />
 
-        {/* Meta Pixel Code */}
+        {/* Meta Pixel — deferred after page load */}
         <script
           id="meta-pixel-init"
           dangerouslySetInnerHTML={{
             __html: `
-              !function(f,b,e,v,n,t,s)
-              {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-              n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-              if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-              n.queue=[];t=b.createElement(e);t.async=!0;
-              t.src=v;s=b.getElementsByTagName(e)[0];
-              s.parentNode.insertBefore(t,s)}(window, document,'script',
-              'https://connect.facebook.net/en_US/fbevents.js');
-              fbq('init', '4528939364024228');
-              fbq('track', 'PageView');
+              window.addEventListener('load', function() {
+                !function(f,b,e,v,n,t,s)
+                {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+                n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+                if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+                n.queue=[];t=b.createElement(e);t.async=!0;
+                t.src=v;s=b.getElementsByTagName(e)[0];
+                s.parentNode.insertBefore(t,s)}(window, document,'script',
+                'https://connect.facebook.net/en_US/fbevents.js');
+                fbq('init', '4528939364024228');
+                fbq('track', 'PageView');
+              });
             `,
           }}
         />
 
-        {/* Google AdSense */}
+        {/* Google AdSense — deferred after load */}
         <script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7918538749688490"
-          crossOrigin="anonymous"
+          id="adsense-loader"
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.addEventListener('load', function() {
+                var s = document.createElement('script');
+                s.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7918538749688490';
+                s.async = true;
+                s.crossOrigin = 'anonymous';
+                document.head.appendChild(s);
+              });
+            `,
+          }}
         />
 
         <script
@@ -219,7 +239,7 @@ export default function RootLayout({
                   alternateName: ['Autoniex AI Agency', 'Autoniex Automation'],
                   url: 'https://autoniex.com',
                   logo: 'https://autoniex.com/logo.webp',
-                  image: 'https://autoniex.com/images/nova-crm.jpg',
+                  image: 'https://autoniex.com/images/nova-crm.webp',
                   description:
                     'Autoniex is a premier AI automation agency specializing in n8n workflow automation, custom AI agents, AI voice bots, agentic systems, and high-performance Next.js web development. We serve businesses in USA, UK, Canada, UAE and Australia.',
                   email: 'info@autoniex.com',

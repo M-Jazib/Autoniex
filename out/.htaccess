@@ -33,31 +33,79 @@
   RewriteRule ^ index.html [L]
 </IfModule>
 
-# 3. Gzip / Deflate Compression
+# 3. Brotli Compression (preferred) + Gzip fallback
+<IfModule mod_brotli.c>
+  AddOutputFilterByType BROTLI_COMPRESS text/html text/plain text/xml text/css
+  AddOutputFilterByType BROTLI_COMPRESS application/javascript application/json application/xml
+  AddOutputFilterByType BROTLI_COMPRESS image/svg+xml font/woff2
+</IfModule>
 <IfModule mod_deflate.c>
   AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css
   AddOutputFilterByType DEFLATE application/javascript application/json application/xml
-  AddOutputFilterByType DEFLATE image/svg+xml image/x-icon
+  AddOutputFilterByType DEFLATE image/svg+xml image/x-icon font/woff2
 </IfModule>
 
-# 4. Browser Caching
+# 4. Browser Caching — aggressive for immutable assets
 <IfModule mod_expires.c>
   ExpiresActive On
   ExpiresDefault "access plus 1 month"
+
+  # HTML — always revalidate
   ExpiresByType text/html "access plus 0 seconds"
+
+  # CSS & JS with content hash — cache 1 year
   ExpiresByType text/css "access plus 1 year"
   ExpiresByType application/javascript "access plus 1 year"
+  ExpiresByType text/javascript "access plus 1 year"
+
+  # Images
   ExpiresByType image/webp "access plus 1 year"
   ExpiresByType image/jpeg "access plus 1 year"
   ExpiresByType image/png "access plus 1 year"
   ExpiresByType image/svg+xml "access plus 1 year"
+  ExpiresByType image/avif "access plus 1 year"
+
+  # Fonts
   ExpiresByType font/woff2 "access plus 1 year"
+  ExpiresByType font/woff "access plus 1 year"
+  ExpiresByType application/font-woff2 "access plus 1 year"
+
+  # Sitemap / XML
+  ExpiresByType application/xml "access plus 1 day"
+  ExpiresByType text/xml "access plus 1 day"
 </IfModule>
 
-# 5. Security Headers
+# 5. Cache-Control headers for immutable hashed assets (_next/static)
+<IfModule mod_headers.c>
+  # Next.js content-hashed static assets — immutable
+  <FilesMatch "\.(js|css|woff2|woff)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+
+  # Images — long cache
+  <FilesMatch "\.(jpg|jpeg|png|webp|avif|svg|ico)$">
+    Header set Cache-Control "public, max-age=31536000, stale-while-revalidate=86400"
+  </FilesMatch>
+
+  # HTML — no cache (always fresh)
+  <FilesMatch "\.html$">
+    Header set Cache-Control "no-cache, no-store, must-revalidate"
+    Header set Pragma "no-cache"
+  </FilesMatch>
+</IfModule>
+
+# 6. Security Headers
 <IfModule mod_headers.c>
   Header set X-Content-Type-Options "nosniff"
   Header set X-Frame-Options "SAMEORIGIN"
   Header set X-XSS-Protection "1; mode=block"
   Header set Referrer-Policy "strict-origin-when-cross-origin"
+  # Pre-connect hints for third-party origins
+  Header add Link "</fonts.googleapis.com>; rel=preconnect"
+  Header add Link "<https://www.googletagmanager.com>; rel=preconnect"
+</IfModule>
+
+# 7. Keep-Alive
+<IfModule mod_headers.c>
+  Header set Connection keep-alive
 </IfModule>
