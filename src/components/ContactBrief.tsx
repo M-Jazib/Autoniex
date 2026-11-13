@@ -16,7 +16,8 @@ const SOLUTIONS = [
 ];
 
 const BUDGETS = [
-  'Under $5,000',
+  'Under $2,000',
+  '$2k – $5k',
   '$5k – $15k',
   '$15k – $30k',
   '$30k+',
@@ -30,7 +31,7 @@ export default function ContactBrief() {
   const [company, setCompany] = useState('');
   const [phone, setPhone] = useState('');
   const [service, setService] = useState('⚡ Workflow Automation');
-  const [budget, setBudget] = useState('$5k – $15k');
+  const [budget, setBudget] = useState('$2k – $5k');
   const [details, setDetails] = useState('');
   const [copied, setCopied] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -45,7 +46,7 @@ export default function ContactBrief() {
     const handleSelectPlan = (e: any) => {
       if (e.detail) {
         if (e.detail === 'Retainer') setBudget('Monthly Retainer');
-        if (e.detail === 'Project') setBudget('$5k – $15k');
+        if (e.detail === 'Project') setBudget('$2k – $5k');
         if (e.detail === 'Partner') setBudget('$30k+');
         setStatusMsg(`Pre-selected plan: ${e.detail}. Please complete your project details below.`);
       }
